@@ -59,7 +59,7 @@
 
 - [x] Write tests for deterministic reset, finite/bounded allocation-free output, suppression above 45% of sample rate, persistent fundamental pitch, and measurable spectral change between early/middle/late windows.
 - [x] Run `cargo test dsp::research::tests::spectral_traversal -- --nocapture`; verify RED.
-- [x] Implement a fixed recursive-sinusoid partial bank and four Moj Sint-authored amplitude frames. Traverse adjacent frames with a bounded slow triangle law, normalize frame energy, and taper partials approaching Nyquist.
+- [x] Implement a fixed recursive-sinusoid partial bank and four SHR Synth-authored amplitude frames. Traverse adjacent frames with a bounded slow triangle law, normalize frame energy, and taper partials approaching Nyquist.
 - [x] Re-run the focused test; verify GREEN.
 
 ### Task 6: Small-register integer-machine swarm

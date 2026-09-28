@@ -1,4 +1,4 @@
-# Moj Sint Struck Objects Design
+# SHR Synth Struck Objects Design
 
 Date: 2026-07-24
 
@@ -64,7 +64,7 @@ The second object uses the first `11 ms` of `SpectralSingle`, differentiated
 and tapered, to excite eleven fixed modes. Its ratios begin with the D2
 fundamental and then depart from a harmonic series into a sparse plate-like
 pattern. The fundamental and octave anchors retain pitch; the remaining modes
-produce a distinctly Moj Sint metallic field.
+produce a distinctly SHR Synth metallic field.
 
 Each mode has its own loss coefficient. High, irregular modes disappear in
 `75-290 ms`; the fundamental and low anchors persist for `760-1420 ms`.

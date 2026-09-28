@@ -1,6 +1,6 @@
-# Open303 in Moj Sint and SHR-DAW
+# Open303 in SHR Synth and SHR-DAW
 
-Open303 is the eighth Moj Sint model, with one preallocated native voice.
+Open303 is the eighth SHR Synth model, with one preallocated native voice.
 It reuses the [reviewed Open303 core](OPEN303_ANALYSIS.md), with the
 [vendor notices and repair ledger](../vendor/open303/README.md). The earlier
 [offline candidate](OPEN303_CANDIDATE.md) remains a historical baseline.
@@ -56,7 +56,7 @@ The requested factory starts are project-authored parameter documents:
 - **A02 Hollow Slide:** LP_18, square, longer decay and slide.
 - **A04 Soft Pluck:** LP_18, softer resonance and short decay.
 
-SHR discovers these through its configured Moj catalog. Project routes,
+SHR discovers these through its configured SHR Synth catalog. Project routes,
 private Save/Overwrite, RESET, current-value relative controls, and the mono
 `M` title marker preserve the Open303 identity and selected filter. There is
 no new backend process, navigation mode, or master-encoder action.

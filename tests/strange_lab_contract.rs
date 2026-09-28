@@ -1,5 +1,5 @@
-use moj_sint::strange::{StrangeControls, StrangeType};
-use moj_sint::strange_lab::{
+use shr_synth::strange::{StrangeControls, StrangeType};
+use shr_synth::strange_lab::{
     evaluate_type, measure_cyclic_envelope_depth_db, measure_high_rate_residual, render_and_measure,
 };
 

@@ -2,7 +2,7 @@ use std::process::Command;
 
 #[test]
 fn validate_accepts_reference_preset() {
-    let output = Command::new(env!("CARGO_BIN_EXE_moj-sint"))
+    let output = Command::new(env!("CARGO_BIN_EXE_shr-synth"))
         .args(["validate", "presets/reference.mojsint"])
         .output()
         .unwrap();
@@ -18,7 +18,7 @@ fn validate_accepts_reference_preset() {
 fn render_writes_a_valid_wav() {
     let directory = tempfile::tempdir().unwrap();
     let output_path = directory.path().join("note.wav");
-    let output = Command::new(env!("CARGO_BIN_EXE_moj-sint"))
+    let output = Command::new(env!("CARGO_BIN_EXE_shr-synth"))
         .args(["render", "presets/reference.mojsint"])
         .arg(&output_path)
         .args(["--note", "60", "--seconds", "0.05"])
@@ -34,7 +34,7 @@ fn render_writes_a_valid_wav() {
 
 #[test]
 fn invalid_arguments_fail_clearly() {
-    let output = Command::new(env!("CARGO_BIN_EXE_moj-sint"))
+    let output = Command::new(env!("CARGO_BIN_EXE_shr-synth"))
         .args([
             "render",
             "presets/reference.mojsint",

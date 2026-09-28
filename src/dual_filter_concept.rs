@@ -2,7 +2,7 @@
 //!
 //! This module borrows only the broad workflow concept of two routable filters
 //! with dedicated brightness and loudness contours. It is not a Korg model,
-//! preset, or production Moj Sint synthesis model.
+//! preset, or production SHR Synth synthesis model.
 
 use crate::dsp::oscillator::{BandlimitedOscillator, OscillatorMethod};
 use crate::research::fitted_residual_db;

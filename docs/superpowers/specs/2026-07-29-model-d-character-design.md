@@ -5,13 +5,13 @@
 **Status:** Implemented; controlled engineering gate passes, full authored-path
 alias/error diagnostic fails; human listening pending
 
-**Owner:** Moj Sint
+**Owner:** SHR Synth
 
 ## Purpose
 
 Build an isolated, monophonic, circuit-informed character model of the
-Minimoog Model D signal path. The experiment will test how effectively Moj
-Sint can reproduce the character of a documented existing instrument when the
+Minimoog Model D signal path. The experiment will test how effectively SHR
+Synth can reproduce the character of a documented existing instrument when the
 implementation models the interactions among its oscillators, mixer, filter,
 contours, amplifier, and feedback rather than applying a generic effect to one
 weak source.
@@ -46,7 +46,7 @@ Primary technical sources:
   documents tuning correction and oversampling concerns.
 
 The research CLI and documentation may use “Model D” descriptively to identify
-the studied architecture. Moj Sint must not imply affiliation, endorsement, or
+the studied architecture. SHR Synth must not imply affiliation, endorsement, or
 bit-exact reproduction.
 
 ## Scope
@@ -242,7 +242,7 @@ sound-generation families. Files 4–7 replay the same bass score and settings
 as file 1 while disabling only the named mechanism. They are causal diagnostic
 comparisons, not musical variations.
 
-The scores and patch values are authored for Moj Sint. They do not reproduce
+The scores and patch values are authored for SHR Synth. They do not reproduce
 factory presets or copyrighted recordings. All files use explicit fixed gains.
 The lab must not normalize each file, add reverb/delay, or hide overload with a
 full-band limiter.
@@ -367,7 +367,7 @@ After implementation and fresh verification:
    evidence, limitations, artifact path, and pending listening questions;
 2. update `docs/RESEARCH.md` with source provenance and the distinction between
    causal fidelity and hardware equivalence;
-3. update the concise Moj Sint knowledge note without volatile Git or artifact
+3. update the concise SHR Synth knowledge note without volatile Git or artifact
    snapshots; and
 4. validate the knowledge notebook.
 

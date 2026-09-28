@@ -46,7 +46,7 @@ pub fn run(client_name: &str, preset: &Preset) -> Result<()> {
     let midi_failed = Arc::new(AtomicBool::new(false));
     let midi_failed_thread = midi_failed.clone();
     let midi_thread = thread::Builder::new()
-        .name("moj-sint-midi".into())
+        .name("shr-synth-midi".into())
         .spawn(move || {
             let mut input = seq.input();
             while !midi_stop.load(Ordering::Acquire) {
@@ -84,7 +84,7 @@ pub fn run(client_name: &str, preset: &Preset) -> Result<()> {
         thread::sleep(Duration::from_millis(100));
         let current = callback_overflow.load(Ordering::Relaxed);
         if current != last_overflow {
-            eprintln!("Moj Sint callback event deferral count: {current}");
+            eprintln!("SHR Synth callback event deferral count: {current}");
             last_overflow = current;
         }
     }
@@ -98,10 +98,10 @@ pub fn run(client_name: &str, preset: &Preset) -> Result<()> {
         );
     }
     if jack_failed.load(Ordering::Acquire) {
-        anyhow::bail!("JACK shut down while Moj Sint was active");
+        anyhow::bail!("JACK shut down while SHR Synth was active");
     }
     if midi_failed.load(Ordering::Acquire) {
-        anyhow::bail!("ALSA Sequencer MIDI input failed while Moj Sint was active");
+        anyhow::bail!("ALSA Sequencer MIDI input failed while SHR Synth was active");
     }
     Ok(())
 }

@@ -1,4 +1,4 @@
-use moj_sint::strange::{StrangeControls, StrangeType, StrangeVoice};
+use shr_synth::strange::{StrangeControls, StrangeType, StrangeVoice};
 
 const SAMPLE_RATE: f32 = 48_000.0;
 const FREQUENCY: f32 = 220.0;

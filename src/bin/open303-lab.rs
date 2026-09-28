@@ -1,5 +1,5 @@
 //! Disposable offline comparison of Open303's two distinct filter structures.
-use moj_sint::open303::{Controls, FilterMode, Open303};
+use shr_synth::open303::{Controls, FilterMode, Open303};
 use std::{fmt::Write as _, fs, path::PathBuf};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {

@@ -1,10 +1,10 @@
-use moj_sint::offline::{RenderSpec, write_wav};
-use moj_sint::preset::Preset;
+use shr_synth::offline::{RenderSpec, write_wav};
+use shr_synth::preset::Preset;
 use std::path::Path;
 use std::process::ExitCode;
 use std::{fs::OpenOptions, io::Read, os::unix::fs::OpenOptionsExt};
 
-const USAGE: &str = "Usage:\n  moj-sint --client-name NAME --preset <preset.mojsint>\n  moj-sint validate <preset.mojsint>\n  moj-sint render <preset.mojsint> <output.wav> [--note 0..127] [--seconds N] [--sample-rate HZ] [--velocity 0..1]";
+const USAGE: &str = "Usage:\n  shr-synth --client-name NAME --preset <preset.mojsint>\n  shr-synth validate <preset.mojsint>\n  shr-synth render <preset.mojsint> <output.wav> [--note 0..127] [--seconds N] [--sample-rate HZ] [--velocity 0..1]";
 
 fn main() -> ExitCode {
     match run(std::env::args().skip(1).collect()) {
@@ -24,7 +24,7 @@ fn run(args: Vec<String>) -> Result<(), String> {
         }
         Some("validate") if args.len() == 2 => {
             let preset = read_preset(&args[1])?;
-            println!("valid Moj Sint preset: {}", preset.name);
+            println!("valid SHR Synth preset: {}", preset.name);
             Ok(())
         }
         Some("render") if args.len() >= 3 => render(&args[1..]),
@@ -64,7 +64,7 @@ fn live_host(args: &[String]) -> Result<(), String> {
         return Err("live host requires --client-name NAME --preset FILE".into());
     }
     let preset = read_preset(&args[3])?;
-    moj_sint::host::run(&args[1], &preset).map_err(|error| error.to_string())
+    shr_synth::host::run(&args[1], &preset).map_err(|error| error.to_string())
 }
 
 fn render(args: &[String]) -> Result<(), String> {

@@ -1,10 +1,10 @@
-use moj_sint::compact_composite::{
+use shr_synth::compact_composite::{
     AblationEvidence, CompactCandidate, CompactMetrics, CompactRender, EventMetrics,
     ExperimentRole, VariantRetention, fold_to_mono, measure, measure_ablations, measure_event,
     measure_high_rate_residual, measure_variant_retention, midi_frequency, render_candidate,
     retained_specs,
 };
-use moj_sint::composite_machine::{
+use shr_synth::composite_machine::{
     ACTIVE_BODY_END_SECONDS, ACTIVE_BODY_START_SECONDS, CompositeCandidate, render_composite,
     render_hot_composite,
 };
@@ -515,10 +515,13 @@ fn write_stereo_mono(
         let mono_samples = fold_to_mono(&row.render.samples);
         let mono = measure(&mono_samples, sample_rate);
         let frequency = midi_frequency(row.candidate.spec().primary_note);
-        let stereo_fundamental =
-            moj_sint::compact_composite::projection_db(&row.render.samples, sample_rate, frequency);
+        let stereo_fundamental = shr_synth::compact_composite::projection_db(
+            &row.render.samples,
+            sample_rate,
+            frequency,
+        );
         let mono_fundamental =
-            moj_sint::compact_composite::projection_db(&mono_samples, sample_rate, frequency);
+            shr_synth::compact_composite::projection_db(&mono_samples, sample_rate, frequency);
         let loss = (stereo_fundamental - mono_fundamental).max(0.0);
         writeln!(
             file,
@@ -760,7 +763,7 @@ fn write_reconstruction_regression(
 
 fn write_readme(output: &Path, sample_rate: u32, primary: &[PrimaryRow]) -> std::io::Result<()> {
     let mut file = writer(output, "README.md")?;
-    writeln!(file, "# Moj Sint compact composite power lab\n")?;
+    writeln!(file, "# SHR Synth compact composite power lab\n")?;
     writeln!(
         file,
         "**This batch is intentionally hot; start with playback volume low.** Digital sample level is not acoustic SPL and does not establish safe acoustic playback.\n"

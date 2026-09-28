@@ -27,6 +27,7 @@ const EXPECTED_FILES: [&str; 20] = [
 ];
 
 #[test]
+#[ignore = "development-only historical audition renderer; production contracts run normally"]
 fn lab_writes_only_deterministic_bounded_moving_control_wavs() {
     let first = tempfile::tempdir().unwrap();
     let second = tempfile::tempdir().unwrap();

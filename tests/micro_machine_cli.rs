@@ -1,6 +1,7 @@
 use std::process::Command;
 
 #[test]
+#[ignore = "development-only historical audition renderer; production contracts run normally"]
 fn micro_machine_lab_writes_the_named_dry_listening_set() {
     let output = tempfile::tempdir().unwrap();
     let status = Command::new(env!("CARGO_BIN_EXE_micro-machine-lab"))

@@ -1,5 +1,5 @@
-use moj_sint::strange::{StrangeControls, StrangeInstrument, StrangeType};
-use moj_sint::strange_lab::{StructuralMacroMetric, evaluate_structural_macros};
+use shr_synth::strange::{StrangeControls, StrangeInstrument, StrangeType};
+use shr_synth::strange_lab::{StructuralMacroMetric, evaluate_structural_macros};
 
 const SAMPLE_RATE: f32 = 48_000.0;
 const FREQUENCY: f32 = 220.0;

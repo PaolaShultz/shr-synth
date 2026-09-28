@@ -29,7 +29,7 @@
 
 ```rust
 use assert_no_alloc::assert_no_alloc;
-use moj_sint::clean_kick::{KickTopology, PreparedKick, SAMPLE_RATE};
+use shr_synth::clean_kick::{KickTopology, PreparedKick, SAMPLE_RATE};
 
 #[test]
 fn house_impact_is_deterministic_finite_and_allocation_free() {
@@ -259,7 +259,7 @@ Expected: two temporary generations match except workstation timing.
 
 ### Task 5: Generate, document, verify, and hand off
 
-**Files:** Modify `docs/HANDOFF.md`, `docs/RESEARCH.md`, both Moj Sint knowledge notes, and this plan.
+**Files:** Modify `docs/HANDOFF.md`, `docs/RESEARCH.md`, both SHR Synth knowledge notes, and this plan.
 
 - [x] **Step 1: Generate two fresh release batches**
 

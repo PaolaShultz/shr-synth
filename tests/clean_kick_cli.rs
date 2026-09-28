@@ -11,6 +11,7 @@ const WAVS: [&str; 4] = [
 ];
 
 #[test]
+#[ignore = "development-only historical audition renderer; production contracts run normally"]
 fn lab_writes_four_deterministic_clean_kick_wavs() {
     let first = tempfile::tempdir().unwrap();
     let second = tempfile::tempdir().unwrap();

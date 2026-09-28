@@ -2,7 +2,7 @@
 
 ## Scope and invariants
 
-Moj Sint is a headless external instrument, not a DAW, plugin, or synthv1
+SHR Synth is a headless external instrument, not a DAW, plugin, or synthv1
 compatibility layer. SHR-DAW owns its process. MIDI enters through one ALSA
 Sequencer input and stereo audio leaves through exactly two JACK ports.
 
@@ -22,7 +22,7 @@ oscillator sample paths and the complete block boundary, including rapid macro
 events. Model D and Six-Op PM remain dual-mono; Strange Oscillator preserves
 its model-owned stereo through the same two output buffers.
 
-The host/model/instrument boundary is explicit: the `moj-sint` process is the
+The host/model/instrument boundary is explicit: the `shr-synth` process is the
 engine, each preset selects a `SynthesisModelId`, and the preset is the
 instrument. Each voice dispatches through a fixed `VoiceModel` enum prepared
 before the callback; models do not share DSP state or add runtime allocation.

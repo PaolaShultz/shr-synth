@@ -1,6 +1,6 @@
 use assert_no_alloc::assert_no_alloc;
-use moj_sint::envelope::AdsrConfig;
-use moj_sint::pressure_chain::{
+use shr_synth::envelope::AdsrConfig;
+use shr_synth::pressure_chain::{
     PressureArticulation, PressureChainControl, PressureChainControls, PressureChainTopology,
     PressureChainVoice, PressureRenderSpec, measure_high_rate_residual, render_note,
 };

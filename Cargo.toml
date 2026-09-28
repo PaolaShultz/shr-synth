@@ -1,18 +1,18 @@
 [package]
-name = "moj-sint"
+name = "shr-synth"
 version = "0.2.4"
 edition = "2024"
 rust-version = "1.85"
 publish = false
 description = "Headless real-time synthesizer core for SHR-DAW"
-repository = "https://github.com/PaolaShultz/moj-sint"
+repository = "https://github.com/PaolaShultz/shr-synth"
 license = "MIT"
 
 [lib]
-name = "moj_sint"
+name = "shr_synth"
 
 [[bin]]
-name = "moj-sint"
+name = "shr-synth"
 path = "src/main.rs"
 
 [[bin]]

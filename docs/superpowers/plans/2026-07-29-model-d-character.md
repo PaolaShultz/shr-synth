@@ -34,7 +34,7 @@ failure narrows the controlled alias claim.
 - Modify `src/lib.rs`: expose the two isolated research modules.
 - Modify `docs/RESEARCH.md`: record sources, implementation interpretation, and evidence boundary.
 - Modify `docs/HANDOFF.md`: record implemented scope, verification, artifact path, and listening gate.
-- Modify `/home/shome/Documents/knowledge/Moj Sint/01 Current State.md`: route future sessions to the new pending listening gate.
+- Modify `/home/shome/Documents/knowledge/SHR Synth/01 Current State.md`: route future sessions to the new pending listening gate.
 
 ### Task 1: Prepared VCO bank
 
@@ -416,7 +416,7 @@ git commit -m "feat: render Model D character audition"
 **Files:**
 - Modify: `docs/RESEARCH.md`
 - Modify: `docs/HANDOFF.md`
-- Modify: `/home/shome/Documents/knowledge/Moj Sint/01 Current State.md`
+- Modify: `/home/shome/Documents/knowledge/SHR Synth/01 Current State.md`
 
 - [x] **Step 1: Update canonical repository documentation**
 

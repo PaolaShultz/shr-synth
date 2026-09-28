@@ -1,9 +1,9 @@
 use assert_no_alloc::assert_no_alloc;
-use moj_sint::envelope::AdsrConfig;
-use moj_sint::micro_machine::{
+use shr_synth::envelope::AdsrConfig;
+use shr_synth::micro_machine::{
     MAX_NODES, MAX_OSCILLATORS, MicroMachineGraph, MicroMachineVoice, SwarmControls,
 };
-use moj_sint::micro_machine_lab::{measure_high_rate_residual, midi_frequency};
+use shr_synth::micro_machine_lab::{measure_high_rate_residual, midi_frequency};
 
 const GRAPH: &str = include_str!("../experiments/swarm-micro-machine-v1.toml");
 const SAMPLE_RATE: f32 = 48_000.0;

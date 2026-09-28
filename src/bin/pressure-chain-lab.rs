@@ -1,5 +1,5 @@
-use moj_sint::envelope::AdsrConfig;
-use moj_sint::pressure_chain::{
+use shr_synth::envelope::AdsrConfig;
+use shr_synth::pressure_chain::{
     PressureArticulation, PressureChainControl, PressureChainControls, PressureChainTopology,
     PressureChainVoice, measure_high_rate_residual,
 };

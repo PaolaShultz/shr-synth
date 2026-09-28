@@ -1,10 +1,10 @@
-use moj_sint::coupled_wire_motion::{
+use shr_synth::coupled_wire_motion::{
     CoupledMotionEvidence, CoupledMotionProfile, CoupledWireEnvelopeVoice, DEVELOPED_DECAY_SCALE,
     MOTION_SPLIT_HZ, REFERENCE_GAIN, evaluate as evaluate_motion, measure_motion,
     preview_developed, render_preview as render_motion_preview, select_shared_gain,
 };
-use moj_sint::hybrid_subset::SubsetMetrics;
-use moj_sint::struck_object::{
+use shr_synth::hybrid_subset::SubsetMetrics;
+use shr_synth::struck_object::{
     StruckTopology, evaluate as evaluate_struck, preview as preview_struck,
     render_preview as render_struck_preview,
 };

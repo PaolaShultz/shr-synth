@@ -5,7 +5,7 @@ Date: 2026-07-23
 ## Goal
 
 Build a disposable, mono-first but genuinely stereo listening lab for three
-complete Moj Sint voice identities. Each identity must combine several
+complete SHR Synth voice identities. Each identity must combine several
 interacting mechanisms into a finished signal path rather than presenting an
 isolated oscillator, one effect, or a starter tone. The lab must show each
 identity alone, as a three-note held chord, and in a short harmonic progression.

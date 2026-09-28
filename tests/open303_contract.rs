@@ -1,6 +1,6 @@
 #![cfg(feature = "open303")]
 use assert_no_alloc::assert_no_alloc;
-use moj_sint::open303::{Controls, FilterMode, Open303};
+use shr_synth::open303::{Controls, FilterMode, Open303};
 
 #[cfg(debug_assertions)]
 #[global_allocator]

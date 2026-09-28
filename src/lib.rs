@@ -1,6 +1,6 @@
-//! Portable DSP and synthesis engine for Moj Sint.
+//! Portable DSP and synthesis engine for SHR Synth.
 
-pub const ENGINE_NAME: &str = "Moj Sint";
+pub const ENGINE_NAME: &str = "SHR Synth";
 
 pub mod analysis;
 pub mod bass_matrix;

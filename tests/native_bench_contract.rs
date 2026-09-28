@@ -1,5 +1,5 @@
 use assert_no_alloc::assert_no_alloc;
-use moj_sint::native_bench::{
+use shr_synth::native_bench::{
     CaseConfig, EngineMacroConfig, PreparedCase, RenderPath, Scenario, TimingSummary,
     detect_platform,
 };

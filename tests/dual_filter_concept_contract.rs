@@ -1,5 +1,5 @@
 use assert_no_alloc::assert_no_alloc;
-use moj_sint::dual_filter_concept::{
+use shr_synth::dual_filter_concept::{
     ConceptControl, ConceptControls, ConceptTopology, ConceptVariant, DualFilterConceptVoice,
     measure_high_rate_residual, render_concept,
 };

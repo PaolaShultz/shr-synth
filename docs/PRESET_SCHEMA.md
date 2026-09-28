@@ -56,9 +56,9 @@ SHR owns the physical surface: four rows of four, with tone controls on rows
 1–2, envelopes on row 3, and Volume/AUX 1/AUX 2/AUX 3 on row 4. Rotary 1 edits
 parameter 1; click toggles visible NAV for menu-page selection. The complete
 mapping is maintained in
-[SHR's instrument guide](https://github.com/PaolaShultz/shr-daw/blob/main/docs/INSTRUMENTS_AND_DRUMS.md#moj-sint-sounds).
+[SHR's instrument guide](https://github.com/PaolaShultz/shr-daw/blob/main/docs/INSTRUMENTS_AND_DRUMS.md#shr-synth-sounds).
 
-Moj receives volume independently as CC7 and smooths linear gain over 10 ms
+SHR Synth receives volume independently as CC7 and smooths linear gain over 10 ms
 after synthesis. The following table describes native macro order (CC20–31),
 not physical rotary positions:
 

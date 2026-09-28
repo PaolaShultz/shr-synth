@@ -4,7 +4,7 @@ Date: 2026-08-05
 
 ## Goal
 
-Test one candidate third Moj Sint instrument that can move between classic and
+Test one candidate third SHR Synth instrument that can move between classic and
 strange generator topologies, then transform any selected topology with seven
 large structural controls. This is not eight instruments or a bank of lightly
 edited presets.

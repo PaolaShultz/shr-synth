@@ -1,4 +1,4 @@
-use moj_sint::clean_kick::{
+use shr_synth::clean_kick::{
     KickConfig, KickEvidence, KickRender, KickTopology, SAMPLE_RATE, evaluate, render_repeated,
     render_solo, select,
 };

@@ -5,7 +5,7 @@ Date: 2026-07-23
 ## Status
 
 The accidental simultaneous-player listening result is the first strongly
-positive direction in Moj Sint: the combined sound was described as huge,
+positive direction in SHR Synth: the combined sound was described as huge,
 fused, harmonized, and interesting enough to inspire wanting the machine.
 
 This is evidence for heterogeneous mechanisms acting together. It is not an
@@ -102,8 +102,8 @@ ablation hypotheses.
 
 ## Implementation boundary
 
-`src/composite_machine.rs` constructs every layer by internally rendering Moj
-Sint hybrid DSP. It never launches processes or reads WAVs during rendering.
+`src/composite_machine.rs` constructs every layer by internally rendering SHR
+Synth hybrid DSP. It never launches processes or reads WAVs during rendering.
 Construction prepares fixed sample storage, start/stop samples, source gains,
 fades, matrices, seeds, and score state. `CompositeMachine::sample` only reads
 that fixed storage and mixes a bounded layer set; allocation tests cover the
@@ -717,7 +717,7 @@ under a broadband amplitude contour, while the added strike was only another
 audible layer. The artifact directory was moved to Trash; nothing was
 selected, mapped, or integrated.
 
-## 2026-07-24 Moj Sint struck objects
+## 2026-07-24 SHR Synth struck objects
 
 The replacement is not an acoustic-instrument imitation and does not reuse the
 old complete composite as a body. It takes only a brief differentiated onset

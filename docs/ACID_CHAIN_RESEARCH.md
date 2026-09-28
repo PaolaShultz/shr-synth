@@ -8,7 +8,7 @@ open for the three independently selectable topologies.
 ## Question
 
 Which functional ideas behind the Behringer TD-3-SB are worth carrying into
-an original Moj Sint instrument without reproducing its circuit, panel,
+an original SHR Synth instrument without reproducing its circuit, panel,
 sequencer, presets, or product identity?
 
 The answer is the causal chain and its performance coupling, not an exact
@@ -105,7 +105,7 @@ Source:
   “three-pole because 18 dB” assumption; no transfer function, circuit values,
   diagram, code, or fitted constants are copied.
 
-## Original Moj Sint proposal
+## Original SHR Synth proposal
 
 Working name: **Pressure Chain**. This name and its controls must not imply
 TD-3/TB-303 compatibility.
@@ -130,7 +130,7 @@ but deliberately changes the mechanism:
    colour. This preserves the principle of coupled, stateful articulation but
    not the reference response.
 5. A slide event slews pitch without restarting the filter or amplitude
-   contour. Moj Sint's normal ADSR remains the four-control loudness surface;
+   contour. SHR Synth's normal ADSR remains the four-control loudness surface;
    filter sweep decay is an independent timbral control.
 
 The exact eight timbral roles are `SOURCE`, `SHAPE`, `CUTOFF`, `RESONANCE`,

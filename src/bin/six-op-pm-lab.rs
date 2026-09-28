@@ -1,6 +1,6 @@
 use anyhow::{Context, Result, bail, ensure};
-use moj_sint::dsp::six_op_pm::algorithm::{CLASSIC_ALGORITHMS, PreparedAlgorithm};
-use moj_sint::six_op_pm::{
+use shr_synth::dsp::six_op_pm::algorithm::{CLASSIC_ALGORITHMS, PreparedAlgorithm};
+use shr_synth::six_op_pm::{
     AliasRow, EvidenceStatus, GateEvidence, ListeningPatch, ListeningRole, Render, SpectralRow,
     SpectralStage, measure_listening_gate, render,
 };
@@ -381,7 +381,7 @@ impl Reports {
 
 fn readme() -> String {
     String::from(
-        "# Moj Sint six-operator PM listening gate\n\
+        "# SHR Synth six-operator PM listening gate\n\
 \n\
 Start at a low playback level, then raise it only as needed. The float files are deliberately dry and are not acoustic-level-calibrated; this makes no acoustic SPL claim.\n\
 \n\

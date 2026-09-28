@@ -6,7 +6,7 @@
 
 **Architecture:** Expose the original hybrid-layer inventory from the existing composite reconstruction without changing its hashes. Add an isolated `hybrid_subset` research module that prepares selected original layers, preserves rebased launch offsets, applies one shared gain per layer-count group into a static ceiling, measures rejection evidence, and renders through an allocation-free sample method. A dedicated CLI writes only passing candidates plus the twelve-layer reference and concise reports under the ignored `artifacts/` tree.
 
-**Tech Stack:** Rust 2024, existing Moj Sint hybrid/composite DSP, `hound` float WAV output, `assert_no_alloc`, Cargo integration tests.
+**Tech Stack:** Rust 2024, existing SHR Synth hybrid/composite DSP, `hound` float WAV output, `assert_no_alloc`, Cargo integration tests.
 
 ---
 

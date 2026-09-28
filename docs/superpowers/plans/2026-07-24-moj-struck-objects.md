@@ -1,8 +1,8 @@
-# Moj Sint Struck Objects Implementation Plan
+# SHR Synth Struck Objects Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
-**Goal:** Build three monophonic Moj Sint struck objects whose exact-source
+**Goal:** Build three monophonic SHR Synth struck objects whose exact-source
 impulses excite distinct resonant topologies with natural spectral decay.
 
 **Architecture:** Add an isolated `struck_object` research module containing
@@ -31,7 +31,7 @@ prepared second-order modal recurrences, `assert_no_alloc`, `hound`, Cargo.
 - [x] Implement the enum, constants, explicit mode-ratio/decay tables, topology
   labels, filenames, and source routing. Export the module from `src/lib.rs`.
 - [x] Run the focused test and verify it passes.
-- [x] Commit with `feat: define Moj Sint struck object topologies`.
+- [x] Commit with `feat: define SHR Synth struck object topologies`.
 
 ### Task 2: Implement allocation-free modal excitation and natural decay
 
@@ -93,7 +93,7 @@ prepared second-order modal recurrences, `assert_no_alloc`, `hound`, Cargo.
   generation summary, and workstation cost.
 - [x] Run the CLI test, struck-object unit tests, and focused Clippy with
   warnings denied; verify GREEN.
-- [x] Commit with `feat: present Moj Sint struck object comparisons`.
+- [x] Commit with `feat: present SHR Synth struck object comparisons`.
 
 ### Task 5: Generate, document, verify, and finish
 
@@ -111,7 +111,7 @@ prepared second-order modal recurrences, `assert_no_alloc`, `hound`, Cargo.
 - [x] Run `cargo fmt --check`, all-target tests, Clippy `-D warnings`, release
   build, `cargo audit`, `cargo deny check`, AArch64 compile, deterministic
   generation comparison, `git diff --check`, and artifact hygiene.
-- [x] Commit documentation with `docs: record Moj Sint struck object gate`.
+- [x] Commit documentation with `docs: record SHR Synth struck object gate`.
 - [x] Use verification-before-completion and finishing-development-branch;
   fast-forward locally to `main`, rerun all-target tests, retain only
   `artifacts/moj-struck-objects/`, remove the worktree/branch, and do not push.

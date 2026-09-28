@@ -1,5 +1,5 @@
-use moj_sint::dsp::hybrid::{HybridFamily, HybridVoice};
-use moj_sint::hybrid::{
+use shr_synth::dsp::hybrid::{HybridFamily, HybridVoice};
+use shr_synth::hybrid::{
     HybridCondition, HybridRenderSpec, PROGRESSION, measure_frequency_levels, measure_hybrid,
     measure_hybrid_alias_error, measure_target_levels, midi_frequency, render_hybrid,
 };
@@ -310,7 +310,7 @@ fn write_cost(path: &Path) -> Result<(), Box<dyn std::error::Error>> {
 
 fn write_readme(path: &Path) -> std::io::Result<()> {
     let mut output = BufWriter::new(File::create(path)?);
-    writeln!(output, "# Moj Sint final hybrid sound lab\n")?;
+    writeln!(output, "# SHR Synth final hybrid sound lab\n")?;
     writeln!(
         output,
         "These are three complete, structurally different, genuinely stereo research voices. The human listening decides whether any sound is worth developing; none is accepted as a final sound or macro mapping.\n"

@@ -20,7 +20,7 @@ establish callback readiness, listening acceptance, or native headroom.
 ## Open-source analog modeling reference map
 
 The [analog modeling knowledge base](OPEN_SOURCE_ANALOG_MODELING.md) surveys
-prior implementations and maps them to Moj Sint's models. It records authors,
+prior implementations and maps them to SHR Synth's models. It records authors,
 primary links, license declarations, study entry points, and known limitations.
 Use it before rebuilding a known mechanism or proposing a device-flow model.
 
@@ -121,7 +121,7 @@ convincing natural decay. The old source sum remained a body under a broadband
 amplitude contour; the added strike did not excite an independent resonant
 object. The artifact directory was moved to Trash.
 
-### 2026-07-24 Moj Sint struck objects
+### 2026-07-24 SHR Synth struck objects
 
 The replacement borrows only the useful struck-object abstraction:
 
@@ -189,7 +189,7 @@ Primary-source provenance for the abstraction:
   no equations, prose, source, sample, or figure was copied.
 
 These papers explain useful physical behaviors, but the implementation is an
-independent, deliberately non-acoustic Moj Sint abstraction with hand-declared
+independent, deliberately non-acoustic SHR Synth abstraction with hand-declared
 modal ratios and losses.
 
 ### 2026-07-24 Coupled Wire envelope and high motion
@@ -459,7 +459,7 @@ than a bank of starter oscillators or several treatments of one dry source:
   phase-coupled carrier, sparse harmonic spine, one explicit register
   mechanism, phase-shifted subharmonic, split-band nonlinear paths,
   cross-resonators, and unequal independently moving stereo delays.
-- **Spectral shadow:** four Moj Sint-authored partial states, smoothed
+- **Spectral shadow:** four SHR Synth-authored partial states, smoothed
   register-address perturbation, a divided lower shadow, asymmetric nonlinear
   channel states, bounded cross-coupling, and independent slow stereo motion.
 - **Dual resonant body:** deterministic onset noise, a quiet pitch-bearing
@@ -578,13 +578,13 @@ claim of perceptual superiority. The generated raw table and listening corpus
 were removed after review; the durable measurements are retained here.
 
 The JASA author manuscript retains ASA redistribution/copyright terms, and the
-DAFx paper retains its publication rights. Moj Sint uses only the described
+DAFx paper retains its publication rights. SHR Synth uses only the described
 mathematics and citations.
 
 ## Distinctive oscillator systems and routing survey
 
 This 2026-07-22 pass asks what actually distinguished several influential
-instruments and which ideas are useful for Moj Sint. “Legendary” is a cultural
+instruments and which ideas are useful for SHR Synth. “Legendary” is a cultural
 and musical judgment, not a measurable engineering category. The durable
 technical lesson is that identity usually came from a whole signal path,
 modulation topology, control law, or useful imperfection rather than from one
@@ -621,7 +621,7 @@ isolated ideal oscillator.
   Read alongside John Chowning's 1973 paper registered above. The important
   design lesson is not “six expensive oscillators”: simple operators become a
   broad instrument through frequency ratios, level envelopes, 32 connection
-  algorithms, multiple carriers, and feedback. Moj Sint should investigate
+  algorithms, multiple carriers, and feedback. SHR Synth should investigate
   smaller purpose-designed graphs before assuming a six-operator clone.
 - Masanori Ishibashi / Casio Computer Co., US patent 4,658,691, *Electronic
   musical instrument*, priority 1982, published 1987.
@@ -673,7 +673,7 @@ isolated ideal oscillator.
 
 This isolated experiment tests whether a generic six-operator
 phase-modulation machine can support both recognizable calibration categories
-and original Moj Sint developments. It is not a DX7 emulator or compatibility
+and original SHR Synth developments. It is not a DX7 emulator or compatibility
 project. The source register is deliberately narrow:
 
 - John M. Chowning, “The Synthesis of Complex Audio Spectra by Means of
@@ -791,7 +791,7 @@ forensic matching to an individual instrument. Its source boundary is:
   Filter,” DAFx-04, 2004,
   [paper](https://dafx.de/paper-archive/2004/P_061.PDF). It supports a
   circuit-derived nonlinear cascade, tuning correction, resonance feedback,
-  and oversampling as relevant digital-model concerns. Moj Sint does not copy
+  and oversampling as relevant digital-model concerns. SHR Synth does not copy
   the author's source and does not claim a literal component solver.
 
 The implemented mono path is:
@@ -942,7 +942,7 @@ and SHR-DAW until a separately scoped decision.
 
 ### What “good” and “bad” sound mean here
 
-No scalar metric establishes good sound. For Moj Sint, automated evidence must
+No scalar metric establishes good sound. For SHR Synth, automated evidence must
 instead reject unintended failure and describe intentional character:
 
 - retain a stable perceived pitch or document when a topology deliberately
@@ -961,7 +961,7 @@ instead reject unintended failure and describe intentional character:
 
 Historically characteristic artifacts must not be removed automatically. For
 example, a measured legacy ensemble may include aliasing or unusual filtering
-that listeners associate with its identity. Moj Sint may retain a controlled
+that listeners associate with its identity. SHR Synth may retain a controlled
 artifact only after A/B renders show that it is intentional, bounded, and more
 valuable than the cleaner alternative. “Analog drift,” “warmth,” and “fatness”
 are not specifications until converted into reproducible behaviors.
@@ -986,7 +986,7 @@ The next monophonic experiments should measure workstation instruction/time
 cost only as development evidence. Real Raspberry Pi callback timing and
 headroom decide whether and how the chosen architecture expands to polyphony.
 
-### Moj Sint experiment families
+### SHR Synth experiment families
 
 The user's intentionally speculative routing examples are valid research
 directions when expressed as controlled graphs:
@@ -1016,7 +1016,7 @@ directions when expressed as controlled graphs:
    dry/folded paths against serial folding; do not start with a component-exact
    Buchla clone.
 5. **Spectral traversal.** Interpolate through a small authored family of
-   related spectra or phase laws, PPG/Casio-inspired but Moj Sint-owned. Test
+   related spectra or phase laws, PPG/Casio-inspired but SHR Synth-owned. Test
    whether `EVOLVE` or `SHAPE` can traverse a coherent identity without turning
    into an arbitrary waveform browser.
 6. **Controlled ensemble.** Compare shared-phase offsets, deterministic detune,
@@ -1179,7 +1179,7 @@ Raspberry Pi callback, latency, safe-polyphony, or sound-quality evidence.
 
 This 2026-07-23 pass supports the approved disposable listening gate. The five
 entries below are separate generator hypotheses, not parameter positions in one
-graph. Moj Sint will independently implement only the described mathematics and
+graph. SHR Synth will independently implement only the described mathematics and
 general topologies. It will not import third-party DSP source, bytebeat
 expressions, wavetables, spectra, presets, samples, prose, or figures.
 
@@ -1202,7 +1202,7 @@ expressions, wavetables, spectra, presets, samples, prose, or figures.
   [paper](https://dafx.de/paper-archive/2017/papers/DAFx17_paper_82.pdf).
   It establishes that folding creates additional discontinuity/aliasing concerns
   and therefore supports measuring a shaped modulator against a high-rate
-  reference. Publication rights apply; Moj Sint does not reproduce its circuit,
+  reference. Publication rights apply; SHR Synth does not reproduce its circuit,
   source, prose, figures, or exact transfer stages.
 
 **Perceptual hypothesis:** a symmetrically shaped modulator driving a bounded PM
@@ -1245,7 +1245,7 @@ pluck imitation, unstable howl, pitchless ringing, or one static comb notch.
   [bibliographic record](https://cir.nii.ac.jp/crid/1361981468606165632).
   Their lead/lag experiments support the bounded hypothesis that sufficiently
   close arrivals can fuse while the first arrival dominates localization. The
-  article is copyrighted; Moj Sint copies no stimuli, prose, tables, or figures.
+  article is copyrighted; SHR Synth copies no stimuli, prose, tables, or figures.
 - Julian Grosse, Constantine Trahiotis, Armin Kohlrausch, and Steven van de Par,
   “The Precedence Effect: Spectral, Temporal, and Intensitive Interactions,”
   *Acta Acustica united with Acustica* 104, pp. 813-816, 2018,
@@ -1277,7 +1277,7 @@ headphone or loudspeaker usefulness; that remains an explicit human test.
   [author site](https://palm.seib.info/story/c7.html). Palm describes placing
   analyzed or synthesized spectra at positions and traversing them with a
   digital oscillator, supporting motion through related spectra as a source
-  identity. The account and historical PPG material are copyrighted; Moj Sint
+  identity. The account and historical PPG material are copyrighted; SHR Synth
   will author its own partial frames and copy no waveform or prose.
 - Masanori Ishibashi / Casio Computer Co., US patent 4,658,691, “Electronic
   musical instrument,” priority 1982, publication 1987,
@@ -1302,7 +1302,7 @@ organ registration, frame clicks, loudness pumping, or high-note collapse.
   The paper demonstrates that shifts, bitwise logic, wrapping integer time, and
   very short programs can expose unusual low-complexity sound structures. The
   named community programs are third-party expressions and will not be copied
-  or adapted; Moj Sint authors its state transitions from the stated machine
+  or adapted; SHR Synth authors its state transitions from the stated machine
   rules only.
 - Walt Kester, “MT-085: Fundamentals of Direct Digital Synthesis (DDS),” Analog
   Devices tutorial, 2008,
@@ -1454,7 +1454,7 @@ Primary sources and licensing boundary:
   <https://charlesames.net/pdf/JohnChowning/frequency-modulation.pdf>.
   Publisher copyright should be presumed.
 
-The resulting voices are original Moj Sint experiments, not 808/909
+The resulting voices are original SHR Synth experiments, not 808/909
 emulations or compatible presets. Their automated gates establish finite,
 bounded, deterministic output and causal mechanism activity only. Musical
 quality remains an open human-listening question.
@@ -1492,7 +1492,7 @@ sample, prose, equation, or figure was copied.
   Journal* 19, 2009, pp. 77-84,
   <https://doi.org/10.1162/lmj.2009.19.77>. It provides historical and
   algorithmic context for dynamic stochastic synthesis. Publisher copyright
-  applies; the Moj Sint breakpoint walk is independently authored and does not
+  applies; the SHR Synth breakpoint walk is independently authored and does not
   reproduce GENDY software.
 - The fixed-width source retains the Heikkilä short-program and Analog Devices
   DDS provenance already registered above. It uses independently authored
@@ -1603,7 +1603,7 @@ Primary sources and licensing boundary:
   public domain, while its current download page also refers to an EULA; no
   source code, prose, figure, or workbook was copied.
 
-The resulting source is an independently authored Moj Sint experiment. Filter
+The resulting source is an independently authored SHR Synth experiment. Filter
 coefficients and envelope coefficients are prepared outside the sample path;
 sampling performs no allocation, lock, I/O, logging, formatting, panic, or
 per-sample transcendental setup. Three audition files test genuinely different
@@ -1707,8 +1707,8 @@ No OpenAI-specific MCP was used.
 `cargo metadata` reports the normal shipped dependency graph as Apache-2.0,
 MIT, or dual MIT/Apache-2.0. Platform-only transitive metadata also includes
 Unicode-3.0, Apache-2.0 WITH LLVM-exception, and an LGPL alternative expression
-for `r-efi`; the selected expression includes permissive alternatives. The Moj
-Sint project license has not been selected, so the crate is marked
+for `r-efi`; the selected expression includes permissive alternatives. The SHR
+Synth project license has not been selected, so the crate is marked
 `publish = false`; choose and add a LICENSE file before distribution. Re-run
 `cargo deny check` and manually inspect new DSP assets/code whenever
 dependencies change.

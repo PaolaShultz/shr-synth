@@ -1,5 +1,5 @@
 use assert_no_alloc::assert_no_alloc;
-use moj_sint::bass_matrix::{BassMatrixControls, BassMatrixVoice};
+use shr_synth::bass_matrix::{BassMatrixControls, BassMatrixVoice};
 
 const FRAMES: usize = 24_000;
 

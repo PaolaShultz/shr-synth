@@ -2,13 +2,13 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build an isolated clean-room six-operator phase-modulation engine and a deterministic six-file listening gate containing three category-authentic/original Moj Sint topology pairs.
+**Goal:** Build an isolated clean-room six-operator phase-modulation engine and a deterministic six-file listening gate containing three category-authentic/original SHR Synth topology pairs.
 
 **Architecture:** A new `dsp::six_op_pm` directory owns fixed-capacity graph, envelope, operator, and voice state. A top-level `six_op_pm` research module owns six authored patches, three fixed scores, offline rendering, analysis, and acceptance; `six-op-pm-lab` owns filesystem presentation. Production `Engine`, schema 3, the twelve controls, JACK/ALSA, and SHR-DAW remain untouched.
 
 **Tech Stack:** Stable scalar Rust, fixed arrays, `thiserror`, existing `hound`, `assert_no_alloc`, and existing research measurement helpers.
 
-**Execution prerequisite:** Invoke `superpowers:using-git-worktrees` and create an isolated worktree under `/home/shome/.config/superpowers/worktrees/moj-sint/` before source changes. Do not push unless explicitly requested.
+**Execution prerequisite:** Invoke `superpowers:using-git-worktrees` and create an isolated worktree under `/home/shome/.config/superpowers/worktrees/shr-synth/` before source changes. Do not push unless explicitly requested.
 
 ---
 
@@ -24,7 +24,7 @@
 - Create `src/bin/six-op-pm-lab.rs`: render WAVs and reports.
 - Create `tests/six_op_pm_cli.rs`: deterministic end-to-end contract.
 - Modify `src/research.rs`: expose the existing fitted-residual helper without changing it.
-- Modify `docs/RESEARCH.md`, `docs/ARCHITECTURE.md`, `docs/HANDOFF.md`, and Moj Sint knowledge notes after verification.
+- Modify `docs/RESEARCH.md`, `docs/ARCHITECTURE.md`, `docs/HANDOFF.md`, and SHR Synth knowledge notes after verification.
 
 ## Task 1: Validated 32-graph catalog
 
@@ -499,8 +499,8 @@ Never add artifacts, WAVs, reports, or parameter dumps.
 - Modify: `docs/RESEARCH.md`
 - Modify: `docs/ARCHITECTURE.md`
 - Modify: `docs/HANDOFF.md`
-- Modify: `/home/shome/Documents/knowledge/Moj Sint/01 Current State.md`
-- Modify: `/home/shome/Documents/knowledge/Moj Sint/04 Next Actions And Open Questions.md`
+- Modify: `/home/shome/Documents/knowledge/SHR Synth/01 Current State.md`
+- Modify: `/home/shome/Documents/knowledge/SHR Synth/04 Next Actions And Open Questions.md`
 
 - [ ] **Step 1: Record durable research evidence**
 

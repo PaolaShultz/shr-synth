@@ -1,6 +1,6 @@
 use assert_no_alloc::assert_no_alloc;
-use moj_sint::dual_filter::{DualFilterCore, DualFilterInstrument};
-use moj_sint::dual_filter_concept::{ConceptControl, ConceptControls};
+use shr_synth::dual_filter::{DualFilterCore, DualFilterInstrument};
+use shr_synth::dual_filter_concept::{ConceptControl, ConceptControls};
 
 fn controls() -> ConceptControls {
     ConceptControls::new([

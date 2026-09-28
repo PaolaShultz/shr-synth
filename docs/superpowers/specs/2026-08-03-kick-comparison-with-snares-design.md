@@ -7,10 +7,10 @@ Status: approved by the user for implementation.
 ## Purpose
 
 Create one disposable, engine-authentic listening batch that compares the two
-new Moj Sint kick experiments with the three approved SHR Drums kick voices:
+new SHR Synth kick experiments with the three approved SHR Drums kick voices:
 
-1. Moj Sint House Impact;
-2. Moj Sint Long Pressure;
+1. SHR Synth House Impact;
+2. SHR Synth Long Pressure;
 3. SHR Drums Big Rock (Muldjord);
 4. SHR Drums Experimental Noise (Muldjord); and
 5. SHR Drums Electronic House.
@@ -25,16 +25,16 @@ they do not rank or select a kick.
 
 ## Ownership and isolation
 
-The comparison belongs to `/home/shome/p/moj-sint` because it evaluates the
-isolated Moj Sint kick candidates. Its only retained output is the ignored,
+The comparison belongs to `/home/shome/p/shr-synth` because it evaluates the
+isolated SHR Synth kick candidates. Its only retained output is the ignored,
 disposable directory:
 
 `artifacts/kick-comparison-with-snares/`
 
 The renderer may use a temporary Cargo project outside every repository to
-load the existing Moj Sint WAV evidence and invoke the sibling SHR Drums
+load the existing SHR Synth WAV evidence and invoke the sibling SHR Drums
 library. Temporary source and build output must be removed after successful
-verification. No production Moj Sint, SHR-DAW, or SHR Drums source, preset,
+verification. No production SHR Synth, SHR-DAW, or SHR Drums source, preset,
 catalog, runtime configuration, JACK/ALSA state, or installed file changes.
 
 The authoritative factory packages are read directly from:
@@ -72,7 +72,7 @@ velocity 110. SHR Drums uses `ProjectKey::default()` and
 `KitTuning::default()`. Note 36 is the kick and note 38 is the snare in all
 three factory packages.
 
-Moj Sint source audio comes from the already verified files in
+SHR Synth source audio comes from the already verified files in
 `artifacts/two-clean-house-kicks/`. Their samples are copied without gain,
 normalization, resampling, or processing; shorter material is zero-padded when
 needed. SHR Drums sources are rendered through `load_package` and `DrumEngine`,
@@ -91,8 +91,8 @@ directly interchangeable with the controlled common-snare files.
 
 ## Timing
 
-Solo files contain one kick at 250 ms and last three seconds. The existing Moj
-Sint solo sources are placed at that same trigger time; SHR Drums sources are
+Solo files contain one kick at 250 ms and last three seconds. The existing SHR
+Synth solo sources are placed at that same trigger time; SHR Drums sources are
 triggered directly at that frame. No tail may be truncated: if a source is
 still active at three seconds, the solo duration expands for every source to
 the shortest common duration that includes the complete longest tail plus
@@ -191,5 +191,5 @@ controlled snare balance, then 21-23 for native-kit behavior. Use file 31 to
 confirm the practical level hierarchy and file 32 only to compare timbre after
 level bias is removed.
 
-No result is promoted into Moj Sint, SHR-DAW, or a factory kit until the user
+No result is promoted into SHR Synth, SHR-DAW, or a factory kit until the user
 listens and explicitly selects a next action.

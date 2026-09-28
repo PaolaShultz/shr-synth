@@ -1,7 +1,7 @@
-use moj_sint::envelope::AdsrConfig;
-use moj_sint::micro_machine::{MicroMachineGraph, MicroMachineVoice, SwarmControls};
-use moj_sint::micro_machine_lab::{measure_high_rate_residual, midi_frequency};
-use moj_sint::research::measure_stereo;
+use shr_synth::envelope::AdsrConfig;
+use shr_synth::micro_machine::{MicroMachineGraph, MicroMachineVoice, SwarmControls};
+use shr_synth::micro_machine_lab::{measure_high_rate_residual, midi_frequency};
+use shr_synth::research::measure_stereo;
 use std::fs::{self, File};
 use std::io::{BufWriter, Write};
 use std::path::Path;

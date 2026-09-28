@@ -8,7 +8,7 @@
 
 Build an independently authored six-operator phase-modulation research engine
 that can reach recognizable FM categories and then turn the same principles
-toward original Moj Sint sounds. The first result is an isolated, deterministic
+toward original SHR Synth sounds. The first result is an isolated, deterministic
 offline listening gate. It does not replace the production Model D voice, alter
 the live host, change preset schema 3, or claim Yamaha compatibility.
 
@@ -17,7 +17,7 @@ The listening gate answers two questions:
 1. Can the implementation produce convincing category-authentic bell,
    electric-piano/mallet, and brass/bass behavior without copied patches?
 2. Can three genuinely different operator graphs move beyond those calibration
-   sounds into distinctive Moj Sint voices without becoming noise, generic
+   sounds into distinctive SHR Synth voices without becoming noise, generic
    distortion, or minor variants of one tone?
 
 Human listening decides both questions. Automated measurements establish only
@@ -140,7 +140,7 @@ carrierless graphs, any remaining cycle, invalid evaluation order, and
 feedback outside its declared bounds. This represents both ordinary
 self-feedback and the documented classic graph whose delayed edge closes a
 three-operator loop. The table may encode all 32 classic routing shapes as
-connectivity facts, but the project assigns Moj Sint-owned identifiers and does
+connectivity facts, but the project assigns SHR Synth-owned identifiers and does
 not reproduce Yamaha diagrams or UI numbering as product presentation.
 
 The three first-gate graphs are selected because their signal flow differs,
@@ -189,7 +189,7 @@ The lab writes exactly six primary 48 kHz two-channel float WAV files under an
 explicit ignored `artifacts/` directory. The first gate is dry and dual-mono;
 stereo processing is outside this synthesis question.
 
-| Pair | Category-authentic calibration | Original Moj Sint development |
+| Pair | Category-authentic calibration | Original SHR Synth development |
 | --- | --- | --- |
 | Inharmonic stack | Bell/metal | Fractured metal |
 | Parallel mallet | Electric piano/mallet | Glass/wood |
@@ -306,7 +306,7 @@ documentation only. It does not modify:
 
 Generated WAVs, manifests, tables, timing reports, and batch README files remain
 ignored disposable artifacts. After human listening, record the verdict in
-`docs/HANDOFF.md` and `docs/RESEARCH.md`, update the concise Moj Sint knowledge
+`docs/HANDOFF.md` and `docs/RESEARCH.md`, update the concise SHR Synth knowledge
 note, run the knowledge validator, and delete the batch unless the user
 explicitly requests preservation of a specific result.
 
@@ -338,4 +338,4 @@ that verdict.
 5. Invalid configurations fail before rendering; deterministic regeneration
    and nearby reports provide recovery and diagnosis.
 6. The remaining effort—authoring graphs, envelopes, patches, and listening—is
-   intrinsic to learning whether six-operator PM belongs in Moj Sint.
+   intrinsic to learning whether six-operator PM belongs in SHR Synth.

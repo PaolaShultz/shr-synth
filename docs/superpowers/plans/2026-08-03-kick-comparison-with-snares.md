@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Render and verify the approved 15-WAV comparison of two Moj Sint kicks and three SHR Drums kicks, including controlled and native snare contexts plus raw and level-matched reels.
+**Goal:** Render and verify the approved 15-WAV comparison of two SHR Synth kicks and three SHR Drums kicks, including controlled and native snare contexts plus raw and level-matched reels.
 
-**Architecture:** A temporary Rust crate outside every repository reads the verified Moj Sint float WAVs, loads the three factory `.shrkit` packages through the real SHR Drums engine, schedules deterministic note events, assembles presentations, measures them, and writes two fresh candidate batches. After byte comparison, one candidate is atomically moved into Moj Sint's ignored artifact path and the temporary crate/builds are trashed.
+**Architecture:** A temporary Rust crate outside every repository reads the verified SHR Synth float WAVs, loads the three factory `.shrkit` packages through the real SHR Drums engine, schedules deterministic note events, assembles presentations, measures them, and writes two fresh candidate batches. After byte comparison, one candidate is atomically moved into SHR Synth's ignored artifact path and the temporary crate/builds are trashed.
 
 **Tech Stack:** Rust 2024, `hound` 3.5, local `shr-drums` path dependency, standard-library SHA-256 invocation, existing factory manifests and WAV assets.
 
@@ -30,12 +30,12 @@
 Run:
 
 ```bash
-comparison_tmp=$(mktemp -d /tmp/moj-sint-kick-comparison.XXXXXX)
+comparison_tmp=$(mktemp -d /tmp/shr-synth-kick-comparison.XXXXXX)
 printf '%s\n' "$comparison_tmp"
 ```
 
 Expected: one absolute directory matching
-`/tmp/moj-sint-kick-comparison.*`; retain the exact value for every later task.
+`/tmp/shr-synth-kick-comparison.*`; retain the exact value for every later task.
 
 - [ ] **Step 2: Write the crate manifest**
 
@@ -55,8 +55,8 @@ shr-drums = { path = "/home/shome/p/shr-drums/crates/shr-drums" }
 
 - [ ] **Step 3: Write failing integration tests for the CLI contract**
 
-`tests/contracts.rs` must run the compiled binary with `render-test`, the Moj
-Sint artifact root, the SHR-DAW kit root, and a fresh destination. Tests must
+`tests/contracts.rs` must run the compiled binary with `render-test`, the SHR
+Synth artifact root, the SHR-DAW kit root, and a fresh destination. Tests must
 require exactly 15 `.wav` names from the approved design, exactly seven report
 names, rejection of a nonempty destination, stereo float32 48 kHz WAV headers,
 five equal solo frame counts, eight equal pattern frame counts, finite samples,
@@ -217,7 +217,7 @@ After the last sample at or above that floor, replace only the residual tail
 with exact zero and retain at least 12,000 zero frames. Record the floor in the
 README and generation summary.
 
-Load the two Moj Sint solo and repeated files named by their existing artifact
+Load the two SHR Synth solo and repeated files named by their existing artifact
 manifest. Move a solo's first nonzero sample to frame 12,000 without changing
 its samples. Preserve repeated samples at frame zero and zero-pad them to the
 common pattern duration. Render the three old kick solos, three old kick-only
@@ -242,7 +242,7 @@ floating formatting, and absolute source paths only in `workstation-cost.txt`.
 Create `hashes.tsv` last by invoking `sha256sum` on every deterministic file
 except `hashes.tsv` itself and `workstation-cost.txt`, then include the WAV and
 report hashes in sorted filename order. Record all three package-manifest
-SHA-256 values and the current Moj Sint/SHR Drums Git revisions in
+SHA-256 values and the current SHR Synth/SHR Drums Git revisions in
 `generation-summary.tsv`.
 
 - [ ] **Step 6: Run all temporary-crate tests and verify GREEN**
@@ -261,7 +261,7 @@ pass; no repository working-tree changes.
 **Files:**
 - Create temporarily: `$comparison_tmp/out-a/`
 - Create temporarily: `$comparison_tmp/out-b/`
-- Create: `/home/shome/p/moj-sint/artifacts/kick-comparison-with-snares/`
+- Create: `/home/shome/p/shr-synth/artifacts/kick-comparison-with-snares/`
 
 - [ ] **Step 1: Render two fresh release batches**
 
@@ -270,12 +270,12 @@ Run:
 ```bash
 cargo run --release --manifest-path "$comparison_tmp/Cargo.toml" -- \
   render-test \
-  /home/shome/p/moj-sint/artifacts/two-clean-house-kicks \
+  /home/shome/p/shr-synth/artifacts/two-clean-house-kicks \
   /home/shome/p/shr-daw/kits \
   "$comparison_tmp/out-a"
 cargo run --release --manifest-path "$comparison_tmp/Cargo.toml" -- \
   render-test \
-  /home/shome/p/moj-sint/artifacts/two-clean-house-kicks \
+  /home/shome/p/shr-synth/artifacts/two-clean-house-kicks \
   /home/shome/p/shr-daw/kits \
   "$comparison_tmp/out-b"
 ```
@@ -295,7 +295,7 @@ Expected: no output and exit 0.
 
 - [ ] **Step 3: Refuse replacement of an existing batch**
 
-If `/home/shome/p/moj-sint/artifacts/kick-comparison-with-snares` exists and is
+If `/home/shome/p/shr-synth/artifacts/kick-comparison-with-snares` exists and is
 nonempty, stop and inspect it; do not overwrite it. Otherwise move `out-a` to
 that exact final path with `mv --`. Do not retain `out-b`.
 
@@ -314,7 +314,7 @@ by `git check-ignore -q`.
 - [ ] **Step 1: Preserve only the canonical batch**
 
 Validate that `$comparison_tmp` matches
-`/tmp/moj-sint-kick-comparison.*`, then move that exact directory to trash with
+`/tmp/shr-synth-kick-comparison.*`, then move that exact directory to trash with
 `gio trash -- "$comparison_tmp"`. Do not delete or trash any repository path.
 
 - [ ] **Step 2: Verify all owning repositories are clean**
@@ -322,15 +322,15 @@ Validate that `$comparison_tmp` matches
 Run:
 
 ```bash
-git -C /home/shome/p/moj-sint status --short --branch
+git -C /home/shome/p/shr-synth status --short --branch
 git -C /home/shome/p/shr-daw status --short --branch
 git -C /home/shome/p/shr-drums status --short --branch
-git -C /home/shome/p/moj-sint check-ignore -v \
+git -C /home/shome/p/shr-synth check-ignore -v \
   artifacts/kick-comparison-with-snares
 ```
 
 Expected: all working trees are clean apart from the already committed design
-and plan history, and the final batch is ignored by Moj Sint's artifact rule.
+and plan history, and the final batch is ignored by SHR Synth's artifact rule.
 
 - [ ] **Step 3: Hand off listening evidence without accepting a sound**
 

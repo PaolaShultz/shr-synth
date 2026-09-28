@@ -162,7 +162,7 @@ impl JackHost {
                 let right = register_output(&api, client, "out_r")?;
                 let sample_rate = (api.sample_rate)(client);
                 let engine = Engine::new(sample_rate as f32, preset)
-                    .context("prepare Moj Sint engine for JACK sample rate")?;
+                    .context("prepare SHR Synth engine for JACK sample rate")?;
                 let cycle = Arc::new(AtomicU64::new(0));
                 let timing = Timing {
                     client,

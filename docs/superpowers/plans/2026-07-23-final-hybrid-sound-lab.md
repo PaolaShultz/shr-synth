@@ -470,8 +470,8 @@ git commit -m "feat: render final hybrid sound lab"
 - [x] **Step 1: Generate two fresh release batches**
 
 ```sh
-cargo run --release --bin hybrid-sound-lab -- render /tmp/moj-sint-hybrid-a
-cargo run --release --bin hybrid-sound-lab -- render /tmp/moj-sint-hybrid-b
+cargo run --release --bin hybrid-sound-lab -- render /tmp/shr-synth-hybrid-a
+cargo run --release --bin hybrid-sound-lab -- render /tmp/shr-synth-hybrid-b
 ```
 
 Compare recursive hashes excluding only `workstation-cost.txt`. Investigate any

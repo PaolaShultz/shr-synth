@@ -4,7 +4,7 @@ Date: 2026-07-23
 
 ## Purpose
 
-Moj Sint should eventually support rapid experiments built by connecting small,
+SHR Synth should eventually support rapid experiments built by connecting small,
 heterogeneous DSP “micro-machines”: integer VCOs, carry-event sources, phase
 delays, crest followers, shapers, resonators, filters, stereo matrices, and
 other bounded state elements.
@@ -117,7 +117,7 @@ handoff.
 
 ## Experiment format
 
-A versioned TOML graph is the likely authoring surface because Moj Sint already
+A versioned TOML graph is the likely authoring surface because SHR Synth already
 uses strict TOML presets and has no UI. The first graph format should remain a
 research tool, not silently become preset version 2.
 
@@ -188,7 +188,7 @@ normalizes by active squared weight. DETUNE scales symmetric phase increments;
 MOTION adds prepared low-rate drift plus deterministic wrap-driven gear
 perturbation. SPREAD pans individual machines, SHAPE morphs the independently
 bandlimited waveform bank, and BITE, COLOR, and SPACE belong to explicit
-downstream nodes. ADSR remains outside the graph through the existing Moj Sint
+downstream nodes. ADSR remains outside the graph through the existing SHR Synth
 envelope type.
 
 `micro-machine-lab render <graph.toml> <empty-output-directory>` produces one

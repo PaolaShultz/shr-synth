@@ -1,5 +1,5 @@
-use moj_sint::dsp::research::{ResearchFamily, ResearchSource, phase_period};
-use moj_sint::research::{
+use shr_synth::dsp::research::{ResearchFamily, ResearchSource, phase_period};
+use shr_synth::research::{
     ResearchRenderSpec, apply_fades, loudness_match, measure_alias_error, measure_stereo,
     midi_frequency, render_and_measure,
 };
@@ -185,7 +185,7 @@ fn write_cost(path: &Path) -> Result<(), Box<dyn std::error::Error>> {
 
 fn write_readme(path: &Path) -> std::io::Result<()> {
     let mut output = BufWriter::new(File::create(path)?);
-    writeln!(output, "# Moj Sint five-family listening gate\n")?;
+    writeln!(output, "# SHR Synth five-family listening gate\n")?;
     writeln!(
         output,
         "The human listening verdict is open. These are five structurally different disposable monophonic research sources, not presets or accepted macro mappings.\n"

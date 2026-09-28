@@ -1,8 +1,8 @@
-# Moj Sint Initial Foundation Design
+# SHR Synth Initial Foundation Design
 
 ## Scope
 
-This phase creates a portable, testable Rust foundation for Moj Sint. It does
+This phase creates a portable, testable Rust foundation for SHR Synth. It does
 not implement the live JACK/ALSA host, modify SHR-DAW, start audio services, or
 claim Raspberry Pi performance. It produces one musically plain reference
 oscillator so later oscillator research has a trustworthy baseline.
@@ -35,7 +35,7 @@ values, invalid envelope times, and invalid voice counts.
 
 ## Preset and Offline Boundaries
 
-`.mojsint` is a versioned TOML format with Moj Sint identity. Parsing is strict
+`.mojsint` is a versioned TOML format with SHR Synth identity. Parsing is strict
 and validation is explicit. Offline rendering takes a preset and a deterministic
 note specification, constructs a fresh engine, and returns interleaved stereo
 `f32`; WAV encoding is confined to the non-real-time offline module.

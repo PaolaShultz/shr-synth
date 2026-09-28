@@ -1,4 +1,4 @@
-use moj_sint::dual_filter_concept::{
+use shr_synth::dual_filter_concept::{
     ConceptControl, ConceptControls, ConceptVariant, DualFilterConceptVoice,
 };
 use std::fs;

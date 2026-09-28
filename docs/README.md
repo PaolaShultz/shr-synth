@@ -1,4 +1,4 @@
-# Moj Sint documentation
+# SHR Synth documentation
 
 Source code, `Cargo.toml`, `rust-toolchain.toml`, preset parsers, and
 `presets/cleared-presets.txt` define current behavior. This index separates
@@ -22,7 +22,7 @@ those contracts from research records, proposals, and dated session evidence.
 - [Dependencies, licensing, and public presets](../THIRD_PARTY.md) owns the
   public 28-preset boundary and dependency review.
 
-SHR-DAW starts Moj Sint as an external managed process. Moj Sint owns synthesis,
+SHR-DAW starts SHR Synth as an external managed process. SHR Synth owns synthesis,
 preset validation, ALSA input, and stereo JACK output. SHR-DAW owns its exact
 dependency pin, configuration, process lifecycle, routes, replacement recovery,
 Project state, and private preset storage.

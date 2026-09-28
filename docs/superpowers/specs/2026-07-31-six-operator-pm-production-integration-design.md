@@ -2,23 +2,23 @@
 
 **Date:** 2026-07-31
 **Status:** Approved for implementation
-**Scope:** Promote the completed six-operator PM experiment into a second playable Moj Sint synthesis model and expose it through SHR-DAW
+**Scope:** Promote the completed six-operator PM experiment into a second playable SHR Synth synthesis model and expose it through SHR-DAW
 
 ## Goal
 
 Make the six completed experimental PM sounds playable and editable from
-SHR-DAW while preserving Model D, the single owned Moj Sint process, the
+SHR-DAW while preserving Model D, the single owned SHR Synth process, the
 existing twelve physical control positions, and strict preset compatibility.
 
-The musician sees one `Moj Sint` backend with two synthesis-model categories:
+The musician sees one `SHR Synth` backend with two synthesis-model categories:
 `Model D` and `Six-Op PM`. Loading a preset starts the same configured
-`moj-sint` executable and replaces the currently owned melodic engine exactly
-as it does today. This work does not add simultaneous Moj Sint processes or a
+`shr-synth` executable and replaces the currently owned melodic engine exactly
+as it does today. This work does not add simultaneous SHR Synth processes or a
 fifth SHR-DAW backend.
 
 ## Existing work to retain
 
-Merge `feature/six-operator-pm` into Moj Sint `main` without squashing its
+Merge `feature/six-operator-pm` into SHR Synth `main` without squashing its
 verified history. Retain the independently authored fixed-capacity six-operator
 graph core, all 32 validated routing shapes, six authored listening patches,
 measurements, deterministic lab, tests, and clean-room provenance.
@@ -29,9 +29,9 @@ tracked patch definitions become ordinary production source and six new
 
 ## Approaches considered
 
-### One Moj Sint backend with two model identities
+### One SHR Synth backend with two model identities
 
-Extend the model seam already added by Moj Sint 0.2.2 and SHR-DAW 0.4.7. The
+Extend the model seam already added by SHR Synth 0.2.2 and SHR-DAW 0.4.7. The
 same host dispatches either Model D or Six-Op PM based on the loaded preset.
 SHR-DAW discovers model-qualified routes and renders model-specific parameter
 labels. This preserves process ownership, routing, pickup, Ideas, Projects,
@@ -41,16 +41,16 @@ FT2, and failure isolation. **Selected.**
 
 Treat Six-Op PM as a fifth backend with duplicate executable, configuration,
 catalog, routing, and process lifecycle code. Rejected because the Raspberry
-Pi changes deliberately separate Moj Sint host identity from synthesis-model
+Pi changes deliberately separate SHR Synth host identity from synthesis-model
 identity.
 
-### Two simultaneous Moj Sint processes
+### Two simultaneous SHR Synth processes
 
 Run Model D and Six-Op PM concurrently. Rejected because SHR-DAW currently
 owns one managed melodic engine, and this request is for selectable sounds and
 parameters rather than a multi-engine mixer redesign.
 
-## Moj Sint architecture
+## SHR Synth architecture
 
 ### Model and preset identity
 
@@ -129,7 +129,7 @@ a model-specific twelve-control table using the labels above. Controller
 configuration remains physical positions `POT1` through `POT12`; it does not
 gain synthesis parameter names.
 
-SHR-DAW preset discovery accepts Moj Sint schema 5, strictly selects the
+SHR-DAW preset discovery accepts SHR Synth schema 5, strictly selects the
 model-specific preset shape, and returns all twelve normalized values.
 Model-qualified route IDs become:
 
@@ -160,7 +160,7 @@ controller bank is added.
 
 Implementation follows red-green-refactor in both repositories.
 
-Moj Sint tests cover schema-5 strict parsing and legacy migration; all six
+SHR Synth tests cover schema-5 strict parsing and legacy migration; all six
 factory presets; model dispatch; neutral-coordinate reproduction; each live
 control's intended effect; note-on, note-off, stealing, reset, and panic;
 finite output; allocation-free render/control paths; deterministic output;
@@ -173,17 +173,17 @@ legacy Model D routes; rollback; and the one-managed-engine invariant.
 
 Before publication, run the repository-mandated formatting, focused tests,
 all-target tests, warning-denied Clippy, locked release builds, audit/deny and
-deterministic Moj Sint render comparison. Do not start JACK, Moj Sint, MIDI,
+deterministic SHR Synth render comparison. Do not start JACK, SHR Synth, MIDI,
 playback, recording, or hardware tests without a separate explicit physical
 scope. Do not claim Raspberry Pi performance or final production polyphony
 until measured there.
 
 ## Publication
 
-Commit coherent Moj Sint integration and verification on `main`, then push it.
+Commit coherent SHR Synth integration and verification on `main`, then push it.
 Commit the paired SHR-DAW discovery/control/identity integration on its `main`,
 then push it. Verify repository, branch, remote, intended commits, and clean
-status immediately before each push. Update Moj Sint `docs/HANDOFF.md`,
+status immediately before each push. Update SHR Synth `docs/HANDOFF.md`,
 SHR-DAW `docs/WORKSPACE_HANDOFF.md`, the focused schema/control documentation,
 and the concise project knowledge note with verified outcomes only.
 

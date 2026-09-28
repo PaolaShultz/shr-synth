@@ -1,4 +1,4 @@
-# Open303 engine analysis for Moj Sint
+# Open303 engine analysis for SHR Synth
 
 Implementation follow-up: the authorized [isolated candidate](OPEN303_CANDIDATE.md)
 now provides the repaired, optional C++/Rust core and offline renderer. This
@@ -12,7 +12,7 @@ The DSP can be built without a plugin SDK, GUI, JACK, or ALSA, and a small C
 interface is sufficient to call it from Rust. An offline comparison produced
 byte-identical output through that interface and through direct C++ calls.
 There is no demonstrated need to rewrite its oscillator, filter, and envelope
-system merely to use it in Moj Sint.
+system merely to use it in SHR Synth.
 
 The original core is **not ready for our live callback**. Construction contains
 an out-of-bounds write, MIDI note storage allocates and frees memory, some
@@ -199,7 +199,7 @@ source finding; the recorded functional probes explicitly initialized controls
 and triggered notes before ordinary rendering.
 
 `allNotesOff` releases the envelope and clears the note list; it is not a hard
-state reset. Moj Sint's panic/recovery contract requires a bounded reset that
+state reset. SHR Synth's panic/recovery contract requires a bounded reset that
 also clears held keys and all relevant filter/envelope state. Destroying and
 reconstructing the object inside the callback would be the wrong fix.
 
@@ -207,7 +207,7 @@ reconstructing the object inside the callback would be the wrong fix.
 
 Robin Schmidt's root license explicitly declares the Open303 source MIT,
 with copyright 2009. That supports an MIT-compatible core integration with the
-notice retained; it is not necessary to change Moj Sint to GPL just because
+notice retained; it is not necessary to change SHR Synth to GPL just because
 JC-303 wraps the same engine in a GPL product.[^17]
 
 There is one independently identified code dependency in the core:
@@ -391,7 +391,7 @@ This proves one same-build boundary comparison; it is not a cross-compiler or
 cross-architecture determinism promise. No Rust engine/model integration was
 performed.
 
-## Proposed integration in Moj Sint
+## Proposed integration in SHR Synth
 
 ### Preserve DSP, replace the unsuitable boundary
 
@@ -402,7 +402,7 @@ outside the callback. The audio thread owns the live object exclusively.
 Do not expose its public C++ members, C++ exceptions, or owning pointers as
 unrestricted Rust operations.
 
-Separate note arbitration from sound generation. Moj Sint already has a fixed
+Separate note arbitration from sound generation. SHR Synth already has a fixed
 128-key last-note adapter for Pressure Chain that removes duplicate keys and
 ignores stale releases. Adapt that approach, with explicit trigger, slide,
 release, and hard-reset operations into the reused core. Returning to a held
@@ -416,7 +416,7 @@ surface to the first candidate.
 
 ### Respect the current render and control architecture
 
-Moj Sint currently advances controls and calls `VoiceModel::sample` per sample.
+SHR Synth currently advances controls and calls `VoiceModel::sample` per sample.
 A block-level FFI proof therefore does **not** establish that adding a block
 engine is a zero-change integration. The least disruptive first implementation
 can expose a combined per-sample control/render operation. A later segmented
@@ -497,7 +497,7 @@ not maintained as production regression tests or checked-in artifacts.
 This pass ran core compilation, targeted sanitizer probes, allocation counting,
 note-state checks, a finite-output matrix, moving-control checks, a filter
 linearity/drive probe, an oscillator spectral measurement, and a Rust/C ABI
-comparison. It did not run Moj Sint's production or historical suites because
+comparison. It did not run SHR Synth's production or historical suites because
 no production source changed. It did not run JACK, playback, hardware matching,
 real-time benchmarks, a full threaded race test, or an exhaustive input audit.
 Those omissions limit the result to source-level integration feasibility and

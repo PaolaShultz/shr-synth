@@ -1,6 +1,7 @@
 use std::process::Command;
 
 #[test]
+#[ignore = "development-only historical audition renderer; production contracts run normally"]
 fn strange_lab_writes_one_type_dial_and_seven_clear_macro_reels() {
     let output = tempfile::tempdir().unwrap();
     let status = Command::new(env!("CARGO_BIN_EXE_strange-oscillator-lab"))

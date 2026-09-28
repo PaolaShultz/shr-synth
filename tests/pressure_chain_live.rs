@@ -1,5 +1,5 @@
 use assert_no_alloc::assert_no_alloc;
-use moj_sint::{
+use shr_synth::{
     engine::{Engine, Event, TimedEvent},
     preset::Preset,
 };
@@ -141,7 +141,7 @@ fn held_note_return_slides_and_stale_releases_do_not_cut_the_new_note() {
 
 #[test]
 fn full_key_stack_and_live_control_changes_do_not_allocate_or_overflow() {
-    use moj_sint::control::{MacroId, Normalized};
+    use shr_synth::control::{MacroId, Normalized};
     let preset = Preset::parse(START).unwrap();
     let mut engine = Engine::new(48_000.0, &preset).unwrap();
     let mut l = [0.0; 256];

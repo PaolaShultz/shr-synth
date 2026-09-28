@@ -1,5 +1,5 @@
-use moj_sint::strange::{StrangeControls, StrangeInstrument, StrangeType, StrangeVoice};
-use moj_sint::strange_lab::{
+use shr_synth::strange::{StrangeControls, StrangeInstrument, StrangeType, StrangeVoice};
+use shr_synth::strange_lab::{
     StructuralMacroEvidence, evaluate_structural_macros, evaluate_type, midi_frequency,
 };
 use std::fs::{self, File};
@@ -168,7 +168,7 @@ fn boundary_gain(frame: usize, total: usize, fade: usize) -> f32 {
 
 fn write_gates(
     path: &Path,
-    rows: &[moj_sint::strange_lab::StrangeGateEvidence],
+    rows: &[shr_synth::strange_lab::StrangeGateEvidence],
 ) -> std::io::Result<()> {
     let mut output = BufWriter::new(File::create(path)?);
     writeln!(
@@ -250,13 +250,13 @@ fn write_hashes(path: &Path, renders: &[(String, Vec<f32>)]) -> std::io::Result<
 
 fn write_readme(
     path: &Path,
-    rows: &[moj_sint::strange_lab::StrangeGateEvidence],
+    rows: &[shr_synth::strange_lab::StrangeGateEvidence],
 ) -> std::io::Result<()> {
     let mut output = BufWriter::new(File::create(path)?);
     writeln!(output, "# Strange Oscillator dry gate\n")?;
     writeln!(
         output,
-        "This is a disposable monophonic research batch for a possible third Moj Sint model. Nothing here is a production preset or accepted sound.\n"
+        "This is a disposable monophonic research batch for a possible third SHR Synth model. Nothing here is a production preset or accepted sound.\n"
     )?;
     writeln!(output, "## What is on\n")?;
     writeln!(

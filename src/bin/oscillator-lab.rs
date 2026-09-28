@@ -1,15 +1,15 @@
-use moj_sint::analysis::{
+use shr_synth::analysis::{
     AnalysisSpec, CharacterAnalysisSpec, CharacterMetrics, WaveformMetrics, measure_candidate,
     measure_character_intermodulation, measure_character_method, measure_harmonic_distribution,
     measure_harmonic_system,
 };
-use moj_sint::control::Normalized;
-use moj_sint::dsp::character::{CharacterLayer, CharacterMethod};
-use moj_sint::dsp::harmonic_selector::ThreePhaseBank;
-use moj_sint::dsp::oscillator::{BandlimitedOscillator, OscillatorMethod};
-use moj_sint::engine::{ENGINE_CHARACTER_METHOD, ENGINE_OSCILLATOR_METHOD};
-use moj_sint::offline::{RenderSpec, render_note};
-use moj_sint::preset::Preset;
+use shr_synth::control::Normalized;
+use shr_synth::dsp::character::{CharacterLayer, CharacterMethod};
+use shr_synth::dsp::harmonic_selector::ThreePhaseBank;
+use shr_synth::dsp::oscillator::{BandlimitedOscillator, OscillatorMethod};
+use shr_synth::engine::{ENGINE_CHARACTER_METHOD, ENGINE_OSCILLATOR_METHOD};
+use shr_synth::offline::{RenderSpec, render_note};
+use shr_synth::preset::Preset;
 use std::fs::{self, File};
 use std::io::{BufWriter, Write};
 use std::path::Path;

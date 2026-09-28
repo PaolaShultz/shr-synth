@@ -13,7 +13,7 @@ piecewise one-shot body envelope, and add one separately prepared exact-source
 strike buffer selected by profile. Reuse the existing shared-gain and evidence
 pipeline, then update the offline lab reports and deterministic CLI contract.
 
-**Tech Stack:** Stable scalar Rust, existing Moj Sint hybrid renderers,
+**Tech Stack:** Stable scalar Rust, existing SHR Synth hybrid renderers,
 `assert_no_alloc`, `hound`, Cargo integration tests, TSV/Markdown reports.
 
 ---
@@ -303,8 +303,8 @@ git commit -m "feat: present piano strike envelope comparisons"
 Run:
 
 ```bash
-piano_temp_a=$(mktemp -d /tmp/moj-sint-piano-a.XXXXXX)
-piano_temp_b=$(mktemp -d /tmp/moj-sint-piano-b.XXXXXX)
+piano_temp_a=$(mktemp -d /tmp/shr-synth-piano-a.XXXXXX)
+piano_temp_b=$(mktemp -d /tmp/shr-synth-piano-b.XXXXXX)
 cargo run --release --bin hybrid-subset-lab -- render "$piano_temp_a"
 cargo run --release --bin hybrid-subset-lab -- render "$piano_temp_b"
 diff -rq --exclude=workstation-cost.txt "$piano_temp_a" "$piano_temp_b"

@@ -9,7 +9,7 @@ its original validation stage.
 Implemented 2026-09-09 after the [source analysis](OPEN303_ANALYSIS.md).
 This reuses Robin Schmidt's C++ oscillator/filter/envelope engine through a
 small C ABI instead of translating the DSP. It is a default-off offline
-candidate, separate from Moj Sint's production Engine and seven-model schema.
+candidate, separate from SHR Synth's production Engine and seven-model schema.
 The reviewed source, exact pin, manifests, licenses, and repair ledger are in
 [vendor provenance](../vendor/open303/README.md). No JC-303 plugin code is used.
 

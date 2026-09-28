@@ -6,7 +6,7 @@
 
 **Architecture:** Add an isolated `envelope_audition` renderer that prepares the exact `CrossSingle`, `SpectralSingle`, and `DualSingle` layers with retained 0/2/5 ms offsets, sums them with equal-power trim, and applies one profile-driven post-sum envelope. Keep the historical `hybrid_subset` renderer intact for reproducibility, but replace the lab CLI presentation with the three-profile audition and a shared fixed gain selected against whole-file RMS and sparse-ceiling constraints.
 
-**Tech Stack:** Rust 2024, existing Moj Sint original-layer renderer, `assert_no_alloc`, `hound`, Cargo integration tests.
+**Tech Stack:** Rust 2024, existing SHR Synth original-layer renderer, `assert_no_alloc`, `hound`, Cargo integration tests.
 
 ---
 

@@ -6,7 +6,7 @@
 
 **Architecture:** Keep the exact original source-layer renderer and candidate membership. Change only the isolated `hybrid_subset` timing/mix boundary: fixed 0/2/5 and 0/4/9/15 ms offsets, equal-power layer trim, one prepared master ADSR after summation, then an explicit fixed gain for each complete composite and the static ceiling. Replace all generated output with one ignored coherent-composite batch.
 
-**Tech Stack:** Rust 2024, existing Moj Sint hybrid/subset modules, `assert_no_alloc`, `hound`, Cargo integration tests.
+**Tech Stack:** Rust 2024, existing SHR Synth hybrid/subset modules, `assert_no_alloc`, `hound`, Cargo integration tests.
 
 ---
 

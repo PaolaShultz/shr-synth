@@ -8,7 +8,7 @@ Approved by the user on 2026-07-24.
 
 ## Musical Decision
 
-The first Moj Sint struck-object candidate, Coupled Wire, passed human
+The first SHR Synth struck-object candidate, Coupled Wire, passed human
 listening as bright enough without becoming excessive. This experiment develops
 that exact sound. It does not introduce a new exciter, pitch, modal ratio,
 coupling graph, effect return, or replacement oscillator.

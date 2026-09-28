@@ -1,9 +1,9 @@
-use moj_sint::envelope_audition::{
+use shr_synth::envelope_audition::{
     BODY_ATTACK_MS, BODY_FAST_DECAY_MS, BODY_SILENT_FROM_MS, DURATION_MS, EnvelopeEvidence,
     EnvelopeRender, LAYER_OFFSETS_MS, MIN_TOTAL_RMS, MONOPHONIC_LAYERS, STRIKE_ATTACK_MS,
     STRIKE_MIX, evaluate_render, preview_all, render_profile, select_shared_gain,
 };
-use moj_sint::hybrid_subset::classify_noise_like;
+use shr_synth::hybrid_subset::classify_noise_like;
 use std::fs::{self, File};
 use std::io::{BufWriter, Write};
 use std::path::Path;
@@ -243,7 +243,7 @@ fn write_readme(
     rows: &[AuditionRow],
 ) -> std::io::Result<()> {
     let mut file = writer(output, "README.md")?;
-    writeln!(file, "# Moj Sint piano-strike envelope comparison\n")?;
+    writeln!(file, "# SHR Synth piano-strike envelope comparison\n")?;
     writeln!(
         file,
         "**Please start with playback volume low.** Digital level is not acoustic SPL.\n"

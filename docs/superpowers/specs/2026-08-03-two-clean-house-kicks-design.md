@@ -21,7 +21,7 @@ noise layer. Human listening decides whether either voice is musically useful.
 
 ## Scope and ownership
 
-The experiment belongs to `/home/shome/p/moj-sint` and remains offline and
+The experiment belongs to `/home/shome/p/shr-synth` and remains offline and
 isolated. It may add a focused research module, an offline renderer, contract
 tests, and concise durable documentation. It must not change production
 `Engine`, model selection, presets, the twelve-control contract, JACK, ALSA,
@@ -286,7 +286,7 @@ revision.
   only the mathematical fact that a time-varying modulation index produces a
   dynamic spectrum. It copies no implementation, patch, prose, or figure.
 
-The two voices are original Moj Sint experiments, not emulations or compatible
+The two voices are original SHR Synth experiments, not emulations or compatible
 presets for an 808, 909, or another commercial instrument.
 
 ## Completion boundary

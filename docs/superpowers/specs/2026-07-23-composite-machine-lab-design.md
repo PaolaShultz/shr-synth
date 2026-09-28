@@ -4,7 +4,7 @@ Date: 2026-07-23
 
 ## Goal
 
-Turn the first strongly positive Moj Sint listening accident into a controlled,
+Turn the first strongly positive SHR Synth listening accident into a controlled,
 deterministic offline research boundary. The lab internally instantiates the
 three existing hybrid DSP families, schedules heterogeneous note roles, mixes
 them with explicit gain/stereo policy, and measures causal contributions. It

@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Merge the completed six-operator PM research engine into Moj Sint `main`, promote its six sounds to a live `Six-Op PM` model, and expose that model and its twelve controls through SHR-DAW.
+**Goal:** Merge the completed six-operator PM research engine into SHR Synth `main`, promote its six sounds to a live `Six-Op PM` model, and expose that model and its twelve controls through SHR-DAW.
 
-**Architecture:** Moj Sint remains one external host whose strict preset selects either `Model D` or `Six-Op PM`; its production engine dispatches through the existing fixed model enum. SHR-DAW remains one managed melodic-engine owner and extends only Moj Sint model discovery, route identity, control labels, persistence, and playback presentation.
+**Architecture:** SHR Synth remains one external host whose strict preset selects either `Model D` or `Six-Op PM`; its production engine dispatches through the existing fixed model enum. SHR-DAW remains one managed melodic-engine owner and extends only SHR Synth model discovery, route identity, control labels, persistence, and playback presentation.
 
 **Tech Stack:** Rust 2024, Serde/TOML, fixed-capacity scalar DSP, JACK/ALSA host boundary, Cargo tests, Clippy, cargo-audit, cargo-deny, Git worktrees.
 
@@ -13,7 +13,7 @@
 ### Task 1: Integrate the verified research branch with the model-identity base
 
 **Files:**
-- Merge: `feature/six-operator-pm` with Moj Sint `main`
+- Merge: `feature/six-operator-pm` with SHR Synth `main`
 - Resolve if needed: `docs/HANDOFF.md`
 - Resolve if needed: `src/lib.rs`
 
@@ -22,9 +22,9 @@
 Run:
 
 ```bash
-git -C /home/shome/p/moj-sint status --short --branch
-git -C /home/shome/.config/superpowers/worktrees/moj-sint/six-operator-pm status --short --branch
-git -C /home/shome/p/moj-sint merge-base --is-ancestor 41fb374 feature/six-operator-pm
+git -C /home/shome/p/shr-synth status --short --branch
+git -C /home/shome/.config/superpowers/worktrees/shr-synth/six-operator-pm status --short --branch
+git -C /home/shome/p/shr-synth merge-base --is-ancestor 41fb374 feature/six-operator-pm
 ```
 
 Expected: both worktrees are clean and the ancestry check exits zero.
@@ -257,7 +257,7 @@ git diff --cached --check
 git commit -m "feat: add six-op PM factory presets"
 ```
 
-### Task 5: Complete Moj Sint documentation and verification
+### Task 5: Complete SHR Synth documentation and verification
 
 **Files:**
 - Modify: `Cargo.toml`
@@ -269,9 +269,9 @@ git commit -m "feat: add six-op PM factory presets"
 
 - [ ] **Step 1: Update current documentation and package version**
 
-Record the second synthesis model, six factory presets, exact controls, schema-5 migration, clean-room boundary, and verification evidence. Remove statements that production integration has not started. Advance Moj Sint from `0.2.2` to `0.3.0` because this adds a new playable synthesis model and preset wire format.
+Record the second synthesis model, six factory presets, exact controls, schema-5 migration, clean-room boundary, and verification evidence. Remove statements that production integration has not started. Advance SHR Synth from `0.2.2` to `0.3.0` because this adds a new playable synthesis model and preset wire format.
 
-- [ ] **Step 2: Run the full Moj Sint gate**
+- [ ] **Step 2: Run the full SHR Synth gate**
 
 Run:
 
@@ -287,7 +287,7 @@ git diff --check
 
 Also run the existing deterministic six-op generation comparison and focused alias/error suite. Expected: every command exits zero; only the documented accepted duplicate-version warning may remain in cargo-deny.
 
-- [ ] **Step 3: Commit verified Moj Sint integration**
+- [ ] **Step 3: Commit verified SHR Synth integration**
 
 Run:
 
@@ -362,7 +362,7 @@ Expected: compilation or assertion failure because `MojModel::SixOpPm` is missin
 
 - [ ] **Step 3: Implement model-specific discovery and controls**
 
-Add `MojModel::SixOpPm`, stable identity, label, and `MOJ_SIX_OP_PM_CONTROLS`. Extend strict Moj schema-5 parsing by model, returning normalized CC 20-31 values. Preserve schema 1-4 Model D migration and unqualified legacy Model D resolution.
+Add `MojModel::SixOpPm`, stable identity, label, and `MOJ_SIX_OP_PM_CONTROLS`. Extend strict SHR Synth schema-5 parsing by model, returning normalized CC 20-31 values. Preserve schema 1-4 Model D migration and unqualified legacy Model D resolution.
 
 - [ ] **Step 4: Extend existing consumers exhaustively**
 
@@ -388,7 +388,7 @@ Run:
 ```bash
 git add src/preset.rs src/control.rs src/engine.rs src/recording.rs src/ui.rs
 git diff --cached --check
-git commit -m "feat: add Six-Op PM Moj Sint model"
+git commit -m "feat: add Six-Op PM SHR Synth model"
 ```
 
 ### Task 8: Complete SHR-DAW documentation and authorized verification
@@ -405,7 +405,7 @@ git commit -m "feat: add Six-Op PM Moj Sint model"
 
 - [ ] **Step 1: Update version and focused documentation**
 
-Advance SHR-DAW from `0.4.7` to `0.4.8`. Record Moj Sint's two selectable
+Advance SHR-DAW from `0.4.7` to `0.4.8`. Record SHR Synth's two selectable
 models, schema 5, model-qualified route IDs, Six-Op PM controls, six presets,
 single-process ownership, and compatibility.
 
@@ -444,12 +444,12 @@ git commit -m "docs: document Six-Op PM integration"
 ### Task 9: Merge, synchronize knowledge, and publish
 
 **Files:**
-- Modify: `/home/shome/Documents/knowledge/Moj Sint/01 Current State.md`
-- Modify if routed by index: `/home/shome/Documents/knowledge/Moj Sint/04 Next Actions And Open Questions.md`
+- Modify: `/home/shome/Documents/knowledge/SHR Synth/01 Current State.md`
+- Modify if routed by index: `/home/shome/Documents/knowledge/SHR Synth/04 Next Actions And Open Questions.md`
 
-- [ ] **Step 1: Merge Moj Sint feature work into `main`**
+- [ ] **Step 1: Merge SHR Synth feature work into `main`**
 
-Run from `/home/shome/p/moj-sint`:
+Run from `/home/shome/p/shr-synth`:
 
 ```bash
 git status --short --branch
@@ -497,7 +497,7 @@ Expected: clean `main`, intended public `origin`, and only the reviewed task com
 Run:
 
 ```bash
-GIT_TERMINAL_PROMPT=0 git -C /home/shome/p/moj-sint push origin main
+GIT_TERMINAL_PROMPT=0 git -C /home/shome/p/shr-synth push origin main
 GIT_TERMINAL_PROMPT=0 git -C /home/shome/p/shr-daw push origin main
 ```
 

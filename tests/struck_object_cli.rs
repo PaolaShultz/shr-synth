@@ -49,7 +49,7 @@ fn lab_writes_only_deterministic_passing_struck_objects() {
     }
 
     let readme = fs::read_to_string(first.path().join("README.md")).unwrap();
-    assert!(readme.contains("Moj Sint struck objects"));
+    assert!(readme.contains("SHR Synth struck objects"));
     assert!(readme.contains("exciter is not mixed dry"));
     assert!(readme.contains("natural modal decay"));
     assert!(readme.contains("human listening decides"));

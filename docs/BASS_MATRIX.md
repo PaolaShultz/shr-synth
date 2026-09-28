@@ -1,6 +1,6 @@
 # Bass Matrix
 
-Bass Matrix is the fifth Moj Sint model and the second new instrument in the
+Bass Matrix is the fifth SHR Synth model and the second new instrument in the
 2026-08-16 SHR integration. It is intentionally unlike the Swarm Machine: one
 voice starts with a mono-compatible bass core, then adds controlled upper
 harmonics instead of building a wide oscillator population.
@@ -31,7 +31,7 @@ state is finite-guarded and bounded; the final static guard is ±0.94.
 
 ## Physical controls
 
-All values are continuous `0..=1` and move through Moj Sint's 10 ms smoothing
+All values are continuous `0..=1` and move through SHR Synth's 10 ms smoothing
 path. Position 5 is independent instrument volume.
 
 | Position | Label | Minimum | Middle | Maximum |

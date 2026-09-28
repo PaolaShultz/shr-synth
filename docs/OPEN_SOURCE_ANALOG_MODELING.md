@@ -1,6 +1,6 @@
 # Open-source analog synth modeling knowledge base
 
-Surveyed 2026-09-09. This is a practical reading map for Moj Sint, based on
+Surveyed 2026-09-09. This is a practical reading map for SHR Synth, based on
 upstream repositories, manuals, and published research. It is not an exhaustive
 catalog or a listening ranking. Project statements are distinguished below
 from our proposed applications. The initial survey did not build external
@@ -23,7 +23,7 @@ Keep three levels separate:
 - **Original virtual analog:** use analog-inspired mechanisms without claiming
   a specific hardware replica.
 
-These categories describe evidence, not a quality hierarchy. Moj Sint can learn
+These categories describe evidence, not a quality hierarchy. SHR Synth can learn
 from all three and retain its own model identity.
 
 ## Start here
@@ -31,7 +31,7 @@ from all three and retain its own model identity.
 The priorities and proposed uses in this table are our research judgment.
 Licenses are upstream declarations, not completed reuse clearance.
 
-| Reference and authors | What it provides | First use for Moj Sint | License / qualification |
+| Reference and authors | What it provides | First use for SHR Synth | License / qualification |
 | --- | --- | --- | --- |
 | [Open303](https://github.com/RobinSchmidt/Open303), Robin Schmidt | TB-303 emulation; original SourceForge work continued by its author | Pressure Chain: study the complete bass voice and accent/slide/filter interactions | [MIT](https://github.com/RobinSchmidt/Open303/blob/main/License.txt), copyright 2009; inspect dependencies separately |
 | [OB-Xf](https://github.com/surge-synthesizer/OB-Xf), Surge Synth Team; lineage from Vadim Filatov / 2DaT and discoDSP | Continuation of the last open-source OB-Xd; Oberheim OB-X inspiration | Study a coherent polyphonic voice and controlled voice differences | GPLv3; do not assume current commercial OB-Xd releases share this source |
@@ -166,7 +166,7 @@ listening results. This survey does not select a solver.
 
 ## What to consult for our next task
 
-| Moj Sint area | First reading | Concrete question |
+| SHR Synth area | First reading | Concrete question |
 | --- | --- | --- |
 | Model D | Existing research → MoogLadders → SST vintage ladders | What changes when feedback/nonlinearity is modeled differently at the same input level? |
 | Pressure Chain | Existing acid research → Open303 | Which envelope, accent, slide, and gain interactions contribute beyond the filter alone? |
@@ -207,6 +207,6 @@ entry points; detailed source audits, hardware comparisons, and listening
 remain future scoped work. Pin upstream revisions when that work begins.
 
 No source, presets, samples, figures, or third-party prose were imported into
-Moj Sint. Any later code/content reuse still follows the separate review in
+SHR Synth. Any later code/content reuse still follows the separate review in
 [THIRD_PARTY.md](../THIRD_PARTY.md). Preserve the existing physical controls and
 host boundary when turning research into an implementation.

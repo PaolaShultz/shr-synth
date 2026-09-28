@@ -1,5 +1,5 @@
 use assert_no_alloc::assert_no_alloc;
-use moj_sint::clean_kick::{
+use shr_synth::clean_kick::{
     KickTopology, PreparedKick, SAMPLE_RATE, evaluate, render_repeated, render_solo, select,
 };
 

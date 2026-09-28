@@ -1,9 +1,9 @@
 # Live Host Contract
 
-The live host is implemented by the `moj-sint` binary:
+The live host is implemented by the `shr-synth` binary:
 
 ```sh
-moj-sint --client-name shs-moj-sint --preset /path/to/file.mojsint
+shr-synth --client-name shs-shr-synth --preset /path/to/file.mojsint
 ```
 
 The existing `validate` and `render` subcommands remain available.

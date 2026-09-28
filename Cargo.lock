@@ -138,23 +138,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "32a66949e030da00e8c7d4434b251670a91556f4144941d37452769c25d58a53"
 
 [[package]]
-name = "moj-sint"
-version = "0.2.4"
-dependencies = [
- "alsa",
- "anyhow",
- "assert_no_alloc",
- "cc",
- "hound",
- "libc",
- "serde",
- "signal-hook",
- "tempfile",
- "thiserror",
- "toml",
-]
-
-[[package]]
 name = "nix"
 version = "0.24.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -258,6 +241,23 @@ name = "shlex"
 version = "2.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f8fadd59c855ef2080decdef8ff161eb6661b86933c9d82e5ba29dc602a55aba"
+
+[[package]]
+name = "shr-synth"
+version = "0.2.4"
+dependencies = [
+ "alsa",
+ "anyhow",
+ "assert_no_alloc",
+ "cc",
+ "hound",
+ "libc",
+ "serde",
+ "signal-hook",
+ "tempfile",
+ "thiserror",
+ "toml",
+]
 
 [[package]]
 name = "signal-hook"

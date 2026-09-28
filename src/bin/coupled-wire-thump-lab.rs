@@ -1,11 +1,11 @@
-use moj_sint::coupled_wire_thump::{
+use shr_synth::coupled_wire_thump::{
     CONFIGS, ControlledThumpVoice, LOW_CREST_END_MS, LOW_RECOVERY_END_MS, LOW_SPLIT_HZ,
     LOW_UNITY_MS, PRESENTATION_GAINS, THUMP_SPLIT_HZ, ThumpConfig, ThumpEvidence, ThumpRender,
     UPPER_STRIKE_GAIN, WET_END_MS, WET_FULL_MS, WET_HOLD_END_MS, WET_START_MS,
     evaluate_with_rate_residuals, measure_high_rate_residual,
     measure_rejected_reference_high_rate_residual, preview, render,
 };
-use moj_sint::hybrid_subset::measure_subset;
+use shr_synth::hybrid_subset::measure_subset;
 use std::fs::{self, File};
 use std::io::{BufWriter, Write};
 use std::path::Path;

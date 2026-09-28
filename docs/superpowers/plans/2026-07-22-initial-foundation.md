@@ -1,4 +1,4 @@
-# Moj Sint Initial Foundation Implementation Plan
+# SHR Synth Initial Foundation Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
@@ -16,7 +16,7 @@
 
 - [ ] Initialize Git with `git init -b main`.
 - [ ] Install rustup with the official minimal-profile installer and add rustfmt and Clippy.
-- [ ] Add package metadata, a library, and the `moj-sint` binary.
+- [ ] Add package metadata, a library, and the `shr-synth` binary.
 - [ ] Run `cargo test`; expect the empty crate to compile.
 - [ ] Commit the repository skeleton.
 

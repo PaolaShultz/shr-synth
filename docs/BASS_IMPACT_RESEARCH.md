@@ -4,7 +4,7 @@ Date: 2026-07-23
 
 ## Purpose and limits
 
-This document investigates a central Moj Sint goal: a bass identity that feels
+This document investigates a central SHR Synth goal: a bass identity that feels
 immediately forceful and desirable—the user's metaphor is “bass that cuts
 kidneys” and makes a listener want the machine. The metaphor is a sound-design
 brief, not a physiological claim. Here, **impact** means a controlled
@@ -23,7 +23,7 @@ combination of:
 No waveform can guarantee acoustic pressure, bodily vibration, or safe
 listening. Those outcomes also depend on the D/A converter, amplifier,
 headphones or loudspeakers, room, listener position, playback gain, exposure
-duration, and the listener. Moj Sint can create waveform cues and preserve
+duration, and the listener. SHR Synth can create waveform cues and preserve
 headroom; it cannot turn a small transducer into a subwoofer or determine sound
 pressure level at the ear.
 
@@ -56,7 +56,7 @@ level, while refusing to claim that it produces bodily sensation.
 Spinelli, Giraud, and Mégevand found enhanced aversion and salience for rapidly
 amplitude-modulated sounds in a 30–150 Hz roughness range. This supports a
 bounded roughness experiment, not the claim that roughness is always desirable
-or that it alone means menace. Moj Sint should keep roughness on a controlled
+or that it alone means menace. SHR Synth should keep roughness on a controlled
 branch, compare it at matched loudness, and reject fatigue or pitch loss in
 listening.
 
@@ -86,7 +86,7 @@ Translation requires:
 - no assumption that generated upper harmonics provide physical sub-bass; and
 - testing on both bandwidth-limited and full-range reproduction.
 
-For Moj Sint, a per-note harmonic spine is preferable to post-mix
+For SHR Synth, a per-note harmonic spine is preferable to post-mix
 rectification. With a three-note chord, a shared nonlinear stage creates sum
 and difference products between notes. Those products need not belong to any
 note's harmonic series and can obscure pitch. A per-voice generator produces
@@ -273,7 +273,7 @@ Three notes introduce six recurring risks:
 Roughness is not synonymous with musical instability in every culture or
 context. The PLOS ONE cross-cultural study by Milne, Smit, Sarvasy, and Dean
 supports an association between chord roughness and perceived stability, but
-it does not authorize a universal “menacing chord” rule. Moj Sint should
+it does not authorize a universal “menacing chord” rule. SHR Synth should
 measure roughness-related energy and ask the listener whether it provides
 desired tension without losing the three notes.
 
@@ -316,7 +316,7 @@ masking with rate-selective processing. It supports measuring modulation
 spectra instead of describing all motion as “an LFO.”
 
 There is no cited result here that says irrational rate ratios are inherently
-musical. The bounded Moj Sint hypothesis is narrower:
+musical. The bounded SHR Synth hypothesis is narrower:
 
 - share a causal event or envelope when layers should feel related;
 - use different prepared rates and phases for spectral traversal, resonator
@@ -357,7 +357,7 @@ algorithms. These are useful engineering references, but neither LUFS nor
 digital true peak reports acoustic SPL at the listener.
 
 Starting rejection thresholds should be preregistered in the implementation
-plan as **lab bounds**, not psychoacoustic laws. The existing Moj Sint
+plan as **lab bounds**, not psychoacoustic laws. The existing SHR Synth
 conventions provide reasonable starting points:
 
 - fail any non-finite sample or any pre-normalization peak beyond the declared
@@ -387,7 +387,7 @@ only after a small set of A/B renders establishes which range the user wants.
 WHO and ITU-T H.870 use exposure—level over time—as the safety quantity. The
 adult reference allowance is equivalent to 80 dBA for 40 hours per week, with
 a more conservative 75 dBA mode. These are device/exposure guidelines, not a
-target for producing or auditioning Moj Sint and not a guarantee of safety for
+target for producing or auditioning SHR Synth and not a guarantee of safety for
 professional equipment, which H.870 excludes from scope.
 
 For the lab:
@@ -788,7 +788,7 @@ sound-generation mechanisms equivalent.
 ## Unresolved design decisions
 
 - Exact onset/body envelope curves and timing ranges; evidence supports their
-  importance but does not select one Moj Sint curve.
+  importance but does not select one SHR Synth curve.
 - Whether any real `f0/2` energy belongs in three-note Spectral Shadow chords,
   or only in single-note/low-root conditions.
 - Which distinct nonlinear topology—odd saturation, asymmetric soft drive, or
@@ -808,7 +808,7 @@ sound-generation mechanisms equivalent.
 ## Source and licensing register
 
 Only factual claims, equations, and general topologies may guide an independent
-Moj Sint implementation. No source code, stimuli, presets, samples, prose,
+SHR Synth implementation. No source code, stimuli, presets, samples, prose,
 tables, or figures from these works are imported.
 
 ### Perception, punch, roughness, and safety
@@ -821,7 +821,7 @@ tables, or figures from these works are imported.
   **Supported claim:** listening-derived weighting of onset time and frequency
   components plus transient loudness correlated strongly with subjective punch
   and outperformed the compared simpler models. **License:** AES publication
-  copyright applies; cite the result and independently define Moj Sint
+  copyright applies; cite the result and independently define SHR Synth
   measurements.
 - **Yukio Takahashi**, “Vibratory Sensation Induced by Low-Frequency Noise: A
   Pilot Study on the Threshold Level,” *Journal of Low Frequency Noise,
@@ -867,7 +867,7 @@ tables, or figures from these works are imported.
   conservative mode to 75 dBA for 40 hours. The recommendation excludes
   professional audio equipment from its formal scope. **License:** WHO/ITU
   publication terms apply; quote no normative text beyond short factual
-  identifiers and do not present the allowance as a Moj Sint target.
+  identifiers and do not present the allowance as a SHR Synth target.
 
 ### Pitch translation, phase, masking, and harmony
 
@@ -930,7 +930,7 @@ tables, or figures from these works are imported.
   [paper](https://www.dafx.de/paper-archive/2020/proceedings/papers/DAFx2020_paper_35.pdf).
   **Supported claim:** nonlinear stateful/wave-digital systems also require
   explicit alias control; the paper develops an ADAA formulation for that
-  setting. **License:** CC BY 3.0 as stated in the paper; Moj Sint may use the
+  setting. **License:** CC BY 3.0 as stated in the paper; SHR Synth may use the
   mathematics with attribution but imports no implementation or figures.
 - **Eero Leinonen and Matti Otala**, “Correlation of Audio Distortion
   Measurements,” *Journal of the Audio Engineering Society* 26(1/2),

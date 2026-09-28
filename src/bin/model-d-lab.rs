@@ -1,5 +1,5 @@
-use moj_sint::model_d::vco::ModelDWaveform;
-use moj_sint::model_d_lab::{
+use shr_synth::model_d::vco::ModelDWaveform;
+use shr_synth::model_d_lab::{
     AuditionKind, MODEL_D_ALIAS_MIN_REFERENCE_FLOOR_MARGIN_DB, MODEL_D_FILTER_CUTOFF_ERROR_MAX,
     MODEL_D_FILTER_RESONANCE_RATIO_MIN, MODEL_D_FILTER_SLOPE_MAX_DB_PER_OCTAVE,
     MODEL_D_FILTER_SLOPE_MIN_DB_PER_OCTAVE, MODEL_D_FULL_NONLINEAR_OVERTONE_DIFFERENCE_MAX_DB,
@@ -261,7 +261,7 @@ fn render_lab(output: &Path, test_mode: bool) -> Result<(), Box<dyn std::error::
                 render: render_audition(kind, SAMPLE_RATE)?,
             })
         })
-        .collect::<Result<Vec<_>, moj_sint::model_d::ModelDError>>()?;
+        .collect::<Result<Vec<_>, shr_synth::model_d::ModelDError>>()?;
     let aliases = ALIAS_NOTES_AND_BOUNDS
         .into_iter()
         .flat_map(|(note, bound_db)| {
@@ -278,7 +278,7 @@ fn render_lab(output: &Path, test_mode: bool) -> Result<(), Box<dyn std::error::
                 }),
             ]
         })
-        .collect::<Result<Vec<_>, moj_sint::model_d::ModelDError>>()?;
+        .collect::<Result<Vec<_>, shr_synth::model_d::ModelDError>>()?;
     let evidence = LabEvidence {
         aliases,
         oscillator_pitch: measure_vco_pitch_matrix()?,

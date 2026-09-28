@@ -1,5 +1,5 @@
 #![cfg(feature = "open303")]
-use moj_sint::{
+use shr_synth::{
     engine::{Engine, Event, TimedEvent},
     preset::{Preset, SynthesisModelId},
 };
@@ -55,7 +55,7 @@ fn factory_open303_roundtrips_and_renders_without_allocation() {
 
 #[test]
 fn live_control_motion_and_all_keys_remain_finite_and_allocation_free() {
-    use moj_sint::control::{MacroId, Normalized};
+    use shr_synth::control::{MacroId, Normalized};
     let source = include_str!("../presets/25-open303-rubber-bass.mojsint");
     for rate in [44100.0, 48000.0, 96000.0] {
         for filter in ["tb303", "lowpass18"] {
@@ -106,7 +106,7 @@ fn live_control_motion_and_all_keys_remain_finite_and_allocation_free() {
 
 #[test]
 fn every_native_surface_control_changes_held_note_audio() {
-    use moj_sint::control::{MacroId, Normalized};
+    use shr_synth::control::{MacroId, Normalized};
     fn render(index: usize, change: bool) -> Vec<f32> {
         let preset =
             Preset::parse(include_str!("../presets/25-open303-rubber-bass.mojsint")).unwrap();

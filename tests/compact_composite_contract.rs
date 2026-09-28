@@ -1,5 +1,5 @@
 use assert_no_alloc::assert_no_alloc;
-use moj_sint::compact_composite::{
+use shr_synth::compact_composite::{
     CompactCandidate, CompactMachine, DriveMethod, ExperimentRole, measure_ablations,
     measure_event, measure_high_rate_residual, measure_variant_retention, render_candidate,
     retained_specs,

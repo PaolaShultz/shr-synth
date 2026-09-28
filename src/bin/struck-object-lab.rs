@@ -1,4 +1,4 @@
-use moj_sint::struck_object::{
+use shr_synth::struck_object::{
     BASE_HZ, DURATION_MS, StruckEvidence, StruckObject, StruckRender, StruckTopology, evaluate,
     mode_specs, preview_all, render_preview, select_shared_gain,
 };
@@ -249,7 +249,7 @@ fn write_summary(
 
 fn write_readme(output: &Path) -> std::io::Result<()> {
     let mut file = BufWriter::new(File::create(output.join("README.md"))?);
-    writeln!(file, "# Moj Sint struck objects\n")?;
+    writeln!(file, "# SHR Synth struck objects\n")?;
     writeln!(
         file,
         "These are three monophonic D2 objects built from a brief source-derived impulse feeding a different resonant topology. The exciter is not mixed dry. Each body creates its own natural modal decay; no sustain stage or body amplitude envelope is imposed.\n"

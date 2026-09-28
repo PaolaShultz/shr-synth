@@ -4,7 +4,7 @@ Date: 2026-07-24
 
 ## Goal
 
-Return to the first strongly positive Moj Sint listening result: the accidental
+Return to the first strongly positive SHR Synth listening result: the accidental
 simultaneous playback of the twelve original hybrid renders. Build a small
 listening gate from combinations of three or four of those exact renders.
 
