@@ -1,83 +1,89 @@
+![SHR Synth — layered waveform artwork](docs/assets/banner.svg)
+
 # SHR Synth
 
-SHR Synth is a headless experimental synthesizer and a distinct managed backend
-for SHR-DAW. Its library keeps DSP independent of JACK, ALSA, files, processes,
-and clocks; the binary provides strict preset validation, deterministic offline
-rendering, and the live JACK/ALSA host.
+**Eight synthesis models, one headless instrument.** Explore bass, leads, metallic
+FM, moving textures and acid lines through 28 editable factory presets.
+Use the JACK/ALSA host with [SHR-DAW](https://github.com/PaolaShultz/shr-daw),
+or validate presets and render WAVs entirely offline.
 
-The current experimental catalog contains eight synthesis models: circuit-
-informed Model D, Six-Op PM, Strange Oscillator, the typed-graph Swarm Machine,
-Bass Matrix, Dual Filter, monophonic Pressure Chain, and Open303. The first five models
-retain twelve normalized engine controls; SHR exposes seven timbre values,
-independent volume at position 5, and ADSR. Pressure Chain exposes eight timbre
-values plus amp ADSR, with SWEEP at position 5. Dual Filter uses 15: two
-cutoff/resonance/envelope-depth blocks, continuous `STRUCTURE`, filter ADSR,
-and amp ADSR. Its separate synth rotary click crossfades between INDUSTRIAL
-and COUNTER cores without retriggering a held note. The
-[preset and control schema](docs/PRESET_SCHEMA.md) owns the exact mappings.
-The 28 factory starts are playable research outcomes and starting points,
-not a production-release claim.
+[Get started](#quick-start) · [Documentation](docs/README.md) · [Preset format](docs/PRESET_SCHEMA.md) · [Host contract](docs/HOST_CONTRACT.md)
 
-## Usage
+## The sound engines
 
-The default Open303 model requires a C++17 compiler. Its [native controls and
-four presets](docs/OPEN303_INTEGRATION.md) preserve acid accent/slide behavior.
+| Model | Starting point |
+| --- | --- |
+| Model D | Circuit-informed subtractive synthesis |
+| Six-Op PM | Six-operator phase modulation |
+| Strange Oscillator | Eight oscillator topologies |
+| Swarm Machine | A layered warm-pad graph |
+| Bass Matrix | Bass transformation |
+| Dual Filter | Two filters, fifteen native values and two switchable cores |
+| Pressure Chain | Three monophonic topologies |
+| Open303 | Monophonic acid synthesis with accent and slide |
+
+This is an experimental instrument. The factory presets are playable starting
+points; the [preset and control schema](docs/PRESET_SCHEMA.md) owns the exact
+model controls and SHR-DAW's 4×4 physical mapping.
+
+## Quick start
+
+Use the pinned Rust **1.97.1** toolchain, ALSA development headers
+(`libasound2-dev` on Debian), and a C++17 compiler for the default Open303 model.
+Live use also needs the JACK runtime.
 
 ```sh
-# Validate or render without JACK
-cargo run -- validate presets/reference.mojsint
-cargo run -- render presets/reference.mojsint output.wav --note 60 --seconds 1
+cargo build --locked --release --bin shr-synth
 
-# Live host: joins an existing JACK server but never starts or reconfigures it
-cargo run -- --client-name shs-shr-synth --preset presets/reference.mojsint
+# Check a preset and render a one-second WAV without audio hardware.
+target/release/shr-synth validate presets/reference.mojsint
+target/release/shr-synth render presets/reference.mojsint output.wav --note 60 --seconds 1
 ```
 
-The factory catalog contains seven Model D starts, six Six-Op PM starts, one
-Strange Oscillator start, one Swarm Machine warm pad, one Bass Matrix
-transformer, and five Dual Filter starts derived from the approved lead and
-four bass directions, three Pressure Chain topologies, and four Open303 starts. These are editable
-live starting points, not 28 claims
-of separate synthesis families.
-
-The live process publishes one ALSA Sequencer input named `input` and exactly
-two JACK outputs named `out_l` and `out_r`. It does not connect them to physical
-or other JACK ports.
-
-## Local installation
+For live use, attach to an existing JACK server:
 
 ```sh
-cargo install --path . --locked
+target/release/shr-synth --client-name shs-shr-synth --preset presets/reference.mojsint
+```
+
+The host exposes one ALSA MIDI input (`input`) and stereo JACK outputs
+(`out_l`, `out_r`). It leaves port connections and JACK startup to the host.
+
+## Install the host and factory presets
+
+```sh
+cargo install --path . --locked --bin shr-synth
 install -d "$HOME/.local/share/shr-synth/presets"
 while IFS= read -r preset; do
   install -m644 "presets/$preset" "$HOME/.local/share/shr-synth/presets/"
 done < presets/cleared-presets.txt
 ```
 
-SHR-DAW's default configuration includes that user preset root. Presets added
-there are user data; they are not copied back into either repository.
+SHR-DAW already searches that user preset directory. Its installer owns the
+exact companion revision in its
+[compatibility manifest](https://github.com/PaolaShultz/shr-daw/blob/main/install/compatibility.json).
 
-## Development
+## Go deeper
+
+- [Architecture](docs/ARCHITECTURE.md) — the portable engine and live-host boundary
+- [Documentation index](docs/README.md) — models, research and current contracts
+- [Open303 integration](docs/OPEN303_INTEGRATION.md) — native controls and four factory starts
+- [Development handoff](docs/HANDOFF.md) — decisions and validation evidence
+
+<details>
+<summary>Development checks</summary>
 
 ```sh
 cargo fmt --check
-cargo test --all-targets --all-features
-cargo clippy --all-targets --all-features -- -D warnings
-cargo build --release --all-targets
+cargo test --locked --all-targets --all-features
+cargo clippy --locked --all-targets --all-features -- -D warnings
+cargo build --locked --release --all-targets
 ```
 
-The [documentation index](docs/README.md) separates current contracts from
-research evidence, historical plans, and future work. Start there for the
-architecture, live-host contract, preset schema, portability notes, model
-evidence, and experimental direction.
+Historical auditions and exhaustive evidence renderers are opt-in; see
+[repository instructions](AGENTS.md).
 
-The cleared public installation boundary and dependency licence review are in
-[THIRD_PARTY.md](THIRD_PARTY.md). Only the files named by
-`presets/cleared-presets.txt` are factory-installable.
+</details>
 
-SHR-DAW owns its exact SHR Synth installation revision in
-`install/compatibility.json`, along with process startup, routing, and recovery.
-That pin can lag this repository's current schema and catalog; SHR Synth owns
-the host and preset contracts, not SHR-DAW's update schedule.
-
-SHR Synth source and its project-authored factory presets are available under
-the [MIT License](LICENSE).
+Source and project-authored factory presets: [MIT](LICENSE).
+[Third-party notices and cleared content](THIRD_PARTY.md).
