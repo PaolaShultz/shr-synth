@@ -29,6 +29,11 @@ Project state, and private preset storage.
 
 ## Research and dated evidence
 
+- [Offline audio fitter](../tools/audio_fit/README.md) compares WAV excerpts
+  and searches bounded source parameters through the existing offline renderer
+  or an isolated prototype. Numerical recovery tests do not establish listening
+  acceptance or the identity of the Temple 1992 studio sounds.
+
 - [Isolated Open303 candidate](OPEN303_CANDIDATE.md) documents the optional
   repaired C++/Rust engine, offline audition command, provenance, and checks.
   It has no production model or live-host integration.

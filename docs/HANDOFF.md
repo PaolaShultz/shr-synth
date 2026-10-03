@@ -1,11 +1,193 @@
 # SHR Synth workspace handoff
 
-Last updated: 2026-09-28, Europe/Zagreb.
+Last updated: 2026-09-30, Europe/Zagreb.
 
 This is the durable starting point for a fresh Codex session in
 `/home/shome/p/shr-synth`. Read this file before planning or changing the
 workspace. Update it at meaningful checkpoints so later sessions do not have
 to reconstruct decisions from chat history.
+
+## 2026-09-30 offline reference-to-candidate parameter fitter
+
+The owner authorized installing needed software and proposed iteratively
+adjusting a candidate against a reference sample. `tools/audio_fit/fit.py`
+implements that numerical approach independently of direct listening, with
+instructions in `tools/audio_fit/README.md`. It does not establish a Temple
+match or resolve the listening/attribution limits recorded below.
+
+The tool compares two WAV excerpts or optimizes explicitly bounded source
+parameters with seeded differential evolution. Its metric compares evolving
+spectra at three resolutions, 5 ms amplitude envelopes, and L/R/mid/side
+behavior in fixed attack/body/tail windows. One stereo RMS gain matches the
+candidate; common attenuation protects A/B peaks. This is numerical level
+matching, not a claim of equal perceived loudness. Extra tails are retained,
+and no automatic timing, pitch correction, reverb or delay hides source errors.
+
+The SHR adapter edits only selected native macro values in a copied preset
+and invokes the existing offline release renderer. Its single note has the
+CLI's fixed 80%-of-duration gate. A separate command adapter supports isolated
+prototypes and explicit real-phrase renderers. Neither adapter transcribes a
+reference or infers an original instrument. The reference excerpt and real
+phrase for Temple have not been supplied/established. Do not fit the invented
+old Temple phrase or a full mix and claim a recovered keyboard source.
+
+Outputs include selected controls, a playable preset for the SHR adapter,
+native-level source WAVs, an RMS-matched A/B, source/tool/configuration hashes,
+every trial score/error and the search seed. Initial rendering is checked
+twice; the winner must reproduce its exact decoded-sample hash and score.
+Generated results must stay under ignored artifacts or outside the repository;
+existing output directories are never overwritten. Search uses one worker and
+an explicit budget; custom render commands have per-invocation timeouts.
+
+A known Model D recovery test at 48 kHz, 0.6 seconds, note 60 and velocity 0.8
+changed color/attack from 0.25/0.3 toward hidden values 0.6/0.08. In 120 trials
+with seed 7, it recovered 0.59932145/0.07774782 and reduced training loss from
+0.47789948 to 0.00150009. Note 67, excluded from fitting, improved from
+0.50733308 to 0.00161459. This validates this bounded recovery example under
+the metric, not arbitrary timbre reconstruction or perceptual fidelity.
+`self_check.py` documents/reproduces this opt-in evidence using project-owned
+sounds; generated parameter/audio/report files are not preserved in Git.
+
+Sixteen normal Python tool contracts pass. Nine focused Rust offline CLI and
+native callback contracts pass, including finite/deterministic output and
+allocation guarding; three historical oscillator renderers remain ignored.
+The broader production suite, exhaustive matrices, release builds and
+publication checks were intentionally skipped: production Rust, DSP, schema,
+presets, host and routing did not change. No new oscillator or nonlinear DSP
+was added. NumPy/SciPy are isolated development dependencies with retained
+wheel notices; no third-party sample, patch, model or DSP source was imported.
+
+## 2026-09-30 Temple 1992 reference requirement and listening blocker
+
+The current target is the extended 1992 studio recording featuring Ofra Haza.
+The existing Temple 92 PM, Scan and Pad sounds are unvalidated experiments;
+their engineering checks establish neither instrument attribution nor a match.
+Their invented demonstration phrase, approximate tempo and speculative support
+layer must not become the reference for subsequent work.
+
+This follow-up session had no tool capable of delivering audio to the agent
+for direct listening. Web text access and local audio analysis do not supply
+that capability. No listening, timestamped part identification, transcription,
+new acoustic measurements or loudness-matched auditory comparison took place.
+The requested recreation remains incomplete. No new patch or prototype was
+built: there is not yet evidence to choose its source mechanism or assess
+whether a production engine can reproduce it. Production engines, presets,
+SHR-DAW, JACK and hardware were left unchanged.
+
+Primary sources re-read on 2026-09-30:
+
+- The Sisters of Mercy, **Sisters Tech — Samplers & Synthesis**, undated,
+  [official equipment notes](https://www.thesistersofmercy.com/tech/modules.htm).
+  The Emax II section associates a shared sound with live motif arpeggios in
+  Temple of Love, Giving Ground and More, and discusses a future Nord
+  replacement. It stresses that raw samples alone omit loops, crossfades and
+  filters. It supplies no studio patch name, sample bank or 1992 session sheet.
+  The D-550 bass/processed voice description is also explicitly a stage setup.
+- The Sisters of Mercy / Andrew Eldritch, **Sisters Tech — Outboard**, undated,
+  [official outboard notes](https://www.thesistersofmercy.com/tech/outboard.htm).
+  Eldritch describes using Korg A2/A3 processing extensively, including on
+  synths. This does not identify Temple 1992's studio effects or settings.
+- Rhino, **Some Girls Wander By Mistake**, product listing for the September 1,
+  2017 box, [label catalogue](https://www.rhino.com/product/some-girls-wander-by-mistake).
+  Lists the 1983 extended recording separately at 7:43 and Temple of Love
+  (1992) at 8:05, and identifies Haza on the re-recording. This establishes a
+  release-selection anchor, not a timestamp alignment for a particular file.
+- Rhino, **Happy Anniversary: Sisters of Mercy, “Temple of Love 1992”**,
+  April 20, 2016, [label article](https://www.rhino.com/article/happy-anniversary-sisters-of-mercy-temple-of-love-1992).
+  Confirms the Haza re-recording and its inclusion on A Slight Case of
+  Overbombing. Its aside dates the original single to 1984, conflicting with
+  the label catalogue's 1983 account; do not use that aside for chronology.
+- Joel McIver interviewing Andrew Eldritch in April 2009, **Lop Off The Retro
+  Heads: An Interview With Andrew Eldritch**, The Quietus, digitally published
+  March 16, 2023, [interview](https://thequietus.com/interviews/andrew-eldritch-sisters-of-mercy-interview-2009/).
+  Eldritch recalls Haza singing successive takes. This is direct testimony
+  about her vocal contribution, not evidence of a synthesizer choir or a
+  specific keyboard patch.
+
+These sources did not establish the studio synth inventory, sample identity,
+patch settings or processing chain. The Emax remains a research lead, not a
+verified studio source. No third-party samples, presets or code were imported.
+The official band site asserts copyright under The Reptile House Ltd; the
+label and interview material carry no reuse permission established here.
+Reading a source or finding an old bank does not clear its content for reuse.
+Review the specific asset's licence before any future import.
+
+Resume with direct listening to an identified lawful extended reference.
+Record its edition, file hash and time origin before selecting passages;
+the previous study's reported 488.021-second container and the label's 8:05
+listing have not been reconciled. For each audible keyboard part, log exact
+passages, competing guitar/bass/drum/vocal explanations and confidence, then
+transcribe notes, register, onsets, gates, dynamics and overlaps. Only then
+measure attacks, evolving partials, decay, tuning, stereo behavior and effects
+in those same passages, retaining uncertainty from masking. Compare the real
+phrase with fixed, recorded gain matching and separate dry/effected candidates;
+full-mix loudness or spectral similarity cannot validate an isolated synth.
+Keep any needed prototype and generated comparisons under ignored artifacts.
+
+This pass changes documentation only. Validation is whitespace checking and
+knowledge synchronization; production, historical and release checks are
+intentionally skipped because no implementation or protected behavior changed.
+
+## 2026-09-30 engine cost comparison and Temple of Love study
+
+The owner requested per-engine CPU pressure and a researched sound recreation,
+then replaced the initial *More* target with *Temple of Love*, explicitly the
+1992 Ofra Haza recording. The superseded sound batch was discarded.
+
+An isolated release-mode probe exercised all 28 cleared factory starts through
+the production Engine on this native Pi 5: 48 kHz, 64/128-frame blocks, three
+rounds, held and repeated-note workloads, and 1/2/4/8 voices where supported.
+Pressure Chain and Open303 remained monophonic. Short-run mean cost placed
+Pressure Chain, Bass Matrix, Strange Oscillator and Open303 in the light group,
+Six-Op PM next, then Swarm, Dual Filter and Model D. A separate Strange sweep
+covered all eight types. Six-Op note preparation produced timing spikes;
+average cost alone is insufficient for scheduling decisions. These unpaced
+offline observations do not establish live JACK headroom, safe polyphony,
+worst-case controls, or sustained thermal behavior. No hardware/audio routing
+or running host was changed.
+
+The band's own `tech/modules.htm` equipment notes explicitly identify an
+Emax II sound for the **live** Temple of Love arpeggios. They do not establish
+the exact 1992 studio sample or patch. Their D-550/Korg and Nord replacement
+descriptions must not be retroactively treated as a studio session inventory.
+Ofra Haza's contribution is a human vocal, not a synth layer. Primary-source
+research and numerical inspection of the official recording informed a first
+offline approximation: distinct Six-Op PM and scanned-string motif hypotheses,
+with a quiet Swarm support texture. The phrase/voicings are an approximation,
+not a complete transcription; neither timbral fidelity nor listening acceptance
+is established. No third-party recording samples, ROM or preset bank were
+imported into the synthesis.
+
+The disposable presets, MIDI, WAVs, reports and probe remain under ignored
+`artifacts/`; none is a requested factory addition or preserved experiment.
+Each authored source passes exact repeated rendering, finite-output checks and
+a release-enabled Rust allocation/deallocation guard. Export checks cover all
+eight stereo float WAVs, bounded peaks and terminal silence. Production code,
+schema and factory presets are unchanged, so the normal production suite,
+unrelated historical renderers and release-publication checks were intentionally
+not rerun. The experiment has no release or integration consequence.
+
+The owner subsequently requested full tests/builds and local DAW audition
+access. Exact rustc 1.97.1 on AArch64 passed formatting, the locked
+all-target/all-feature check, all 366 normal tests (40 historical cases
+intentionally ignored), warning-denied Clippy, audit/deny and both DEV/REL
+all-target/all-feature builds. Deny retains the known non-fatal duplicate
+`winnow` warning. Both hosts pass `--help`. All 28 factory starts and three
+audition presets validate, render finite samples, match the pre-build release,
+and repeat byte-identically at MIDI 48, velocity .85, one second and 48 kHz.
+The allowlist-order factory WAV hash remains
+`68c2c6c323ac122844283ceec504ac6e0ccca74942063d3311b2a66d5ced729c`.
+
+The three audition source patches were copied into SHR's existing private,
+model-scoped sound storage as explicitly requested. SHR 0.4.9's existing
+release catalog discovers all three; no DAW source/configuration change or
+rebuild was needed. A normal app exit/reopen refreshes the catalog; no running
+process, JACK, MIDI, playback or hardware was touched. These source presets
+do not encode the offline demos' external gain, EQ or delay. They remain
+unapproved approximations, separate from the public factory catalog. A
+follow-up prompt now requires actual timestamped reference phrases, primary
+source evidence, appropriate source mechanisms and direct auditory comparison;
+the task did not establish an exact 1992 studio sound match.
 
 ## 2026-09-28 project rename
 

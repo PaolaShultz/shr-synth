@@ -83,6 +83,13 @@ cargo build --locked --release --all-targets
 Historical auditions and exhaustive evidence renderers are opt-in; see
 [repository instructions](AGENTS.md).
 
+The [offline audio fitter](tools/audio_fit/README.md) has a separate normal
+Python contract suite after its isolated development setup:
+
+```sh
+artifacts/audio-fit-env/bin/python -m unittest discover -s tools/audio_fit -p 'test_*.py'
+```
+
 </details>
 
 Source and project-authored factory presets: [MIT](LICENSE).

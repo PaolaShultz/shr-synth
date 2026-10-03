@@ -51,3 +51,20 @@ cover crates; the vendored source has this separate manual review.
 The [candidate contract](docs/OPEN303_CANDIDATE.md) records its scope and limits;
 the subsequent [production integration](docs/OPEN303_INTEGRATION.md) adds four
 project-authored parameter presets. They contain no third-party factory patches.
+
+## Optional offline audio fitter
+
+`tools/audio_fit/` is independently authored development tooling. Its isolated
+Python environment uses NumPy 2.5.3 and SciPy 1.18.1, whose core licences are
+BSD-3-Clause. Installed binary-wheel notices also cover OpenBLAS, LAPACK,
+GCC runtime libraries with the GCC runtime exception, and possible LGPL
+libquadmath components. Retain those package notices if redistributing that
+environment; it is not included in the SHR Synth production distribution.
+
+The tool calls NumPy/SciPy APIs; no third-party DSP implementation, trained
+model, recording, factory preset or sample bank is copied into the repository.
+Its README preserves primary research/API references and the evidence limits.
+Its tests synthesize their own bounded sine fixtures; the opt-in recovery
+proof uses the project's own reference preset. User reference audio and
+exported A/B files retain their original content-rights restrictions and are
+disposable artifacts, never additions to the public preset allowlist.
