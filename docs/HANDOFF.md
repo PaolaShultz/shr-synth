@@ -2927,3 +2927,9 @@ Noise, Electronic House order and disconnected cleanly. No JACK lifecycle,
 persistent route, MIDI, or recording changed. The Experimental Noise source
 repair and the two added Electronic House kicks are the only factory-package
 changes from this playback work.
+
+## GigPies integration planning — 2026-10-04
+
+[Owning GigPies plan](superpowers/plans/2026-10-04-gigpies-integration.md) records scoped tasks, contract dependencies,
+validation and launch instructions. This is planned work; existing implementation
+and hardware status above are unchanged.
