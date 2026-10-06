@@ -6,6 +6,9 @@ superseded runs and selects exact Rust 1.97.1 with locked Cargo dependencies.
 
 All-feature (including native Open303 C++ regressions) and no-default-feature normal Rust suites run separately. The offline fitter Python contracts use the existing pinned requirements in an isolated hosted environment; the historical self_check search and audition renderers remain excluded.
 
+The fitter job creates the ignored `artifacts/` directory required by its
+output-boundary regression in a fresh checkout.
+
 The workflow contains the exact reproducible commands. Historical/exhaustive
 auditions and benchmarks remain opt-in. No physical audio, MIDI, DMX, playback,
 service activation, media download or deployment is part of these checks.
