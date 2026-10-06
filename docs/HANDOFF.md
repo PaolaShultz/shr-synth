@@ -9,6 +9,10 @@ to reconstruct decisions from chat history.
 
 ## Hosted continuous integration
 
+CI incident notifications now group repeated default-branch failures in one GitHub
+issue, then explicitly report recovery and close it after a current-tip success.
+See [CI notification behavior](CI.md#failure-and-recovery-notifications).
+
 [CI scope and commands](CI.md) cover pinned Rust checks, normal Open303-enabled
 and disabled tests, and the existing offline fitter Python contracts. Historical
 auditions, full release acceptance and hardware checks remain separate. Adding
