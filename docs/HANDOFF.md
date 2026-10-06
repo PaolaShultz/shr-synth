@@ -7,6 +7,13 @@ This is the durable starting point for a fresh Codex session in
 workspace. Update it at meaningful checkpoints so later sessions do not have
 to reconstruct decisions from chat history.
 
+## Hosted continuous integration
+
+[CI scope and commands](CI.md) cover pinned Rust checks, normal Open303-enabled
+and disabled tests, and the existing offline fitter Python contracts. Historical
+auditions, full release acceptance and hardware checks remain separate. Adding
+the workflow did not run local compilation or change the synthesis engine.
+
 ## 2026-09-30 offline reference-to-candidate parameter fitter
 
 The owner authorized installing needed software and proposed iteratively
