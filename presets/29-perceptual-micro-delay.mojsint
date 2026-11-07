@@ -1,0 +1,21 @@
+schema_version = 11
+name = "29 Perceptual Micro Delay"
+voices = 4
+output_gain = 0.65
+instrument_volume = 1.0
+model = "perceptual"
+perceptual_topology = "micro_delay"
+
+[macros]
+position = 0.35
+focus = 0.65
+brightness = 0.75
+body = 0.65
+env_depth = 0.65
+rate = 0.3
+motion = 0.35
+width = 0.7
+attack = 0.16
+decay = 0.4
+sustain = 0.65
+release = 0.25

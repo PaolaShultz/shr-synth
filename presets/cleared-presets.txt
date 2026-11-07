@@ -26,3 +26,8 @@ reference.mojsint
 26-open303-accent-wire.mojsint
 27-open303-hollow-slide.mojsint
 28-open303-soft-pluck.mojsint
+29-perceptual-micro-delay.mojsint
+30-perceptual-spectral-split.mojsint
+31-perceptual-dispersion.mojsint
+32-perceptual-notch-motion.mojsint
+33-perceptual-virtual-pitch.mojsint

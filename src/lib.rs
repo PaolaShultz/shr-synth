@@ -27,6 +27,7 @@ pub mod native_bench;
 pub mod offline;
 #[cfg(feature = "open303")]
 pub mod open303;
+pub mod perceptual;
 mod performance;
 pub mod preset;
 pub mod pressure_chain;

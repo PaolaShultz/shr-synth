@@ -3,7 +3,7 @@ use crate::pressure_chain::PressureChainTopology;
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
-pub const PRESET_SCHEMA_VERSION: u32 = 10;
+pub const PRESET_SCHEMA_VERSION: u32 = 11;
 pub const MAX_VOICES: usize = 64;
 
 #[derive(Debug, Error)]
@@ -93,6 +93,7 @@ pub enum ModelPatchId {
     DualFilter(DualFilterPatchId),
     PressureChain(PressureChainTopology),
     Open303(Open303PatchId),
+    Perceptual(crate::perceptual::PerceptualTopology),
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -106,6 +107,7 @@ pub enum SynthesisModelId {
     DualFilter,
     PressureChain,
     Open303,
+    Perceptual,
 }
 
 impl SynthesisModelId {
@@ -119,6 +121,7 @@ impl SynthesisModelId {
             Self::DualFilter => "dual_filter",
             Self::PressureChain => "pressure_chain",
             Self::Open303 => "open303",
+            Self::Perceptual => "perceptual",
         }
     }
 
@@ -132,6 +135,7 @@ impl SynthesisModelId {
             Self::DualFilter => "Dual Filter",
             Self::PressureChain => "Pressure Chain",
             Self::Open303 => "Open303",
+            Self::Perceptual => "Perceptual",
         }
     }
 }
@@ -202,7 +206,8 @@ impl Preset {
             .and_then(|version| u32::try_from(version).ok())
             .ok_or(PresetError::UnsupportedVersion(0))?;
         let preset = match version {
-            PRESET_SCHEMA_VERSION => VersionTenPreset::parse(source)?,
+            PRESET_SCHEMA_VERSION => VersionElevenPreset::parse(source)?,
+            10 => VersionTenPreset::parse(source)?,
             9 => VersionNinePreset::parse(source)?,
             8 => VersionEightPreset::parse_for(source, 8)?,
             7 => VersionSevenPreset::parse(source)?,
@@ -248,6 +253,7 @@ impl Preset {
                     ModelPatchId::SwarmMachine(_)
                 )
                 | (SynthesisModelId::Open303, ModelPatchId::Open303(_))
+                | (SynthesisModelId::Perceptual, ModelPatchId::Perceptual(_))
                 | (SynthesisModelId::BassMatrix, ModelPatchId::BassMatrix(_))
                 | (SynthesisModelId::DualFilter, ModelPatchId::DualFilter(_))
                 | (
@@ -261,11 +267,23 @@ impl Preset {
     }
 
     /// Encode the current preset as the strict public schema. Older presets
-    /// are migrated by `parse`, so saving always publishes schema 10 with the
+    /// are migrated by `parse`, so saving always publishes schema 11 with the
     /// exact model-specific patch and macro field names.
     pub fn to_toml(&self) -> Result<String, PresetError> {
         let preset = self.clone().validate()?;
         match preset.model_patch {
+            ModelPatchId::Perceptual(perceptual_topology) => {
+                Ok(toml::to_string_pretty(&PerceptualPreset {
+                    schema_version: PRESET_SCHEMA_VERSION,
+                    name: preset.name,
+                    voices: preset.voices,
+                    output_gain: preset.output_gain,
+                    instrument_volume: preset.instrument_volume,
+                    model: SynthesisModelId::Perceptual,
+                    perceptual_topology,
+                    macros: preset.macros.into(),
+                })?)
+            }
             ModelPatchId::ModelD(model_d_patch) => {
                 Ok(toml::to_string_pretty(&VersionFiveModelDPreset {
                     schema_version: PRESET_SCHEMA_VERSION,
@@ -1408,6 +1426,11 @@ release = 0.4
             include_str!("../presets/26-open303-accent-wire.mojsint"),
             include_str!("../presets/27-open303-hollow-slide.mojsint"),
             include_str!("../presets/28-open303-soft-pluck.mojsint"),
+            include_str!("../presets/29-perceptual-micro-delay.mojsint"),
+            include_str!("../presets/30-perceptual-spectral-split.mojsint"),
+            include_str!("../presets/31-perceptual-dispersion.mojsint"),
+            include_str!("../presets/32-perceptual-notch-motion.mojsint"),
+            include_str!("../presets/33-perceptual-virtual-pitch.mojsint"),
         ];
         let presets = sources.map(|source| Preset::parse(source).unwrap());
         let mut names = presets
@@ -1416,7 +1439,7 @@ release = 0.4
             .collect::<Vec<_>>();
         names.sort_unstable();
         names.dedup();
-        assert_eq!(names.len(), 28);
+        assert_eq!(names.len(), 33);
         assert!(
             presets[..7]
                 .iter()
@@ -1498,7 +1521,7 @@ release = 0.4
         let preset = Preset::parse(VALID).unwrap();
         let encoded = preset.to_toml().unwrap();
 
-        assert!(encoded.contains("schema_version = 10"));
+        assert!(encoded.contains("schema_version = 11"));
         assert!(encoded.contains("model = \"model_d\""));
         assert!(encoded.contains("model_d_patch = \"bass\""));
         assert!(!encoded.contains("six_op_patch"));
@@ -1511,7 +1534,7 @@ release = 0.4
             Preset::parse(include_str!("../presets/08-six-op-bell-metal.mojsint")).unwrap();
         let encoded = preset.to_toml().unwrap();
 
-        assert!(encoded.contains("schema_version = 10"));
+        assert!(encoded.contains("schema_version = 11"));
         assert!(encoded.contains("model = \"six_op_pm\""));
         assert!(encoded.contains("six_op_patch = \"bell_metal\""));
         for field in [
@@ -1552,7 +1575,7 @@ release = 0.4
             let preset = Preset::parse(source).unwrap();
             assert_eq!(preset.model, model);
             let encoded = preset.to_toml().unwrap();
-            assert!(encoded.contains("schema_version = 10"));
+            assert!(encoded.contains("schema_version = 11"));
             assert!(encoded.contains("instrument_volume = 1.0"));
             assert!(encoded.contains(patch_field));
             assert_eq!(Preset::parse(&encoded).unwrap(), preset);
@@ -1611,7 +1634,7 @@ release = 0.4
         );
         assert_eq!(preset.macros.get(MacroId::Control15).get(), 0.26);
         let encoded = preset.to_toml().unwrap();
-        assert!(encoded.contains("schema_version = 10"));
+        assert!(encoded.contains("schema_version = 11"));
         assert!(encoded.contains("dual_filter_core = \"counter\""));
         assert!(encoded.contains("amp_release = 0.26"));
         assert_eq!(Preset::parse(&encoded).unwrap(), preset);
@@ -1709,5 +1732,94 @@ impl From<MacroValues> for Open303MacroValues {
             accent_decay: v.sustain,
             amp_decay: v.release,
         }
+    }
+}
+
+#[derive(Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct PerceptualPreset {
+    schema_version: u32,
+    name: String,
+    voices: usize,
+    output_gain: f32,
+    instrument_volume: Normalized,
+    model: SynthesisModelId,
+    perceptual_topology: crate::perceptual::PerceptualTopology,
+    macros: PerceptualMacros,
+}
+#[derive(Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct PerceptualMacros {
+    position: Normalized,
+    focus: Normalized,
+    brightness: Normalized,
+    body: Normalized,
+    env_depth: Normalized,
+    rate: Normalized,
+    motion: Normalized,
+    width: Normalized,
+    attack: Normalized,
+    decay: Normalized,
+    sustain: Normalized,
+    release: Normalized,
+}
+impl From<PerceptualMacros> for MacroValues {
+    fn from(v: PerceptualMacros) -> Self {
+        Self {
+            evolve: v.position,
+            shape: v.focus,
+            color: v.brightness,
+            edge: v.body,
+            couple: v.env_depth,
+            motion: v.rate,
+            depth: v.motion,
+            space: v.width,
+            attack: v.attack,
+            decay: v.decay,
+            sustain: v.sustain,
+            release: v.release,
+            control_13: midpoint(),
+            control_14: midpoint(),
+            control_15: midpoint(),
+        }
+    }
+}
+impl From<MacroValues> for PerceptualMacros {
+    fn from(v: MacroValues) -> Self {
+        Self {
+            position: v.evolve,
+            focus: v.shape,
+            brightness: v.color,
+            body: v.edge,
+            env_depth: v.couple,
+            rate: v.motion,
+            motion: v.depth,
+            width: v.space,
+            attack: v.attack,
+            decay: v.decay,
+            sustain: v.sustain,
+            release: v.release,
+        }
+    }
+}
+struct VersionElevenPreset;
+impl VersionElevenPreset {
+    fn parse(source: &str) -> Result<Preset, PresetError> {
+        let mut value: toml::Value = toml::from_str(source)?;
+        if value.get("model").and_then(toml::Value::as_str) != Some("perceptual") {
+            value["schema_version"] = toml::Value::Integer(10);
+            return VersionTenPreset::parse(&toml::to_string(&value)?);
+        }
+        let p: PerceptualPreset = toml::from_str(source)?;
+        Ok(Preset {
+            schema_version: PRESET_SCHEMA_VERSION,
+            name: p.name,
+            voices: p.voices,
+            output_gain: p.output_gain,
+            instrument_volume: p.instrument_volume,
+            model: p.model,
+            model_patch: ModelPatchId::Perceptual(p.perceptual_topology),
+            macros: p.macros.into(),
+        })
     }
 }

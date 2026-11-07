@@ -86,7 +86,9 @@ impl Voice {
         let initial = MacroId::ALL.map(|id| values.get(id).get());
         if matches!(
             model_id,
-            SynthesisModelId::PressureChain | SynthesisModelId::Open303
+            SynthesisModelId::PressureChain
+                | SynthesisModelId::Open303
+                | SynthesisModelId::Perceptual
         ) {
             model.set_live_controls(initial);
         }
@@ -114,6 +116,7 @@ impl Voice {
             uses_internal_envelopes: matches!(
                 model_id,
                 SynthesisModelId::DualFilter
+                    | SynthesisModelId::Perceptual
                     | SynthesisModelId::PressureChain
                     | SynthesisModelId::Open303
             ),

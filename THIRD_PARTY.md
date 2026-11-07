@@ -1,6 +1,6 @@
 # Dependencies, licensing, and public presets
 
-SHR Synth source and its 28 factory `.mojsint` starts are MIT licensed. The
+SHR Synth source and its 33 factory `.mojsint` starts are MIT licensed. The
 factory starts are project-authored parameter documents; they contain no
 third-party samples, recordings, factory patches, firmware, SysEx data, source
 code, prose, diagrams, or artwork. `presets/cleared-presets.txt` is the sole
@@ -68,3 +68,8 @@ Its tests synthesize their own bounded sine fixtures; the opt-in recovery
 proof uses the project's own reference preset. User reference audio and
 exported A/B files retain their original content-rights restrictions and are
 disposable artifacts, never additions to the public preset allowlist.
+
+The five Perceptual factory starts and DSP are original SHR Synth work under
+MIT. They contain no imported samples, presets, or third-party DSP source.
+Mathematical and perceptual references are recorded in `docs/PERCEPTUAL.md`;
+those publications are not included or relicensed here.

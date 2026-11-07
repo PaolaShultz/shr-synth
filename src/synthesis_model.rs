@@ -160,6 +160,7 @@ fn strange_controls(values: [f32; 8]) -> StrangeControls {
 // real-time storage contract merely to make the enum smaller.
 #[allow(clippy::large_enum_variant)]
 pub(crate) enum VoiceModel {
+    Perceptual(crate::perceptual::PerceptualVoice),
     ModelD(ModelDVoice),
     SixOpPm(LiveSixOpVoice),
     StrangeOscillator(LiveStrangeVoice),
@@ -174,6 +175,7 @@ pub(crate) enum VoiceModel {
 impl VoiceModel {
     pub(crate) fn set_performance_pitch(&mut self, ratio: f32, _semitones: f32) {
         match self {
+            Self::Perceptual(model) => model.set_pitch_ratio(ratio),
             Self::ModelD(model) => model.set_pitch_ratio(ratio),
             Self::SixOpPm(model) => model.set_pitch_ratio(ratio),
             Self::StrangeOscillator(model) => model.instrument.set_pitch_ratio(ratio),
@@ -195,6 +197,9 @@ impl VoiceModel {
         voice_seed: u32,
     ) -> Result<Self, EngineError> {
         match (model_id, patch_id) {
+            (SynthesisModelId::Perceptual, ModelPatchId::Perceptual(topology)) => {
+                crate::perceptual::PerceptualVoice::new(sample_rate, topology).map(Self::Perceptual)
+            }
             (SynthesisModelId::ModelD, ModelPatchId::ModelD(patch_id)) => {
                 let mut patch = match patch_id {
                     ModelDPatchId::Bass => ModelDPatch::bass(),
@@ -254,6 +259,7 @@ impl VoiceModel {
             #[cfg(feature = "open303")]
             Self::Open303(model) => model.set_controls(values),
 
+            Self::Perceptual(model) => model.set_controls(values),
             Self::ModelD(model) => model.set_live_controls(
                 values[0], values[1], values[2], values[3], values[4], values[5], values[6],
                 values[7],
@@ -281,6 +287,7 @@ impl VoiceModel {
             #[cfg(feature = "open303")]
             Self::Open303(model) => model.note_on(note, velocity),
 
+            Self::Perceptual(model) => model.note_on(note, velocity),
             Self::ModelD(model) => model.note_on(note, velocity),
             Self::SixOpPm(model) => {
                 if model.note_on(note, velocity).is_err() {
@@ -300,6 +307,7 @@ impl VoiceModel {
             #[cfg(feature = "open303")]
             Self::Open303(model) => model.note_off(note),
 
+            Self::Perceptual(model) => model.note_off(),
             Self::ModelD(model) => model.note_off(),
             Self::SixOpPm(model) => model.note_off(),
             Self::StrangeOscillator(_) => {}
@@ -315,6 +323,7 @@ impl VoiceModel {
             #[cfg(feature = "open303")]
             Self::Open303(model) => model.sample(),
 
+            Self::Perceptual(model) => model.sample(),
             Self::ModelD(model) => {
                 let sample = model.sample();
                 [sample, sample]
@@ -339,6 +348,7 @@ impl VoiceModel {
             #[cfg(feature = "open303")]
             Self::Open303(model) => model.reset(),
 
+            Self::Perceptual(model) => model.reset(),
             Self::ModelD(model) => model.reset(),
             Self::SixOpPm(model) => model.reset(),
             Self::StrangeOscillator(model) => model.reset(),
@@ -357,6 +367,7 @@ impl VoiceModel {
             #[cfg(feature = "open303")]
             Self::Open303(model) => model.is_idle(),
 
+            Self::Perceptual(model) => model.is_idle(),
             Self::DualFilter(model) => model.is_idle(),
             Self::PressureChain(model) => model.voice.is_idle(),
             _ => false,

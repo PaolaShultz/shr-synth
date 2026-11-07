@@ -1,6 +1,6 @@
 # Preset and Control Schema
 
-`.mojsint` is strict TOML. Schema version 10 adds monophonic Open303 and its explicit filter identity while retaining the existing model-specific
+`.mojsint` is strict TOML. Schema version 11 adds Perceptual and five explicit topology identities while retaining the existing model-specific
 identity and independent `instrument_volume`. Every preset has
 `schema_version`, `name`, `voices`, `output_gain`, `instrument_volume`,
 `model`, one matching patch/core field, and one exact `macros` or `controls`
@@ -8,10 +8,11 @@ table. Unknown,
 mixed-model, or missing fields fail validation. Names must be non-empty,
 voices are 1–64, and all gain, volume, and macro values are finite in `0..=1`.
 
-The eight model identities are:
+The nine model identities are:
 
 | Model | Patch field and accepted IDs |
 | --- | --- |
+| `perceptual` | `perceptual_topology`: `micro_delay`, `spectral_split`, `dispersion`, `notch_motion`, `virtual_pitch` |
 | `model_d` | `model_d_patch`: `bass`, `lead`, `filter_articulation` |
 | `six_op_pm` | `six_op_patch`: `bell_metal`, `fractured_metal`, `electric_piano_mallet`, `glass_wood`, `brass_bass`, `mechanical_stab` |
 | `strange_oscillator` | `strange_patch = "unified"` |
@@ -45,9 +46,9 @@ sustain = 0.82
 release = 0.15
 ```
 
-Schemas 1–9 remain readable through strict migrations. Older presets gain
+Schemas 1–10 remain readable through strict migrations. Older presets gain
 `instrument_volume = 1.0`, so their previous full-level behavior and timbre
-remain unchanged. The serializer always writes schema 10 and retains the exact
+remain unchanged. The serializer always writes schema 11 and retains the exact
 model-specific patch and macro vocabulary.
 
 ## Native controls and SHR positions
@@ -131,3 +132,12 @@ SHR places Filter Attack, Filter Decay, Accent Decay and Amp Decay on row 3,
 then Volume and three AUX sends on row 4. These are native envelope timings,
 not ADSR. Exact fields/ranges and the four starts are in
 [Open303 integration](OPEN303_INTEGRATION.md). Filter identity is preset-owned.
+
+## Perceptual
+
+CC20–31 are `position`, `focus`, `brightness`, `body`, `env_depth`, `rate`,
+`motion`, `width`, `attack`, `decay`, `sustain`, `release`. All are normalized
+0–1. CC7 remains independent volume. The five starts use four voices as a
+trial configuration, not a Pi headroom claim. Topology is preset-owned; no new
+button or control mode is added. [Control behavior](PERCEPTUAL.md) specifies
+what each topology does with the shared knobs.

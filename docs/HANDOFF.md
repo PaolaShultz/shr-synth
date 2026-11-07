@@ -7,6 +7,41 @@ This is the durable starting point for a fresh Codex session in
 workspace. Update it at meaningful checkpoints so later sessions do not have
 to reconstruct decisions from chat history.
 
+## 2026-11-07 Perceptual engine and SHR-DAW trial
+
+The owner authorized implementation, DAW wiring and full builds. The ninth
+production model, `perceptual`, has five explicit preset-owned topologies and
+five authored factory starts: Micro Delay, Spectral Split, Dispersion, Notch
+Motion and Virtual Pitch. Schema 11 reads older formats without changing their
+sound; native CC20–31 carry eight live tone controls plus ADSR, with independent
+CC7 volume. The envelope drives amplitude and a variable temporal/spectral
+position. The normal 4×4 surface and NAV behavior remain intact.
+
+[Perceptual guide](PERCEPTUAL.md) owns topology details, physical controls,
+research provenance and listening questions. The starts are playable source
+presets requested for this integration, not retained outputs of an audition
+batch. No third-party DSP source, samples or presets were imported.
+SHR-DAW supports catalog identity, control labels, pickup/reset, model-scoped
+save/load and Project routing; its compatibility manifest selects the matching
+companion source. Human listening and native Pi headroom remain open.
+
+Verification used exact rustc 1.97.1 on **x86_64**, not the historical Pi host.
+The normal all-target/all-feature synth suite passes 370 tests with 40 historical
+cases intentionally ignored. Formatting, warning-denied Clippy, audit/deny and
+DEV/REL all-target builds pass; deny retains the known duplicate-winnow warning.
+The new engine's tests cover all MIDI keys at 44.1/48/96 kHz, finite and bounded
+output, allocation-free rendering, held-note controls, pitch bend, release,
+All Notes Off, exact repetition and strict schema round trips. Stationary
+full-path spectral residual checks pass the -75 dB bound; these do not certify
+all time-varying modulation. All 33 starts render twice identically at 48 kHz,
+MIDI 48, velocity .85 and one second; the original 28 match a pre-change release
+byte-for-byte. Generated WAVs were deleted after comparison.
+
+The DAW's full suite exposed eight existing EQ/effect/FT2 test failures; the
+same eight reproduce from unchanged source. New Perceptual identity, save/load
+and surface tests pass. Its handoff owns build and local catalog evidence.
+No JACK/server lifecycle, live synth, MIDI, playback or hardware test was run.
+
 ## Hosted continuous integration
 
 CI incident notifications now group repeated default-branch failures in one GitHub
