@@ -7,6 +7,67 @@ This is the durable starting point for a fresh Codex session in
 workspace. Update it at meaningful checkpoints so later sessions do not have
 to reconstruct decisions from chat history.
 
+## 2026-11-07 saw-source rework
+
+The owner explicitly resumed the musical task after the overlapping-note fix.
+All ten Perceptual starts now have richer saw-based excitation; the five slow
+swirls retain distinct filter graphs and receive separate envelope settings.
+There is no new model, schema field, surface control, button or mode.
+
+The former twelve-partial shared source is replaced by an authored, immutable
+bank of octave-spaced Fourier saw tables (up to 128 harmonics). Tables are
+prepared once during voice construction; the callback uses a stored reference,
+cubic lookup and smooth pitch-dependent crossfades below 0.4 fs. No callback
+lock/allocation or per-sample transcendental setup is introduced. Bright opens
+a source tone filter. The sources are paired detuned saws (Micro Delay, Counter
+Tide, Dispersion, Phase Bloom), saw plus asymmetric pulse (Spectral Split,
+Vowel Orbit), saw plus octave pulse (Spectral Carousel), or a ramp with two
+extra band-limited edges (Notch Motion, Tidal Memory). Virtual Pitch retains
+its missing-fundamental identity but now uses a broad 128-partial saw cluster
+with a harmonic floor instead of a narrow selected sinusoid. The rough ramp
+is periodic edge shaping, not random dither or an aliasing quantizer.
+
+E06–E10 retain their opposing LP/HP, three-band formant, LP/all-pass, rotating
+LP/BP/HP, and comb-before-LP wirings. Body now exclusively controls their
+respective balance, peak spacing, phase mix/spacing, rotation/middle band, or
+delay spacing; it no longer also changes source fundamental. The 0.005–2 Hz
+Rate law and held-note smoothing remain intact. E01–E05 also change timbre,
+but retain their original 0.03–4 Hz rate law. Factory identity/save compatibility
+is preserved; private sounds using these topologies inherit the new source.
+
+A test first reproduced the lack of energy above harmonic twelve, then passed
+with the rework. Focused allocation, held-control, two-note isolation, sustained
+motion and stationary alias checks passed. On Rust 1.97.1/AArch64, the normal
+all-target/all-feature suite passed 377 tests (41 opt-in cases skipped). Final
+focused source/engine/note-isolation checks also passed, as did formatting,
+warning-denied Clippy, audit/deny (existing duplicate-winnow warning only), and
+DEV/REL host builds. The stationary full-path and detuned-source residuals were
+below -108.7 dB across 83 measurements against the -75 dB gate. These tests
+measure stationary residual, not all moving-filter sidebands.
+
+All 38 factory starts rendered twice at 48 kHz, note 48, velocity 0.85, one
+second: finite, bounded and byte-identical on repetition. Exactly the ten
+Perceptual renders changed against the pre-task release; the other 28 stayed
+byte-identical. E06–E10 also passed paired 40-second renders with peaks
+0.061–0.122 at those settings. Commands: `cargo test --locked --all-targets
+--all-features`, focused `cargo test --locked --lib perceptual:: -- --nocapture`,
+and `target/release/shr-synth render presets/NAME.mojsint OUTPUT.wav --note 48
+--seconds 40 --velocity 0.85`. All agent Rust work used `CARGO_INCREMENTAL=0`.
+
+The opt-in native offline callback probe was rerun after the other agent builds
+and renders stopped. At 48 kHz/128 frames, E06–E10 four-voice p99 cost ranged
+128–213 microseconds (eight voices 254–423); the heavier additive Virtual Pitch
+measured 854 microseconds at four and 1372 at eight. The isolated period budget
+is 2667 microseconds. This excludes JACK/DAW load and is not live headroom or
+polyphony acceptance; four remains the trial preset voice count. A first timing
+run overlapped other tests and is not used for these cost figures. Run the
+existing `perceptual_callback_cost` ignored test for reproduction; other
+historical auditions/exhaustive tests remain intentionally skipped.
+
+No audio/hardware or recording was started. Musical quality
+and whether the previously reported tiny pop persists remain listening decisions
+for the owner; software spectral checks are not listening acceptance.
+
 ## 2026-11-07 overlapping-note parameter investigation
 
 The owner reports a click when holding one note and pressing a second in all

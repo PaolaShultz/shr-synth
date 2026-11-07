@@ -1,10 +1,12 @@
 //! Authored perceptual synthesis. Fixed storage, linear signal paths, and
-//! band-limited additive excitation; no sample-path transcendental setup.
+//! band-limited saw/pulse excitation; no sample-path transcendental setup.
 use crate::{
     engine::{EngineError, envelope_config},
     envelope::Adsr,
 };
 use serde::{Deserialize, Serialize};
+mod source;
+use source::{HARMONICS, SawBank};
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -63,6 +65,10 @@ pub(crate) struct PerceptualVoice {
     frequency: f32,
     pitch_ratio: f32,
     phase: f64,
+    second_phase: f64,
+    source_detune: f32,
+    source_low: f32,
+    saw: &'static SawBank,
     lfo: f64,
     secondary_lfo: f64,
     slow_rates: [f32; 129],
@@ -88,6 +94,14 @@ impl PerceptualVoice {
             frequency: 440.0,
             pitch_ratio: 1.0,
             phase: 0.0,
+            second_phase: 0.31,
+            source_detune: match topology {
+                PerceptualTopology::MicroDelay | PerceptualTopology::CounterTide => 1.0033,
+                PerceptualTopology::Dispersion | PerceptualTopology::PhaseBloom => 1.0017,
+                _ => 1.0,
+            },
+            source_low: 0.0,
+            saw: SawBank::prepared(),
             lfo: 0.0,
             secondary_lfo: 0.0,
             slow_rates: std::array::from_fn(|i| 0.005 * 400.0_f32.powf(i as f32 / 128.0)),
@@ -124,6 +138,8 @@ impl PerceptualVoice {
     pub(crate) fn reset(&mut self) {
         self.envelope.reset();
         self.phase = 0.0;
+        self.second_phase = 0.31;
+        self.source_low = 0.0;
         self.lfo = 0.0;
         self.secondary_lfo = 0.0;
         self.filters = [MovingFilter::default(); 3];
@@ -266,37 +282,75 @@ impl PerceptualVoice {
         let position = (c[0] + 0.65 * c[4] * (env - 0.5) + 0.25 * c[6] * sweep).clamp(0.0, 1.0);
         let frequency = self.frequency * self.pitch_ratio;
         self.phase = (self.phase + f64::from(frequency / self.rate)).fract();
-        let mut source = 0.0;
-        let mut odd = 0.0;
-        let mut even = 0.0;
-        // Fade partials before Nyquist, including during continuous pitch bend.
-        // Absolute harmonic sum is bounded without a limiter or normalizer.
-        for h in 1..=12 {
-            let hf = h as f32;
-            let band = ((0.44 * self.rate - frequency * hf) / (0.04 * self.rate)).clamp(0.0, 1.0);
-            let bright = (1.0 - c[2]) / (hf * hf) + c[2] / hf;
-            let mut weight = bright * band;
-            if h == 1 {
-                weight *= 0.2 + 0.8 * c[3];
-            }
-            if self.topology == PerceptualTopology::VirtualPitch {
-                // Remove the physical fundamental and scan a harmonic cluster.
-                let center = 2.0 + 7.0 * position;
-                let distance = (hf - center).abs();
-                weight *= if h == 1 {
-                    c[3] * (1.0 - c[1])
+        let increment = frequency / self.rate;
+        self.second_phase = (self.second_phase + f64::from(increment * self.source_detune)).fract();
+        let (source, odd, even) = if self.topology == PerceptualTopology::VirtualPitch {
+            // A broad missing-fundamental saw cluster, not a lone selected sine.
+            let (mut odd, mut even) = (0.0, 0.0);
+            for h in 1..=HARMONICS {
+                let hf = h as f32;
+                let band = ((0.44 - increment * hf) / 0.04).clamp(0.0, 1.0);
+                if band == 0.0 {
+                    break;
+                }
+                let distance = hf - (3.0 + 15.0 * position);
+                let cluster = 0.35 + 0.65 / (1.0 + distance * distance * (0.015 + 0.12 * c[1]));
+                let weight = if h == 1 { c[3] * (1.0 - c[1]) } else { cluster };
+                let partial = self.sine_at(self.phase * h as f64)
+                    * weight
+                    * band
+                    * (0.65 + 0.35 * c[2])
+                    * 0.28
+                    / hf;
+                if h % 2 == 0 {
+                    even += partial;
                 } else {
-                    1.0 / (1.0 + distance * distance * (0.2 + 2.8 * c[1]))
-                };
+                    odd += partial;
+                }
             }
-            let partial = self.sine_at(self.phase * f64::from(h)) * weight * 0.22;
-            source += partial;
-            if h % 2 == 0 {
-                even += partial;
+            (odd + even, odd, even)
+        } else {
+            let saw = self.saw.sample(self.phase, increment);
+            let raw = match self.topology {
+                PerceptualTopology::MicroDelay
+                | PerceptualTopology::CounterTide
+                | PerceptualTopology::Dispersion
+                | PerceptualTopology::PhaseBloom => {
+                    // Independent phases keep beating through a long held note.
+                    0.55 * saw
+                        + 0.45
+                            * self
+                                .saw
+                                .sample(self.second_phase, increment * self.source_detune)
+                }
+                PerceptualTopology::SpectralSplit | PerceptualTopology::VowelOrbit => {
+                    let pulse = saw - self.saw.sample(self.phase + 0.32, increment);
+                    0.55 * saw + 0.35 * pulse
+                }
+                PerceptualTopology::SpectralCarousel => {
+                    let octave = self.saw.sample(self.phase * 2.0, increment * 2.0)
+                        - self.saw.sample(self.phase * 2.0 + 0.38, increment * 2.0);
+                    0.7 * saw + 0.22 * octave
+                }
+                PerceptualTopology::NotchMotion | PerceptualTopology::TidalMemory => {
+                    // Two extra band-limited edges cut a narrow ledge into each
+                    // ramp. Rough periodic buzz without unbounded quantizer alias.
+                    let ledge = self.saw.sample(self.phase + 0.17, increment)
+                        - self.saw.sample(self.phase + 0.23, increment);
+                    0.8 * saw + (0.2 + 0.55 * c[2]) * ledge
+                }
+                PerceptualTopology::VirtualPitch => 0.0,
+            };
+            let hz = 500.0 + 17500.0 * c[2] * c[2];
+            let alpha = hz / (hz + self.rate / std::f32::consts::TAU);
+            self.source_low += alpha * (raw - self.source_low);
+            let body = if self.topology.is_swirl() {
+                0.0
             } else {
-                odd += partial;
-            }
-        }
+                -0.1 * c[3] * self.sine_at(self.phase)
+            };
+            (0.4 * self.source_low + body, 0.0, 0.0)
+        };
         if self.topology.is_swirl() {
             let out = self.swirl(source, env, sweep);
             return out.map(|x| x * env * self.velocity * 0.65);
@@ -379,6 +433,36 @@ mod tests {
         PerceptualTopology::TidalMemory,
     ];
     #[test]
+    fn saw_excitation_has_energy_above_the_old_twelve_partial_ceiling() {
+        let mut v = PerceptualVoice::new(65536.0, PerceptualTopology::SpectralSplit).unwrap();
+        let mut c = [0.0; 15];
+        c[2] = 1.0;
+        c[3] = 0.8;
+        c[10] = 1.0;
+        v.set_controls(c);
+        v.note_on(48, 1.0);
+        v.frequency = 128.0;
+        for _ in 0..8192 {
+            v.sample();
+        }
+        let samples: Vec<_> = (0..8192).map(|_| v.sample()[0]).collect();
+        let mut upper = 0.0;
+        for h in 13..=48 {
+            let omega = std::f64::consts::TAU * f64::from(h * 16) / 8192.0;
+            let (mut re, mut im) = (0.0, 0.0);
+            for (i, x) in samples.iter().enumerate() {
+                re += f64::from(*x) * (omega * i as f64).cos();
+                im += f64::from(*x) * (omega * i as f64).sin();
+            }
+            upper += 4.0 * (re * re + im * im) / 8192.0_f64.powi(2);
+        }
+        assert!(
+            upper > 0.0001,
+            "upper harmonic power {upper}: source still too sparse"
+        );
+    }
+
+    #[test]
     fn swirl_rate_has_logarithmic_travel_and_phase_continuity() {
         let mut v = PerceptualVoice::new(48000.0, PerceptualTopology::CounterTide).unwrap();
         for (pot, hz) in [
@@ -447,7 +531,8 @@ mod tests {
     #[test]
     fn stationary_full_paths_reject_alias_energy_outside_authored_partials() {
         // Coherent prime FFT bins avoid counting folded components as intended
-        // harmonics. Fit ONLY the twelve authored partials below the guard band.
+        // harmonics. Fit only intended saw harmonics below the guard band; freeze detune
+        // here to keep this stationary filter-path probe coherent.
         const N: usize = 16384;
         for mode in MODES {
             for bin in [31, 211, 1103, 3151] {
@@ -462,14 +547,15 @@ mod tests {
                 v.set_controls(c);
                 v.note_on(60, 1.0);
                 v.frequency = (bin * 4) as f32;
+                v.source_detune = 1.0;
                 for _ in 0..N {
                     v.sample();
                 }
                 let samples: Vec<_> = (0..N).map(|_| v.sample()).collect();
                 for ch in 0..2 {
                     let mut reconstructed = vec![0.0f64; N];
-                    for h in 1..=12 {
-                        if bin * h >= N / 2 {
+                    for h in 1..=HARMONICS {
+                        if bin * h >= (N as f64 * 0.44) as usize {
                             continue;
                         }
                         let omega = std::f64::consts::TAU * (bin * h) as f64 / N as f64;

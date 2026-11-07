@@ -147,3 +147,7 @@ what each topology does with the shared knobs.
 The five swirl identities are an additive schema-11 vocabulary extension. Older
 readers reject unknown topology IDs; coordinated installation uses the exact
 SHR-DAW companion revision. Existing identities and their rate curves are unchanged.
+
+The saw-source rework preserves all ten topology IDs and serialized controls.
+Existing private Perceptual sounds inherit the richer excitation. For E06–E10,
+Body controls only topology behavior; Bright opens the source tone filter.

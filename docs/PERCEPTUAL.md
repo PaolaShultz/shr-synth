@@ -3,7 +3,7 @@
 Ten authored playable starts explore different filter and perceptual mechanisms.
 Select the **Perceptual** model in SHR-DAW: **E01 Micro Delay**, **E02 Spectral
 Split**, **E03 Dispersion**, **E04 Notch Motion**, **E05 Virtual Pitch**. These
-are the original starts. E06–E10 add the slow swirls below. All are listening candidates; implementation does not establish musical acceptance.
+are the original wirings, now revoiced with richer sources. E06–E10 are the slow swirls below. All are listening candidates; implementation does not establish musical acceptance.
 
 ## Play and controls
 
@@ -28,9 +28,11 @@ The native names in `.mojsint` are documented in [the schema](PRESET_SCHEMA.md).
   motion. At zero Env Depth/Motion it stays at the knob position.
 - **Focus** increases low-pass weighting, band contrast, phase contribution,
   notch contribution or harmonic-cluster selectivity, depending on topology.
-- **Bright** changes the authored harmonic slope and filter opening.
-- **Body** restores the physical fundamental; in Notch Motion it also restores
-  dry body. Virtual Pitch starts at zero Body to omit the fundamental.
+- **Bright** opens the source tone filter; Virtual Pitch changes harmonic level.
+  The rough ramp also gains a stronger stepped edge as Bright increases.
+- **Body** reinforces the physical fundamental in E01–E05; in Notch Motion it
+  also restores dry body. Virtual Pitch starts at zero Body to omit the
+  fundamental. E06–E10 instead use Body only for their topology-specific control.
 - **Rate** spans 0.03–4 Hz. **Motion** sets cyclic position excursion.
 - **Width** controls differences between channels. Spectral Split and Virtual
   Pitch use complementary side signals whose mono sum preserves their center.
@@ -39,9 +41,12 @@ The native names in `.mojsint` are documented in [the schema](PRESET_SCHEMA.md).
 
 ## Original five routings
 
-All use a twelve-partial harmonic source with smooth high-frequency exclusion,
-not imported samples. The source's physical fundamental is independently
-controlled. Fixed output gain is used; there is no limiter, compressor,
+The starts now use full saw-based sources rather than the former twelve-partial
+stack. Micro Delay and Dispersion use independently detuned saw pairs; Spectral
+Split uses saw plus an asymmetric pulse; Notch Motion cuts a narrow ledge into
+a saw with two extra band-limited edges. Virtual Pitch uses a broad saw harmonic
+cluster (up to 128 partials), with independent fundamental restoration. No
+samples are imported. Fixed output gain is used, with no limiter, compressor,
 normalizer, nonlinear saturation or automatic loudness matching.
 
 | Start | Signal topology | Envelope/Position destination | Listening question |
@@ -50,7 +55,7 @@ normalizer, nonlinear saturation or automatic loudness matching.
 | Spectral Split | Complementary low/high spectral energy sent oppositely to L/R | Band split | Does the center change colour while the image opens? |
 | Dispersion | Two four-stage all-pass cascades, mixed with direct source | Phase-transition frequencies | Does the attack/colour become fluid without losing the note? |
 | Notch Motion | Subtract the all-pass output from the direct path, with optional body | Moving spectral notches | Is the envelope-driven hollow sweep useful? |
-| Virtual Pitch | Fundamental-suppressed additive harmonic cluster; odd/even stereo split | Cluster center and filtering | Is the implied low pitch convincing despite the absent fundamental? |
+| Virtual Pitch | Fundamental-suppressed broad saw harmonic cluster; odd/even stereo split | Cluster center and filtering | Is the implied low pitch convincing despite the absent fundamental? |
 
 Dispersion and Notch Motion share all-pass primitives but use different output
 summing laws. They are distinct wirings, not separate positions in one preset.
@@ -65,13 +70,13 @@ binaries, exit/reopen SHR normally to refresh its catalog and load a new voice.
 Start around MIDI 48–60 and hold for at least 20 seconds. No external AUX
 processing is required. Listening acceptance and live headroom remain yours.
 
-| Start | Wiring and motion | Pot 4: Body |
+| Start / source | Wiring and motion | Pot 4: Body |
 | --- | --- | --- |
-| **E06 Counter Tide** | Parallel resonant low-pass and high-pass sweep in opposite directions, with different L/R contributions | Low/high balance, plus source fundamental |
-| **E07 Vowel Orbit** | Three parallel resonant band-pass peaks follow primary, quadrature and slower secondary LFO phases; a dry trace retains pitch | Separation between the peaks, plus source fundamental |
-| **E08 Phase Bloom** | Resonant low-pass feeds direct and four-stage all-pass branches; opposing phase sweeps make moving interference notches | Phase contribution and stage spacing, plus source fundamental |
-| **E09 Spectral Carousel** | Moving low/band/high filters redistribute spectral energy between channels; a slower phase complicates the rotation | Secondary rotation coupling and middle-band level, plus source fundamental |
-| **E10 Tidal Memory** | Unequal positive/negative feed-forward comb delays feed separate resonant low-pass filters; quadrature/secondary motion changes tap relationships | Base delay spacing (0.4–6.4 ms), plus source fundamental |
+| **E06 Counter Tide** — detuned saw pair | Parallel resonant low-pass and high-pass sweep in opposite directions, with different L/R contributions | Low/high balance |
+| **E07 Vowel Orbit** — saw/asymmetric pulse | Three parallel resonant band-pass peaks follow primary, quadrature and slower secondary LFO phases; a dry trace retains pitch | Separation between the peaks |
+| **E08 Phase Bloom** — gently detuned saw pair | Resonant low-pass feeds direct and four-stage all-pass branches; opposing phase sweeps make moving interference notches | Phase contribution and stage spacing |
+| **E09 Spectral Carousel** — saw/octave pulse | Moving low/band/high filters redistribute spectral energy between channels; a slower phase complicates the rotation | Secondary rotation coupling and middle-band level |
+| **E10 Tidal Memory** — rough stepped saw | Unequal positive/negative feed-forward comb delays feed separate resonant low-pass filters; quadrature/secondary motion changes tap relationships | Base delay spacing (0.4–6.4 ms) |
 
 The new sounds use the existing on-screen labels and physical controls:
 
@@ -79,7 +84,7 @@ The new sounds use the existing on-screen labels and physical controls:
 | ---: | --- | --- |
 | 1 | Position | Filter center; cubic travel spans 60 Hz–10.06 kHz before modulation and sample-rate limiting |
 | 2 | Focus | Resonance: progressively narrower peaks; bounded damping and output compensation |
-| 3 | Bright | Source harmonic balance |
+| 3 | Bright | Source tone-filter opening; extra rough edge in Tidal Memory |
 | 4 | Body | Topology behavior in the table above |
 | 5 | Env Depth | ADSR-dependent filter excursion, independent of cyclic depth |
 | 6 | Rate | Dedicated LFO speed, logarithmic 0.005–2 Hz |
@@ -94,7 +99,7 @@ the slow range occupies useful knob travel. There is no tempo sync or extra
 mode. The secondary LFO runs at 0.618034 times the primary rate and does not
 restart at primary-cycle boundaries. Voice note-on resets both phases;
 held-note edits preserve phase and pass through 10 ms control smoothing.
-The original E01–E05 retain their existing 0.03–4 Hz rate law and sound.
+The original E01–E05 retain their existing 0.03–4 Hz rate law, with reworked sources.
 
 All five new wirings move actual filters continuously through a sustained note.
 Motion zero removes cyclic movement; Env Depth zero independently removes the
@@ -105,8 +110,13 @@ musical listening consideration, especially for phase/comb wirings.
 
 ## Implementation and evidence boundaries
 
-`src/perceptual.rs` owns fixed sine-table, delay, all-pass and envelope storage.
-Construction prepares the table; note/control/render paths allocate nothing.
+`src/perceptual.rs` owns per-voice phase, source-tone, delay, all-pass and envelope
+state. `src/perceptual/source.rs` prepares an immutable saw bank once during
+construction, with 1/2/4/8/16/32/64/128-harmonic tables. The callback holds a direct
+reference, uses cubic lookup and crossfades adjacent tables before their highest
+partial reaches 0.4 fs. High notes progressively lose harmonics smoothly through
+bend; no table switch resets phase. Note/control/render paths allocate nothing.
+The rough saw uses band-limited edge differences, not random dither or quantization.
 The sample path uses interpolated lookup and arithmetic without transcendental
 coefficient setup. The ADSR drives both the VCA and position. Pitch bend,
 release, voice stealing and All Notes Off use the ordinary production Engine.
@@ -121,8 +131,11 @@ movement. A separate regression compares the mixed output with independent
 single-note renders. These isolate note interaction; they do not prove that
 an unexplained live click has been resolved.
 
-Unit tests measure stationary full-path residual outside the twelve intended
-partials at coherent low/mid/high frequencies against a -75 dB bound. They
+Unit tests measure stationary full-path residual outside the intended saw
+harmonics at coherent low/mid/high frequencies against a -75 dB bound. Detune
+is frozen for that full-path measurement; a separate two-frequency source probe
+checks detuned pairs. Pitch-table boundaries have a continuity regression, and
+another test prevents returning to the old twelve-partial ceiling. They
 also verify fundamental suppression and the Spectral Split mono identity. New tests cover logarithmic rate travel,
 phase continuity during rate edits, twelve-second resonant sustains, mono at
 zero width, and the incremental waveform change during smoothed live edits.
