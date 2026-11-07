@@ -1,9 +1,9 @@
 # Perceptual engine
 
-Five authored playable starts explore different filter and perceptual mechanisms.
+Ten authored playable starts explore different filter and perceptual mechanisms.
 Select the **Perceptual** model in SHR-DAW: **E01 Micro Delay**, **E02 Spectral
 Split**, **E03 Dispersion**, **E04 Notch Motion**, **E05 Virtual Pitch**. These
-are listening candidates; implementation does not establish musical acceptance.
+are the original starts. E06–E10 add the slow swirls below. All are listening candidates; implementation does not establish musical acceptance.
 
 ## Play and controls
 
@@ -37,7 +37,7 @@ The native names in `.mojsint` are documented in [the schema](PRESET_SCHEMA.md).
   The other routings may change colour in mono; compare stereo and mono when
   listening. Width is a stereo control, not an AUX effect.
 
-## Five routings
+## Original five routings
 
 All use a twelve-partial harmonic source with smooth high-frequency exclusion,
 not imported samples. The source's physical fundamental is independently
@@ -58,6 +58,51 @@ High notes progressively lose upper harmonics; Virtual Pitch can become very
 quiet at the top of the MIDI range when all of its selected harmonics exceed
 the anti-alias guard. Four voices are a trial default, not a Pi capacity result.
 
+## Slow swirls: E06–E10
+
+Select **SHR Synth → Perceptual**, then E06–E10. After updating the checkout
+binaries, exit/reopen SHR normally to refresh its catalog and load a new voice.
+Start around MIDI 48–60 and hold for at least 20 seconds. No external AUX
+processing is required. Listening acceptance and live headroom remain yours.
+
+| Start | Wiring and motion | Pot 4: Body |
+| --- | --- | --- |
+| **E06 Counter Tide** | Parallel resonant low-pass and high-pass sweep in opposite directions, with different L/R contributions | Low/high balance, plus source fundamental |
+| **E07 Vowel Orbit** | Three parallel resonant band-pass peaks follow primary, quadrature and slower secondary LFO phases; a dry trace retains pitch | Separation between the peaks, plus source fundamental |
+| **E08 Phase Bloom** | Resonant low-pass feeds direct and four-stage all-pass branches; opposing phase sweeps make moving interference notches | Phase contribution and stage spacing, plus source fundamental |
+| **E09 Spectral Carousel** | Moving low/band/high filters redistribute spectral energy between channels; a slower phase complicates the rotation | Secondary rotation coupling and middle-band level, plus source fundamental |
+| **E10 Tidal Memory** | Unequal positive/negative feed-forward comb delays feed separate resonant low-pass filters; quadrature/secondary motion changes tap relationships | Base delay spacing (0.4–6.4 ms), plus source fundamental |
+
+The new sounds use the existing on-screen labels and physical controls:
+
+| Pot | Label | New swirl behavior |
+| ---: | --- | --- |
+| 1 | Position | Filter center; cubic travel spans 60 Hz–10.06 kHz before modulation and sample-rate limiting |
+| 2 | Focus | Resonance: progressively narrower peaks; bounded damping and output compensation |
+| 3 | Bright | Source harmonic balance |
+| 4 | Body | Topology behavior in the table above |
+| 5 | Env Depth | ADSR-dependent filter excursion, independent of cyclic depth |
+| 6 | Rate | Dedicated LFO speed, logarithmic 0.005–2 Hz |
+| 7 | Motion | LFO filter depth, plus the topology's phase/delay/rotation motion |
+| 8 | Width | Stereo side level; zero gives identical L/R without stopping filter motion |
+| 9–12 | Attack / Decay / Sustain / Release | Amp ADSR; also drives Env Depth |
+| 13–16 | Volume / AUX 1 / AUX 2 / AUX 3 | Existing instrument volume and DAW sends |
+
+Rate at 0%, 25%, 50%, 75%, 100% gives approximately **200, 44.7, 10,
+2.24, 0.5 seconds per cycle**. Every MIDI step changes rate by under 5%, so
+the slow range occupies useful knob travel. There is no tempo sync or extra
+mode. The secondary LFO runs at 0.618034 times the primary rate and does not
+restart at primary-cycle boundaries. Voice note-on resets both phases;
+held-note edits preserve phase and pass through 10 ms control smoothing.
+The original E01–E05 retain their existing 0.03–4 Hz rate law and sound.
+
+All five new wirings move actual filters continuously through a sustained note.
+Motion zero removes cyclic movement; Env Depth zero independently removes the
+note contour. Filter resonance is linear, with no self-oscillating feedback or
+saturation. Tidal Memory's delays are feed-forward, not an echo-feedback loop.
+Width zero preserves each new sound's mid sum; stereo cancellation remains a
+musical listening consideration, especially for phase/comb wirings.
+
 ## Implementation and evidence boundaries
 
 `src/perceptual.rs` owns fixed sine-table, delay, all-pass and envelope storage.
@@ -72,7 +117,9 @@ every tone control on a held note, all MIDI keys, pitch extremes, release and
 All Notes Off with a debug allocation guard at 44.1/48/96 kHz.
 Unit tests measure stationary full-path residual outside the twelve intended
 partials at coherent low/mid/high frequencies against a -75 dB bound. They
-also verify fundamental suppression and the Spectral Split mono identity.
+also verify fundamental suppression and the Spectral Split mono identity. New tests cover logarithmic rate travel,
+phase continuity during rate edits, twelve-second resonant sustains, mono at
+zero width, and the incremental waveform change during smoothed live edits.
 This stationary diagnostic is not a general time-varying alias guarantee;
 sidebands from moving filters/delays and perceptual usefulness require listening.
 No Pi callback, latency, headphone/speaker translation or sound-quality claim

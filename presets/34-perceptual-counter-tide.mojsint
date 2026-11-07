@@ -1,0 +1,21 @@
+schema_version = 11
+name = "34 Perceptual Counter Tide"
+voices = 4
+output_gain = 0.65
+instrument_volume = 1.0
+model = "perceptual"
+perceptual_topology = "counter_tide"
+
+[macros]
+position = 0.48
+focus = 0.68
+brightness = 0.88
+body = 0.38
+env_depth = 0.15
+rate = 0.42
+motion = 0.82
+width = 0.75
+attack = 0.18
+decay = 0.35
+sustain = 0.88
+release = 0.35

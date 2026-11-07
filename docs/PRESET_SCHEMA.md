@@ -1,6 +1,6 @@
 # Preset and Control Schema
 
-`.mojsint` is strict TOML. Schema version 11 adds Perceptual and five explicit topology identities while retaining the existing model-specific
+`.mojsint` is strict TOML. Schema version 11 adds Perceptual and explicit topology identities while retaining the existing model-specific
 identity and independent `instrument_volume`. Every preset has
 `schema_version`, `name`, `voices`, `output_gain`, `instrument_volume`,
 `model`, one matching patch/core field, and one exact `macros` or `controls`
@@ -12,7 +12,7 @@ The nine model identities are:
 
 | Model | Patch field and accepted IDs |
 | --- | --- |
-| `perceptual` | `perceptual_topology`: `micro_delay`, `spectral_split`, `dispersion`, `notch_motion`, `virtual_pitch` |
+| `perceptual` | `perceptual_topology`: `micro_delay`, `spectral_split`, `dispersion`, `notch_motion`, `virtual_pitch`, `counter_tide`, `vowel_orbit`, `phase_bloom`, `spectral_carousel`, `tidal_memory` |
 | `model_d` | `model_d_patch`: `bass`, `lead`, `filter_articulation` |
 | `six_op_pm` | `six_op_patch`: `bell_metal`, `fractured_metal`, `electric_piano_mallet`, `glass_wood`, `brass_bass`, `mechanical_stab` |
 | `strange_oscillator` | `strange_patch = "unified"` |
@@ -101,7 +101,7 @@ All live controls use the bounded event path. Timbre and ADSR use the existing
 SHR re-arms pickup against the loaded values.
 
 The tracked catalog contains seven Model D, six Six-Op PM, one Strange
-Oscillator, one Swarm Machine, one Bass Matrix, five Dual Filter starts, three Pressure Chain starts, and four Open303 starts. The graph description
+Oscillator, one Swarm Machine, one Bass Matrix, five Dual Filter starts, three Pressure Chain starts, four Open303 starts, and ten Perceptual starts. The graph description
 in `experiments/swarm-micro-machine-v1.toml` remains a strict authoring input;
 the live `swarm_machine` model compiles that graph before audio rendering and
 never parses or allocates in the callback.
@@ -137,7 +137,11 @@ not ADSR. Exact fields/ranges and the four starts are in
 
 CC20–31 are `position`, `focus`, `brightness`, `body`, `env_depth`, `rate`,
 `motion`, `width`, `attack`, `decay`, `sustain`, `release`. All are normalized
-0–1. CC7 remains independent volume. The five starts use four voices as a
+0–1. CC7 remains independent volume. The ten starts use four voices as a
 trial configuration, not a Pi headroom claim. Topology is preset-owned; no new
 button or control mode is added. [Control behavior](PERCEPTUAL.md) specifies
 what each topology does with the shared knobs.
+
+The five swirl identities are an additive schema-11 vocabulary extension. Older
+readers reject unknown topology IDs; coordinated installation uses the exact
+SHR-DAW companion revision. Existing identities and their rate curves are unchanged.

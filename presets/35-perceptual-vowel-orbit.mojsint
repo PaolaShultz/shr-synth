@@ -1,0 +1,21 @@
+schema_version = 11
+name = "35 Perceptual Vowel Orbit"
+voices = 4
+output_gain = 0.65
+instrument_volume = 1.0
+model = "perceptual"
+perceptual_topology = "vowel_orbit"
+
+[macros]
+position = 0.49
+focus = 0.88
+brightness = 0.9
+body = 0.55
+env_depth = 0.12
+rate = 0.35
+motion = 0.7
+width = 0.85
+attack = 0.18
+decay = 0.35
+sustain = 0.88
+release = 0.35

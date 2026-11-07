@@ -14,6 +14,41 @@ pub enum PerceptualTopology {
     Dispersion,
     NotchMotion,
     VirtualPitch,
+    CounterTide,
+    VowelOrbit,
+    PhaseBloom,
+    SpectralCarousel,
+    TidalMemory,
+}
+impl PerceptualTopology {
+    fn is_swirl(self) -> bool {
+        matches!(
+            self,
+            Self::CounterTide
+                | Self::VowelOrbit
+                | Self::PhaseBloom
+                | Self::SpectralCarousel
+                | Self::TidalMemory
+        )
+    }
+}
+
+/// Trapezoidal state-variable filter. Band output is damping-compensated;
+/// LP/HP resonance is gain-compensated at the caller. No nonlinear feedback.
+#[derive(Debug, Default, Clone, Copy)]
+struct MovingFilter {
+    s1: f32,
+    s2: f32,
+}
+impl MovingFilter {
+    fn tick(&mut self, input: f32, g: f32, damping: f32) -> [f32; 3] {
+        let v3 = input - self.s2;
+        let band = (self.s1 + g * v3) / (1.0 + g * (g + damping));
+        let low = self.s2 + g * band;
+        self.s1 = 2.0 * band - self.s1;
+        self.s2 = 2.0 * low - self.s2;
+        [low, damping * band, input - damping * band - low]
+    }
 }
 
 const TABLE: usize = 2048;
@@ -29,6 +64,9 @@ pub(crate) struct PerceptualVoice {
     pitch_ratio: f32,
     phase: f64,
     lfo: f64,
+    secondary_lfo: f64,
+    slow_rates: [f32; 129],
+    filters: [MovingFilter; 3],
     sine: [f32; TABLE + 1],
     delay: [f32; DELAY],
     cursor: usize,
@@ -51,6 +89,9 @@ impl PerceptualVoice {
             pitch_ratio: 1.0,
             phase: 0.0,
             lfo: 0.0,
+            secondary_lfo: 0.0,
+            slow_rates: std::array::from_fn(|i| 0.005 * 400.0_f32.powf(i as f32 / 128.0)),
+            filters: [MovingFilter::default(); 3],
             sine: std::array::from_fn(|i| {
                 (std::f64::consts::TAU * i as f64 / TABLE as f64).sin() as f32
             }),
@@ -84,6 +125,8 @@ impl PerceptualVoice {
         self.envelope.reset();
         self.phase = 0.0;
         self.lfo = 0.0;
+        self.secondary_lfo = 0.0;
+        self.filters = [MovingFilter::default(); 3];
         self.low = 0.0;
         self.delay.fill(0.0);
         self.cursor = 0;
@@ -102,6 +145,111 @@ impl PerceptualVoice {
         let b = (a + DELAY - 1) % DELAY;
         self.delay[a] + (self.delay[b] - self.delay[a]) * f
     }
+    fn slow_rate(&self, control: f32) -> f32 {
+        let x = control.clamp(0.0, 1.0) * 128.0;
+        let i = (x as usize).min(127);
+        self.slow_rates[i] + (self.slow_rates[i + 1] - self.slow_rates[i]) * (x - i as f32)
+    }
+    fn filter_g(&self, position: f32) -> f32 {
+        let p = position.clamp(0.0, 1.0);
+        let hz = (60.0 + 10000.0 * p * p * p).min(self.rate * 0.18);
+        // tan(pi*f/fs) from the prepared sine table, bounded away from its pole.
+        let phase = f64::from(hz / (2.0 * self.rate));
+        self.sine_at(phase) / self.sine_at(phase + 0.25)
+    }
+    fn swirl(&mut self, source: f32, env: f32, sweep: f32) -> [f32; 2] {
+        let c = self.controls;
+        let quadrature = self.sine_at(self.lfo + 0.25);
+        let drift = self.sine_at(self.secondary_lfo);
+        self.secondary_lfo = (self.secondary_lfo
+            + f64::from(self.slow_rate(c[5]) * 0.618034) / f64::from(self.rate))
+        .fract();
+        let center = c[0] + 0.35 * c[4] * (env - 0.5);
+        let depth = 0.32 * c[6];
+        let a = center + depth * sweep;
+        let b = center - depth * sweep;
+        let q = center + depth * quadrature;
+        let damping = 2.0 - 1.84 * c[1];
+        let gain = 1.0 / (1.0 + 2.0 * c[1]);
+        let ga = self.filter_g(a);
+        let gb = self.filter_g(b);
+        let gq = self.filter_g(q);
+        let width = c[7];
+        let pair = match self.topology {
+            PerceptualTopology::CounterTide => {
+                // Parallel opposing low/high filters; Body moves their balance.
+                let low = self.filters[0].tick(source, ga, damping)[0] * gain;
+                let high = self.filters[1].tick(source, gb, damping)[2] * gain;
+                let x = low * (1.0 - 0.75 * c[3]);
+                let y = high * (0.25 + 0.75 * c[3]);
+                [x + 0.35 * y, y + 0.35 * x]
+            }
+            PerceptualTopology::VowelOrbit => {
+                // Three parallel resonant bands, independently moving centers.
+                let spread = 0.08 + 0.2 * c[3];
+                let g1 = self.filter_g(a - spread);
+                let g2 = self.filter_g(q);
+                let g3 = self.filter_g(center + spread + depth * drift);
+                let x = self.filters[0].tick(source, g1, damping)[1];
+                let y = self.filters[1].tick(source, g2, damping)[1];
+                let z = self.filters[2].tick(source, g3, damping)[1];
+                [
+                    0.65 * x + 0.35 * y + 0.18 * source,
+                    0.65 * z + 0.35 * y + 0.18 * source,
+                ]
+            }
+            PerceptualTopology::PhaseBloom => {
+                // Resonant low-pass feeds dry + four-stage dispersive branches.
+                let low = self.filters[0].tick(source, ga, damping)[0] * gain;
+                let mut pair = [0.0; 2];
+                for (ch, output) in pair.iter_mut().enumerate() {
+                    let mut x = low;
+                    for stage in 0..4 {
+                        let offset = if ch == 0 { quadrature } else { -quadrature };
+                        let g = self.filter_g(
+                            center
+                                + stage as f32 * (0.04 + 0.06 * c[3])
+                                + depth * (0.65 * offset + 0.35 * drift),
+                        );
+                        let coefficient = (g - 1.0) / (g + 1.0);
+                        let y = coefficient * x + self.allpass[ch][stage];
+                        self.allpass[ch][stage] = x - coefficient * y;
+                        x = y;
+                    }
+                    *output = 0.5 * low + (0.15 + 0.35 * c[3]) * x;
+                }
+                pair
+            }
+            PerceptualTopology::SpectralCarousel => {
+                // Rotating low/band/high image; filter centers also move.
+                let low = self.filters[0].tick(source, ga, damping)[0] * gain;
+                let high = self.filters[1].tick(source, gb, damping)[2] * gain;
+                let band = self.filters[2].tick(source, gq, damping)[1];
+                let rotation = c[6] * (sweep + c[3] * drift) / (1.0 + c[3]);
+                let x = low * (0.5 + 0.4 * rotation) + high * (0.5 - 0.4 * rotation);
+                let y = low * (0.5 - 0.4 * rotation) + high * (0.5 + 0.4 * rotation);
+                [x + 0.4 * c[3] * band, y + 0.4 * c[3] * band]
+            }
+            PerceptualTopology::TidalMemory => {
+                // Feed-forward unequal combs feed separate resonant filters.
+                // A slower coupled phase moves delay relationships, never feedback.
+                self.delay[self.cursor] = source;
+                let time = 0.0004 + 0.006 * c[3];
+                let ta = time * (1.0 + 0.3 * c[6] * quadrature);
+                let tb = time * (1.37 + 0.25 * c[6] * drift);
+                let x = 0.55 * source + 0.45 * self.delayed(ta);
+                let y = 0.55 * source - 0.45 * self.delayed(tb);
+                let left = self.filters[0].tick(x, ga, damping)[0] * gain;
+                let right = self.filters[1].tick(y, gq, damping)[0] * gain;
+                self.cursor = (self.cursor + 1) % DELAY;
+                [left, right]
+            }
+            _ => [0.0; 2],
+        };
+        let mid = 0.5 * (pair[0] + pair[1]);
+        let side = 0.5 * (pair[0] - pair[1]) * width;
+        [mid + side, mid - side]
+    }
     pub(crate) fn sample(&mut self) -> [f32; 2] {
         if self.is_idle() {
             return [0.0; 2];
@@ -109,7 +257,12 @@ impl PerceptualVoice {
         let env = self.envelope.advance();
         let c = self.controls;
         let sweep = self.sine_at(self.lfo);
-        self.lfo = (self.lfo + f64::from(0.03 + 3.97 * c[5] * c[5]) / f64::from(self.rate)).fract();
+        let rate = if self.topology.is_swirl() {
+            self.slow_rate(c[5])
+        } else {
+            0.03 + 3.97 * c[5] * c[5]
+        };
+        self.lfo = (self.lfo + f64::from(rate) / f64::from(self.rate)).fract();
         let position = (c[0] + 0.65 * c[4] * (env - 0.5) + 0.25 * c[6] * sweep).clamp(0.0, 1.0);
         let frequency = self.frequency * self.pitch_ratio;
         self.phase = (self.phase + f64::from(frequency / self.rate)).fract();
@@ -143,6 +296,10 @@ impl PerceptualVoice {
             } else {
                 odd += partial;
             }
+        }
+        if self.topology.is_swirl() {
+            let out = self.swirl(source, env, sweep);
+            return out.map(|x| x * env * self.velocity * 0.65);
         }
         let cutoff = 100.0 + 12000.0 * (0.03 + 0.97 * c[2]) * (0.15 + 0.85 * position);
         let alpha = cutoff / (cutoff + self.rate / std::f32::consts::TAU);
@@ -194,6 +351,12 @@ impl PerceptualVoice {
                 let side = (odd - even) * width * 0.6;
                 [focused + side, focused - side]
             }
+            // Handled before the legacy path; exhaustive without callback panic.
+            PerceptualTopology::CounterTide
+            | PerceptualTopology::VowelOrbit
+            | PerceptualTopology::PhaseBloom
+            | PerceptualTopology::SpectralCarousel
+            | PerceptualTopology::TidalMemory => [0.0; 2],
         };
         self.cursor = (self.cursor + 1) % DELAY;
         out.map(|x| x * env * self.velocity * 0.65)
@@ -203,13 +366,84 @@ impl PerceptualVoice {
 #[cfg(test)]
 mod tests {
     use super::*;
-    const MODES: [PerceptualTopology; 5] = [
+    const MODES: [PerceptualTopology; 10] = [
         PerceptualTopology::MicroDelay,
         PerceptualTopology::SpectralSplit,
         PerceptualTopology::Dispersion,
         PerceptualTopology::NotchMotion,
         PerceptualTopology::VirtualPitch,
+        PerceptualTopology::CounterTide,
+        PerceptualTopology::VowelOrbit,
+        PerceptualTopology::PhaseBloom,
+        PerceptualTopology::SpectralCarousel,
+        PerceptualTopology::TidalMemory,
     ];
+    #[test]
+    fn swirl_rate_has_logarithmic_travel_and_phase_continuity() {
+        let mut v = PerceptualVoice::new(48000.0, PerceptualTopology::CounterTide).unwrap();
+        for (pot, hz) in [
+            (0.0, 0.005),
+            (0.25, 0.02236068),
+            (0.5, 0.1),
+            (0.75, 0.4472136),
+            (1.0, 2.0),
+        ] {
+            assert!((v.slow_rate(pot) - hz).abs() < 1e-6);
+        }
+        let mut last = v.slow_rate(0.0);
+        for cc in 1..=127 {
+            let rate = v.slow_rate(cc as f32 / 127.0);
+            assert!(rate > last && rate / last < 1.05);
+            last = rate;
+        }
+        v.note_on(48, 1.0);
+        let mut c = [0.5; 15];
+        c[5] = 0.0;
+        v.set_controls(c);
+        for _ in 0..48000 {
+            v.sample();
+        }
+        assert!((v.lfo - 0.005).abs() < 1e-7);
+        c[5] = 1.0;
+        v.set_controls(c);
+        v.sample();
+        assert!((v.lfo - (0.005 + 2.0 / 48000.0)).abs() < 1e-7);
+    }
+
+    #[test]
+    fn swirl_long_sustain_resonance_and_width_remain_bounded() {
+        for mode in MODES.into_iter().filter(|m| m.is_swirl()) {
+            let mut v = PerceptualVoice::new(12000.0, mode).unwrap();
+            let mut c = [0.7; 15];
+            c[1] = 1.0;
+            c[5] = 0.5; // Ten-second primary cycle; secondary remains asynchronous.
+            c[6] = 1.0;
+            c[8] = 0.0;
+            c[9] = 0.0;
+            c[10] = 1.0;
+            v.set_controls(c);
+            v.note_on(48, 1.0);
+            let mut windows = [0.0f64; 12];
+            for (window, energy) in windows.iter_mut().enumerate() {
+                for _ in 0..12000 {
+                    let x = v.sample();
+                    assert!(x.iter().all(|v| v.is_finite() && v.abs() < 1.0), "{mode:?}");
+                    *energy += f64::from(x[0] * x[0] + x[1] * x[1]);
+                }
+                assert!(*energy > 0.001, "{mode:?} silent window {window}");
+            }
+            let min = windows.iter().copied().fold(f64::INFINITY, f64::min);
+            let max = windows.iter().copied().fold(0.0, f64::max);
+            assert!(max > min * 1.05, "{mode:?}: no sustained evolution");
+            c[7] = 0.0;
+            v.set_controls(c);
+            for _ in 0..1024 {
+                let x = v.sample();
+                assert_eq!(x[0], x[1]);
+            }
+        }
+    }
+
     #[test]
     fn stationary_full_paths_reject_alias_energy_outside_authored_partials() {
         // Coherent prime FFT bins avoid counting folded components as intended

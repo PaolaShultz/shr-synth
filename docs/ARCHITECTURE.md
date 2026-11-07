@@ -66,25 +66,24 @@ implements `EVOLVE`, `SHAPE`, `COLOR`, `EDGE`, `COUPLE`, `MOTION`, `DEPTH`,
 and `SPACE`. Six-Op PM implements `INDEX`, `RATIO`, `FEEDBACK`, `OP DECAY`,
 `BALANCE`, `KEY SCALE`, `VELOCITY`, and `MOTION`. Strange Oscillator implements
 `TYPE`, `FORM`, `WARP`, `COUPLE`, `MOTION`, `CHAOS`, `COLOR`, and `SPACE`.
-Those models append `ATTACK`, `DECAY`, `SUSTAIN`, and `RELEASE`. In SHR's
-physical surface, position 5 instead controls independent instrument volume
-(CC7); the historical fifth timbre macro remains in the schema and MIDI
-interface for compatibility. Thus these models expose seven timbre controls,
-volume, and ADSR on twelve physical positions. Pressure Chain retains all
-eight timbre controls plus amp ADSR, including SWEEP at position 5. See the
-[preset and control schema](PRESET_SCHEMA.md) for the exact mappings. SHR owns
-positions 13–15 as Project AUX sends for these twelve-position models.
+Those models append `ATTACK`, `DECAY`, `SUSTAIN`, and `RELEASE`. SHR's 4×4
+surface keeps eight tone controls on rows 1–2, envelopes on row 3, and
+independent Volume (CC7) plus three Project AUX sends on row 4. Rotary 1 edits
+parameter 1; its click toggles NAV. Bass Matrix's historical character stays
+preset-owned. Pressure Chain and Perceptual use the same eight-tone-plus-ADSR
+layout. See the [preset and control schema](PRESET_SCHEMA.md).
 
-Dual Filter uses 15 positions: two cutoff/resonance/envelope-depth blocks, STRUCTURE,
-filter ADSR, and amp ADSR. Its dedicated synth click toggles only the backstage
-INDUSTRIAL/COUNTER core; the master encoder remains SHR navigation.
+Dual Filter preserves all fifteen native values, with filter attack/sustain/
+release retained in the preset outside the physical surface. Amp ADSR stays
+on row 3. Its dedicated core click crossfades INDUSTRIAL/COUNTER; it does not
+add a controller mode or replace NAV.
 `WIDTH` was removed because this Model D engine has no supported width
 experiment. There is no hidden page or master-encoder takeover.
 
 The catalog preserves seven authored Model D audition starting points, six
 accepted Six-Op PM listening starts, one Strange Oscillator start, one Swarm
 Machine start, one Bass Matrix start, five Dual Filter starts, and three
-Pressure Chain starts, four Open303 starts, and five Perceptual starts: 33 cleared factory presets in total.
+Pressure Chain starts, four Open303 starts, and ten Perceptual starts: 38 cleared factory presets in total.
 Model D contains three full bass/lead/filter-articulation patches and four matched bass
 diagnostics. They are selectable states of one modeled instrument, not separate
 synthesis families. The eight engine timbral values describe oscillator
@@ -280,8 +279,13 @@ See [Open303 integration](OPEN303_INTEGRATION.md) for the explicit control map.
 
 ### Perceptual voice
 
-`perceptual.rs` owns five preset-selected linear routings driven by an authored
+`perceptual.rs` owns ten preset-selected linear routings driven by an authored
 12-partial additive source. The voice preallocates its sine table, short delay,
 all-pass states and ADSR outside rendering. Smoothed CC20–31 values affect held
 notes; the internal ADSR drives both amplitude and the position modulation.
 See [Perceptual controls and evidence](PERCEPTUAL.md).
+
+The five slow swirl routings add fixed-state trapezoidal resonant filters,
+prepared logarithmic LFO-rate lookup and coupled phase motion. The shared
+10 ms macro smoothing applies during held notes; no coefficient transcendental,
+allocation, feedback delay, or host dependency enters the sample loop.

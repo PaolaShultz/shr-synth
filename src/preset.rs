@@ -1431,6 +1431,11 @@ release = 0.4
             include_str!("../presets/31-perceptual-dispersion.mojsint"),
             include_str!("../presets/32-perceptual-notch-motion.mojsint"),
             include_str!("../presets/33-perceptual-virtual-pitch.mojsint"),
+            include_str!("../presets/34-perceptual-counter-tide.mojsint"),
+            include_str!("../presets/35-perceptual-vowel-orbit.mojsint"),
+            include_str!("../presets/36-perceptual-phase-bloom.mojsint"),
+            include_str!("../presets/37-perceptual-spectral-carousel.mojsint"),
+            include_str!("../presets/38-perceptual-tidal-memory.mojsint"),
         ];
         let presets = sources.map(|source| Preset::parse(source).unwrap());
         let mut names = presets
@@ -1439,7 +1444,12 @@ release = 0.4
             .collect::<Vec<_>>();
         names.sort_unstable();
         names.dedup();
-        assert_eq!(names.len(), 33);
+        assert_eq!(names.len(), presets.len());
+        assert!(
+            presets[28..]
+                .iter()
+                .all(|preset| preset.model == SynthesisModelId::Perceptual)
+        );
         assert!(
             presets[..7]
                 .iter()

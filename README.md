@@ -3,7 +3,7 @@
 # SHR Synth
 
 **Eight synthesis models, one headless instrument.** Explore bass, leads, metallic
-FM, moving textures and acid lines through 33 editable factory presets.
+FM, moving textures and acid lines through 38 editable factory presets.
 Use the JACK/ALSA host with [SHR-DAW](https://github.com/PaolaShultz/shr-daw),
 or validate presets and render WAVs entirely offline.
 

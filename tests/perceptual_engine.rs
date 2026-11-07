@@ -6,12 +6,17 @@ use shr_synth::{
 #[cfg(debug_assertions)]
 #[global_allocator]
 static ALLOC: assert_no_alloc::AllocDisabler = assert_no_alloc::AllocDisabler;
-const MODES: [&str; 5] = [
+const MODES: [&str; 10] = [
     "micro_delay",
     "spectral_split",
     "dispersion",
     "notch_motion",
     "virtual_pitch",
+    "counter_tide",
+    "vowel_orbit",
+    "phase_bloom",
+    "spectral_carousel",
+    "tidal_memory",
 ];
 fn preset(mode: &str) -> Preset {
     Preset::parse(&format!(
@@ -75,6 +80,24 @@ fn identities_roundtrip_distinct_and_live() {
         assert!(audio.iter().any(|v| v.abs() > 0.01));
         for i in 0..8 {
             let changed = render(mode, Some(i));
+            if MODES[5..].contains(&mode) {
+                // A held-note edit must enter through the production smoother.
+                // Compare the edit's incremental contribution, cancelling the
+                // unedited waveform rather than mistaking its slope for a click.
+                for channel in 0..2 {
+                    let start = channel * 24000;
+                    assert_eq!(&audio[start..start + 6000], &changed[start..start + 6000]);
+                    let mut previous_delta = 0.0;
+                    for sample in 6000..6500 {
+                        let delta = changed[start + sample] - audio[start + sample];
+                        assert!(
+                            (delta - previous_delta).abs() < 0.02,
+                            "{mode} control {i}: discontinuous edit"
+                        );
+                        previous_delta = delta;
+                    }
+                }
+            }
             assert!(
                 audio
                     .iter()

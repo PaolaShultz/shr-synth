@@ -31,3 +31,8 @@ reference.mojsint
 31-perceptual-dispersion.mojsint
 32-perceptual-notch-motion.mojsint
 33-perceptual-virtual-pitch.mojsint
+34-perceptual-counter-tide.mojsint
+35-perceptual-vowel-orbit.mojsint
+36-perceptual-phase-bloom.mojsint
+37-perceptual-spectral-carousel.mojsint
+38-perceptual-tidal-memory.mojsint

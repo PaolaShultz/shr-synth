@@ -7,6 +7,55 @@ This is the durable starting point for a fresh Codex session in
 workspace. Update it at meaningful checkpoints so later sessions do not have
 to reconstruct decisions from chat history.
 
+## 2026-11-07 slow swirl additions
+
+The owner requested five playable swirls, DAW integration, full builds and
+validation, with listening reserved for the owner and no audio/hardware start.
+Perceptual now includes Counter Tide, Vowel Orbit, Phase Bloom, Spectral
+Carousel and Tidal Memory (E06–E10; 38 cleared starts overall). These are
+requested authored factory presets, not preserved experiment output.
+
+The five new enum identities extend schema 11 without changing its fields,
+macro order, or existing topology behavior. Unsupported older readers reject
+the new IDs; the DAW installer pins the matching source. The same eight tone
+pots, ADSR row and Volume/AUX row remain. Position moves cutoff, Focus controls
+resonance, Body changes topology behavior; Rate at pot 6 is logarithmic from
+0.005–2 Hz (200 seconds to half a second). Motion is cyclic depth; Env Depth
+remains independent. All controls use the production 10 ms smoothing path.
+Primary/secondary LFO phases persist during edits and restart on a new voice.
+
+The wirings use parallel opposing low/high filters, three moving resonant
+bands, low-pass into dry/all-pass branches, rotating low/band/high stereo,
+and unequal feed-forward comb delays into resonant low-pass filters. Fixed
+storage, prepared rate/sine lookup and bounded linear filters keep render
+free of allocation, locks, I/O and transcendental coefficient setup. Source
+harmonics and the original five Perceptual routings retain their behavior.
+[Perceptual guide](PERCEPTUAL.md) owns names, controls and listening guidance.
+
+Exact rustc 1.97.1 on AArch64 passes 372 normal all-target/all-feature tests
+(40 historical cases intentionally ignored), formatting, warning-denied
+Clippy, cargo audit/deny and DEV/REL all-target builds. Deny retains its known
+non-fatal duplicate-winnow warning. New tests cover rate travel, phase
+continuity, smoothed held-note edits, allocation-free rendering at
+44.1/48/96 kHz, all MIDI keys, pitch bend, release/panic and twelve-second
+resonant sustains. Stationary full-path residual is below -106 dB for the new
+wirings in the tested coherent-bin matrix (the gate is -75 dB).
+
+All 38 cleared presets validate and produce identical paired release WAVs
+at 48 kHz, MIDI 48, velocity .85, one second. All original 33 match the
+pre-change release byte-for-byte. The five new starts also repeat exactly
+at 40 seconds (32-second gate); finite peaks are 0.029–0.097 and whole-file
+RMS 0.0094–0.0204. These levels describe this probe, not loudness matching or
+arbitrary polyphony. Ordered one-second SHA-256 digest (hash the concatenated
+hex WAV hashes in allowlist order):
+`e8f499af4cf1b041a74d0ed7831a30848a7da8aca514c3a580bc95e9f1dc0c2b`.
+Reproduce with `shr-synth validate PRESET` and paired `shr-synth render PRESET
+OUT.wav --sample-rate 48000 --note 48 --velocity 0.85 --seconds 1` (or 40
+for the five new starts), then compare complete file bytes and finite samples.
+The comparison removed 182,789,848 bytes of temporary WAVs immediately;
+only source presets, tests, documentation and normal build outputs remain.
+No listening or live callback/headroom acceptance is implied by offline checks.
+
 ## 2026-11-07 Perceptual engine and SHR-DAW trial
 
 The owner authorized implementation, DAW wiring and full builds. The ninth

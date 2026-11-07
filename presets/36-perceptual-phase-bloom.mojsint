@@ -1,0 +1,21 @@
+schema_version = 11
+name = "36 Perceptual Phase Bloom"
+voices = 4
+output_gain = 0.65
+instrument_volume = 1.0
+model = "perceptual"
+perceptual_topology = "phase_bloom"
+
+[macros]
+position = 0.52
+focus = 0.55
+brightness = 0.85
+body = 0.85
+env_depth = 0.18
+rate = 0.46
+motion = 0.8
+width = 0.9
+attack = 0.18
+decay = 0.35
+sustain = 0.88
+release = 0.35
