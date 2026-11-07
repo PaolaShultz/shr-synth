@@ -115,6 +115,12 @@ No JACK, ALSA, filesystem, process or clock access enters the DSP.
 `tests/perceptual_engine.rs` covers deterministic output, schema round trips,
 every tone control on a held note, all MIDI keys, pitch extremes, release and
 All Notes Off with a debug allocation guard at 44.1/48/96 kHz.
+The overlapping-note regression checks that adding a second held note leaves
+the first voice's complete state unchanged, including during wheel and macro
+movement. A separate regression compares the mixed output with independent
+single-note renders. These isolate note interaction; they do not prove that
+an unexplained live click has been resolved.
+
 Unit tests measure stationary full-path residual outside the twelve intended
 partials at coherent low/mid/high frequencies against a -75 dB bound. They
 also verify fundamental suppression and the Spectral Split mono identity. New tests cover logarithmic rate travel,

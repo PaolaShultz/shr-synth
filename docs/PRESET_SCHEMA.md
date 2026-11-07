@@ -98,7 +98,9 @@ values are preserved across the internal 30 ms held-note crossfade.
 
 All live controls use the bounded event path. Timbre and ADSR use the existing
 10 ms macro smoothers; volume has its own 10 ms smoother. Loading or RESET in
-SHR re-arms pickup against the loaded values.
+SHR re-arms pickup against the loaded values. New notes inherit the currently
+applied pitch bend/modulation state without moving the shared 32-sample pitch
+update boundary for already sounding voices.
 
 The tracked catalog contains seven Model D, six Six-Op PM, one Strange
 Oscillator, one Swarm Machine, one Bass Matrix, five Dual Filter starts, three Pressure Chain starts, four Open303 starts, and ten Perceptual starts. The graph description

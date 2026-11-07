@@ -7,6 +7,50 @@ This is the durable starting point for a fresh Codex session in
 workspace. Update it at meaningful checkpoints so later sessions do not have
 to reconstruct decisions from chat history.
 
+## 2026-11-07 overlapping-note parameter investigation
+
+The owner reports a click when holding one note and pressing a second in all
+ten Perceptual sounds. They explicitly asked to check whether the first note's
+parameters jump, and declined live recording: keep this investigation offline.
+Their listening also rejects the current sparse source as too sine-like and
+prefers saw/rough-saw character. That musical redesign remains separate from
+this focused note-interaction correction; the factory tones are unchanged.
+
+The unmodified engine's dry two-note output matched the sum of two independent
+single-note renders for all ten topologies with neutral wheels. A state-level
+regression then found that every NoteOn reset `pitch_until_update`, moving the
+shared 32-sample performance-pitch update boundary for already sounding voices.
+With a changing bend/vibrato value, the held voice therefore received a pitch
+update early. The reproduced bend case changed the ratio from 1.0293031 to
+1.0293033; this is a genuine coupling, but its tiny magnitude does not establish
+that it caused the owner's audible click. No filter/macro, envelope or internal
+LFO reset was found in the tested two-note case.
+
+Engine now caches the applied pitch ratio/semitone pair and applies it only to
+the newly started voice after note preparation. It does not reset the shared
+update clock. The failing-before/passing-after regression compares the complete
+first-voice state at the event and through subsequent pitch update boundaries,
+for all ten factory starts, with neutral wheels, bend, modulation, both wheels,
+and a live macro ramp. Rendering and the note event retain allocation guards.
+An independent output-sum regression covers the exact two-note scenario.
+
+The opt-in `perceptual_callback_cost` test exercises native offline 1/2/4/8-voice
+128-frame rendering at 48 kHz, including one note replacement. It is not part of
+the normal suite. Run it with `CARGO_INCREMENTAL=0 cargo test --locked --release
+--test perceptual_engine perceptual_callback_cost -- --ignored --exact --nocapture`.
+The initial isolated probe did not reproduce a deadline overrun; it excludes
+JACK/DAW scheduling and does not establish live headroom or a click diagnosis.
+
+Validation on Rust 1.97.1/AArch64: all 374 normal tests passed (41 opt-in
+cases skipped), formatting and warning-denied Clippy passed, release host build
+completed, and audit/deny passed (existing duplicate-winnow warning only).
+All 38 factory presets rendered twice at 48 kHz, note 48, velocity 0.85, one
+second: finite and byte-identical to the pre-fix release baseline. No oscillator
+or nonlinear source change was made, so no new aliasing experiment was needed.
+No audio, hardware, recording, route or running process was started/reconfigured.
+The audible click remains unconfirmed by offline evidence; do not report it as
+proven fixed merely because the shared pitch-clock coupling is removed.
+
 ## 2026-11-07 slow swirl additions
 
 The owner requested five playable swirls, DAW integration, full builds and

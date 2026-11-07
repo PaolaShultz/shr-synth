@@ -209,6 +209,7 @@ pub struct Engine {
     note_age: u64,
     performance: crate::performance::Performance,
     pitch_until_update: u8,
+    applied_pitch: (f32, f32),
 }
 
 impl Engine {
@@ -245,6 +246,7 @@ impl Engine {
             note_age: 0,
             performance: crate::performance::Performance::new(sample_rate),
             pitch_until_update: 0,
+            applied_pitch: (1.0, 0.0),
         })
     }
 
@@ -279,6 +281,7 @@ impl Engine {
             let semitones = self.performance.advance();
             if self.pitch_until_update == 0 {
                 let ratio = crate::performance::ratio(semitones);
+                self.applied_pitch = (ratio, semitones);
                 for voice in &mut self.voices {
                     voice.model.set_performance_pitch(ratio, semitones);
                 }
@@ -320,7 +323,6 @@ impl Engine {
                 }
             }
             Event::NoteOn { note, velocity } if velocity > 0.0 => {
-                self.pitch_until_update = 0;
                 self.note_age = self.note_age.wrapping_add(1);
                 // Prefer silence, then the oldest released tail. Steal a held
                 // key only when every voice is held; keep the fixed voice budget.
@@ -333,6 +335,12 @@ impl Engine {
                 });
                 if let Some(index) = index {
                     self.voices[index].start(note, velocity, self.note_age);
+                    // A new note inherits the current pitch state without moving
+                    // the shared update boundary for notes already sounding.
+                    // Apply after start: some models prepare/reset pitch there.
+                    self.voices[index]
+                        .model
+                        .set_performance_pitch(self.applied_pitch.0, self.applied_pitch.1);
                 }
             }
             Event::NoteOn { note, .. } | Event::NoteOff { note } => {
@@ -374,6 +382,86 @@ mod tests {
                 .replace("voices = 8", &format!("voices = {voices}")),
         )
         .unwrap()
+    }
+
+    #[test]
+    fn second_note_keeps_held_voice_state_and_pitch_cadence() {
+        let sources = [
+            include_str!("../presets/29-perceptual-micro-delay.mojsint"),
+            include_str!("../presets/30-perceptual-spectral-split.mojsint"),
+            include_str!("../presets/31-perceptual-dispersion.mojsint"),
+            include_str!("../presets/32-perceptual-notch-motion.mojsint"),
+            include_str!("../presets/33-perceptual-virtual-pitch.mojsint"),
+            include_str!("../presets/34-perceptual-counter-tide.mojsint"),
+            include_str!("../presets/35-perceptual-vowel-orbit.mojsint"),
+            include_str!("../presets/36-perceptual-phase-bloom.mojsint"),
+            include_str!("../presets/37-perceptual-spectral-carousel.mojsint"),
+            include_str!("../presets/38-perceptual-tidal-memory.mojsint"),
+        ];
+        for source in sources {
+            let p = Preset::parse(source).unwrap();
+            for (modulation, bend) in [(0, 0), (0, 2048), (127, 0), (127, 2048)] {
+                let mut a = Engine::new(48000.0, &p).unwrap();
+                let mut b = Engine::new(48000.0, &p).unwrap();
+                let mut l = [0.0; 37];
+                let mut r = l;
+                let setup = [
+                    TimedEvent::new(
+                        0,
+                        Event::NoteOn {
+                            note: 48,
+                            velocity: 0.8,
+                        },
+                    ),
+                    TimedEvent::new(0, Event::Modulation { value: modulation }),
+                    TimedEvent::new(0, Event::PitchBend { value: bend }),
+                ];
+                a.render_block(&setup, &mut l, &mut r).unwrap();
+                b.render_block(&setup, &mut l, &mut r).unwrap();
+                for _ in 0..120 {
+                    a.render_block(&[], &mut l, &mut r).unwrap();
+                    b.render_block(&[], &mut l, &mut r).unwrap();
+                }
+                for e in [&mut a, &mut b] {
+                    e.apply_event(Event::SetMacro {
+                        id: MacroId::Evolve,
+                        value: Normalized::new(0.95).unwrap(),
+                    });
+                }
+                let before = format!("{:?}", a.voices[0]);
+                assert_no_alloc(|| {
+                    a.apply_event(Event::NoteOn {
+                        note: 55,
+                        velocity: 0.8,
+                    })
+                });
+                assert_eq!(
+                    a.pitch_until_update, b.pitch_until_update,
+                    "a new note must not move the held voices' control clock"
+                );
+                assert!(
+                    before == format!("{:?}", a.voices[0]),
+                    "{}: NoteOn directly changed first voice",
+                    p.name
+                );
+                for sample in 0..64 {
+                    assert_no_alloc(|| {
+                        a.render_block(&[], &mut l[..1], &mut r[..1]).unwrap();
+                        b.render_block(&[], &mut l[..1], &mut r[..1]).unwrap();
+                    });
+                    if ![0, 30, 31, 32, 63].contains(&sample) {
+                        continue;
+                    }
+                    let aa = format!("{:?}", a.voices[0]);
+                    let bb = format!("{:?}", b.voices[0]);
+                    assert!(
+                        aa == bb,
+                        "{} modulation={modulation} bend={bend}: first-voice state changed at sample {sample} after second NoteOn",
+                        p.name
+                    );
+                }
+            }
+        }
     }
 
     #[test]

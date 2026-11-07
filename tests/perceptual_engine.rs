@@ -188,3 +188,101 @@ fn extremes_pitch_release_and_panic_are_bounded_without_allocation() {
         }
     }
 }
+
+#[test]
+fn adding_second_held_note_preserves_first_voice_exactly() {
+    const N: usize = 16000;
+    const SECOND: usize = 12037;
+    for mode in MODES {
+        let p = preset(mode);
+        let note = |offset, key| {
+            TimedEvent::new(
+                offset,
+                Event::NoteOn {
+                    note: key,
+                    velocity: 0.8,
+                },
+            )
+        };
+        let mut both = Engine::new(48000.0, &p).unwrap();
+        let mut first = Engine::new(48000.0, &p).unwrap();
+        let mut second = Engine::new(48000.0, &p).unwrap();
+        let mut a = vec![0.0; N];
+        let mut ar = a.clone();
+        let mut b = a.clone();
+        let mut br = a.clone();
+        let mut c = a.clone();
+        let mut cr = a.clone();
+        assert_no_alloc::assert_no_alloc(|| {
+            both.render_block(&[note(0, 48), note(SECOND, 55)], &mut a, &mut ar)
+                .unwrap();
+            first.render_block(&[note(0, 48)], &mut b, &mut br).unwrap();
+            second
+                .render_block(&[note(SECOND, 55)], &mut c, &mut cr)
+                .unwrap();
+        });
+        assert_eq!(both.active_voice_count(), 2);
+        for i in 0..N {
+            assert!(
+                (a[i] - b[i] - c[i]).abs() < 1e-7 && (ar[i] - br[i] - cr[i]).abs() < 1e-7,
+                "{mode}: note interaction at {i}"
+            );
+        }
+        assert!(
+            (a[SECOND] - b[SECOND]).abs() < 0.001,
+            "{mode}: second-note onset step"
+        );
+    }
+}
+
+#[test]
+#[ignore = "opt-in native offline callback-cost diagnosis; not live headroom acceptance"]
+fn perceptual_callback_cost() {
+    use std::time::Instant;
+    for mode in MODES {
+        for count in [1, 2, 4, 8] {
+            let mut p = preset(mode);
+            p.voices = count;
+            let mut e = Engine::new(48000.0, &p).unwrap();
+            let mut l = [0.0; 128];
+            let mut r = l;
+            for i in 0..count {
+                e.render_block(
+                    &[TimedEvent::new(
+                        0,
+                        Event::NoteOn {
+                            note: 48 + i as u8 * 3,
+                            velocity: 0.8,
+                        },
+                    )],
+                    &mut l,
+                    &mut r,
+                )
+                .unwrap();
+            }
+            let mut durations = Vec::with_capacity(1024);
+            for i in 0..1088 {
+                let events = [TimedEvent::new(
+                    37,
+                    Event::NoteOn {
+                        note: 60,
+                        velocity: 0.8,
+                    },
+                )];
+                let start = Instant::now();
+                e.render_block(if i == 64 { &events } else { &[] }, &mut l, &mut r)
+                    .unwrap();
+                let us = start.elapsed().as_secs_f64() * 1e6;
+                if i >= 64 {
+                    durations.push(us);
+                }
+                assert!(l.iter().chain(&r).all(|x| x.is_finite()));
+            }
+            durations.sort_by(f64::total_cmp);
+            eprintln!(
+                "{mode} voices={count} median_us={:.1} p99_us={:.1} max_us={:.1} budget_us=2666.7",
+                durations[512], durations[1013], durations[1023]
+            );
+        }
+    }
+}
